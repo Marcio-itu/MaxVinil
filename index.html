@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaxVinil - Simulador de Vendas</title>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f5f5f7;
+    color: #1d1d1f;
+    padding-bottom: 80px;
+    font-size: 15px;
+  }
+  header {
+    background: #1d1d1f;
+    color: #fff;
+    padding: 14px 16px;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  header h1 { font-size: 18px; font-weight: 600; }
+  header .sub { font-size: 12px; opacity: 0.7; margin-top: 2px; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+  .tela { display: none; }
+  .tela.ativa { display: block; }
+  .card {
+    background: #fff; border-radius: 12px; padding: 16px;
+    margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .card h2 { font-size: 16px; margin-bottom: 12px; color: #1d1d1f; }
+  label { display: block; font-size: 13px; color: #555; margin-top: 10px; margin-bottom: 4px; font-weight: 500; }
+  input[type="text"], input[type="number"], input[type="tel"], select, textarea {
+    width: 100%; padding: 10px 12px; border: 1px solid #d2d2d7;
+    border-radius: 8px; font-size: 15px; background: #fff;
+    -webkit-appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none; border-color: #0071e3; box-shadow: 0 0 0 3px rgba(0,113,227,0.15);
+  }
+  button {
+    padding: 10px 16px; border: none; border-radius: 8px;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    background: #0071e3; color: #fff; margin-top: 8px;
+    transition: background 0.15s;
+  }
+  button:hover { background: #0077ed; }
+  button.sec { background: #e8e8ed; color: #1d1d1f; }
+  button.sec:hover { background: #dcdce1; }
+  button.danger { background: #ff3b30; }
+  button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+  nav.bottom {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: #fff; border-top: 1px solid #d2d2d7;
+    display: flex; justify-content: space-around; z-index: 100;
+    padding: 8px 0 10px;
+  }
+  nav.bottom button {
+    background: none; color: #666; font-size: 11px; font-weight: 500;
+    padding: 6px 8px; margin: 0; display: flex; flex-direction: column;
+    align-items: center; gap: 2px; flex: 1;
+  }
+  nav.bottom button .ico { font-size: 20px; }
+  nav.bottom button.ativo { color: #0071e3; }
+  .badge {
+    display: inline-block; padding: 2px 8px; border-radius: 10px;
+    font-size: 11px; font-weight: 600; margin-left: 6px;
+  }
+  .badge.prov { background: #ffcc00; color: #1d1d1f; }
+  .badge.cat { background: #e8e8ed; color: #555; }
+  .alerta-vermelho {
+    background: #ffebeb; color: #c00; padding: 10px 12px;
+    border-radius: 8px; font-size: 13px; font-weight: 600;
+    margin-top: 8px; border-left: 4px solid #ff3b30;
+  }
+  .info { background: #eef6ff; color: #0066cc; padding: 10px 12px;
+    border-radius: 8px; font-size: 13px; margin-top: 8px; }
+  .produto {
+    padding: 12px; border-bottom: 1px solid #f0f0f2;
+    display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  }
+  .produto:last-child { border-bottom: none; }
+  .produto-info { flex: 1; min-width: 0; }
+  .produto-info .desc { font-weight: 600; font-size: 14px; }
+  .produto-info .meta { font-size: 12px; color: #666; margin-top: 2px; }
+  .produto-info .preco { font-size: 15px; color: #0071e3; font-weight: 700; margin-top: 4px; }
+  .produto-add { display: flex; gap: 6px; align-items: center; }
+  .produto-add input { width: 60px; padding: 6px; text-align: center; }
+  .item-pedido { padding: 12px; border-bottom: 1px solid #f0f0f2; }
+  .item-pedido:last-child { border-bottom: none; }
+  .item-pedido .linha1 { display: flex; justify-content: space-between; gap: 8px; }
+  .item-pedido .desc { font-weight: 600; font-size: 14px; flex: 1; }
+  .item-pedido .linha2 {
+    display: grid; grid-template-columns: 60px 1fr 1fr 1fr auto;
+    gap: 6px; margin-top: 8px; align-items: center; font-size: 12px;
+  }
+  .item-pedido input { padding: 6px; font-size: 13px; text-align: center; }
+  .resumo {
+    background: #1d1d1f; color: #fff; padding: 16px;
+    border-radius: 12px; margin-top: 12px;
+  }
+  .resumo .linha { display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; }
+  .resumo .total { font-size: 20px; font-weight: 700; padding-top: 10px; border-top: 1px solid #444; margin-top: 6px; }
+  .loja-card {
+    padding: 12px; border-bottom: 1px solid #f0f0f2;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .loja-card:last-child { border-bottom: none; }
+  .contador { font-size: 12px; color: #666; margin-top: 6px; }
+  .vazio { text-align: center; color: #999; padding: 30px 10px; font-size: 14px; }
+  .filtro-cat {
+    display: flex; gap: 6px; overflow-x: auto; padding: 4px 0; margin: 8px 0;
+    -webkit-overflow-scrolling: touch;
+  }
+  .filtro-cat button {
+    white-space: nowrap; padding: 6px 12px; font-size: 12px;
+    background: #e8e8ed; color: #1d1d1f; margin: 0; border-radius: 20px;
+  }
+  .filtro-cat button.ativo { background: #0071e3; color: #fff; }
+  @media print {
+    nav.bottom, header, .no-print { display: none !important; }
+    body { background: #fff; padding: 0; }
+    .card { box-shadow: none; padding: 0; margin: 0; }
+  }
+</style>
+</head>
+<body>
+  
+<header>
+  <h1>MaxVinil</h1>
+  <div class="sub">Simulador de Vendas & Orçamentos</div>
+</header>
+
+<div class="container">
+
+  <!-- TELA CATALOGO -->
+  <div id="tela-catalogo" class="tela ativa">
+    <div class="card">
+      <input type="text" id="busca" placeholder="🔍 Buscar produto (ex: premium fosco)">
+      <div class="filtro-cat" id="filtro-cat"></div>
+      <div class="contador" id="contador"></div>
+    </div>
+    <div class="card" id="lista-produtos"></div>
+  </div>
+
+  <!-- TELA PEDIDO -->
+  <div id="tela-pedido" class="tela">
+    <div class="card">
+      <h2>Pedido Atual</h2>
+      <label>Loja / Cliente</label>
+      <select id="select-loja">
+        <option value="">-- Selecione uma loja --</option>
+      </select>
+      <button class="sec small" onclick="abrirCadastroLoja()">+ Cadastrar nova loja</button>
+    </div>
+    <div class="card" id="itens-pedido"></div>
+    <div class="card">
+      <h2>Desconto Global</h2>
+      <label>Desconto em % (aplica só em itens SEM desconto individual)</label>
+      <input type="number" id="desc-global" value="0" min="0" max="100" step="0.1">
+      <div id="alerta-global"></div>
+    </div>
+    <div class="resumo" id="resumo-pedido"></div>
+    <div class="card no-print">
+      <button onclick="salvarPedido()">💾 Salvar Pedido</button>
+      <button class="sec" onclick="exportarWhatsApp()">📱 WhatsApp</button>
+      <button class="sec" onclick="exportarPDF()">📄 PDF</button>
+      <button class="danger" onclick="limparPedido()">🗑️ Limpar</button>
+    </div>
+  </div>
+
+  <!-- TELA LOJAS -->
+  <div id="tela-lojas" class="tela">
+    <div class="card">
+      <h2>Lojas Cadastradas</h2>
+      <button onclick="abrirCadastroLoja()">+ Nova Loja</button>
+    </div>
+    <div class="card" id="lista-lojas"></div>
+  </div>
+
+  <!-- TELA HISTORICO -->
+  <div id="tela-historico" class="tela">
+    <div class="card">
+      <h2>Histórico de Pedidos</h2>
+    </div>
+    <div class="card" id="lista-pedidos"></div>
+  </div>
+
+  <!-- TELA CONFIG -->
+  <div id="tela-config" class="tela">
+    <div class="card">
+      <h2>Backup</h2>
+      <p style="font-size:13px;color:#666;margin-bottom:12px;">
+        Exporte um arquivo com todas as lojas e pedidos salvos. Guarde em local seguro.
+      </p>
+      <button onclick="exportarBackup()">⬇️ Exportar Backup</button>
+      <label style="margin-top:16px;">Importar Backup (.json)</label>
+      <input type="file" id="input-backup" accept=".json">
+    </div>
+    <div class="card">
+      <h2>Status</h2>
+      <div id="status-app" style="font-size:13px;color:#666;"></div>
+      <button class="danger" onclick="resetarTudo()">⚠️ Apagar TODOS os dados</button>
+    </div>
+  </div>
+
+</div>
+
+<nav class="bottom">
+  <button data-tela="catalogo" class="ativo"><span class="ico">📋</span>Catálogo</button>
+  <button data-tela="pedido"><span class="ico">🛒</span>Pedido <span id="badge-carrinho"></span></button>
+  <button data-tela="lojas"><span class="ico">🏪</span>Lojas</button>
+  <button data-tela="historico"><span class="ico">📜</span>Histórico</button>
+  <button data-tela="config"><span class="ico">⚙️</span>Config</button>
+</nav>
+
+<!-- MODAL LOJA -->
+<div id="modal-loja" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center;padding:16px;">
+  <div style="background:#fff;border-radius:12px;padding:20px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;">
+    <h2 id="modal-loja-titulo" style="margin-bottom:12px;">Cadastrar Loja</h2>
+    <input type="hidden" id="loja-id">
+    <label>Nome da Loja *</label>
+    <input type="text" id="loja-nome">
+    <label>Contato</label>
+    <input type="text" id="loja-contato">
+    <label>Telefone / WhatsApp</label>
+    <input type="tel" id="loja-telefone" placeholder="(11) 99999-9999">
+    <label>Endereço</label>
+    <input type="text" id="loja-endereco">
+    <label>CNPJ</label>
+    <input type="text" id="loja-cnpj">
+    <label style="display:flex;align-items:center;gap:8px;margin-top:14px;">
+      <input type="checkbox" id="loja-provisoria" style="width:auto;">
+      <span>Cadastro provisório (corrigir depois)</span>
+    </label>
+    <div style="display:flex;gap:8px;margin-top:16px;">
+      <button onclick="salvarLoja()" style="flex:1;">Salvar</button>
+      <button class="sec" onclick="fecharModalLoja()" style="flex:1;">Cancelar</button>
+    </div>
+    <button class="danger" id="btn-excluir-loja" style="display:none;width:100%;margin-top:10px;" onclick="excluirLoja()">Excluir Loja</button>
+  </div>
+</div>
+
+<script>
+  
+/* ============================================================
+   MAXVINIL - SIMULADOR DE VENDAS
+   Bloco 3/5 - Leitura da planilha + Catálogo
+   ============================================================ */
+
+// ---------- ESTADO GLOBAL ----------
+let PRODUTOS = [];          // todos os produtos da planilha
+let CATEGORIAS = [];        // lista de categorias
+let CATEGORIA_ATUAL = '';   // filtro de categoria ativo
+let CARRINHO = [];          // itens do pedido atual
+let LOJAS = [];             // lojas cadastradas
+let PEDIDOS = [];           // pedidos salvos
+
+const STORAGE_KEY_LOJAS = 'maxvinil_lojas';
+const STORAGE_KEY_PEDIDOS = 'maxvinil_pedidos';
+const STORAGE_KEY_CARRINHO = 'maxvinil_carrinho_atual';
+
+// ---------- UTILITÁRIOS ----------
+function fmtMoeda(v) {
+  return 'R$ ' + (Number(v) || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function normalizar(txt) {
+  return String(txt || '')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .toUpperCase().trim();
+}
+
+function gerarId() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+}
+
+function salvarLocal() {
+  try {
+    localStorage.setItem(STORAGE_KEY_LOJAS, JSON.stringify(LOJAS));
+    localStorage.setItem(STORAGE_KEY_PEDIDOS, JSON.stringify(PEDIDOS));
+    localStorage.setItem(STORAGE_KEY_CARRINHO, JSON.stringify(CARRINHO));
+  } catch (e) { console.warn('Erro ao salvar local', e); }
+}
+
+function carregarLocal() {
+  try {
+    LOJAS = JSON.parse(localStorage.getItem(STORAGE_KEY_LOJAS) || '[]');
+    PEDIDOS = JSON.parse(localStorage.getItem(STORAGE_KEY_PEDIDOS) || '[]');
+    CARRINHO = JSON.parse(localStorage.getItem(STORAGE_KEY_CARRINHO) || '[]');
+  } catch (e) {
+    LOJAS = []; PEDIDOS = []; CARRINHO = [];
+  }
+}
+
+// ---------- LEITURA DA PLANILHA ----------
+async function carregarPlanilha() {
+  const lista = document.getElementById('lista-produtos');
+  lista.innerHTML = '<div class="vazio">⏳ Carregando planilha...</div>';
+  try {
+    const resp = await fetch('planilha.xlsx?t=' + Date.now());
+    if (!resp.ok) throw new Error('Arquivo planilha.xlsx não encontrado no repositório.');
+    const buf = await resp.arrayBuffer();
+    const wb = XLSX.read(buf, { type: 'array' });
+    // Lê SEMPRE a primeira aba (funciona com ABRIL, MAIO, JUNHO, etc.)
+    const aba = wb.Sheets[wb.SheetNames[0]];
+    const linhas = XLSX.utils.sheet_to_json(aba, { header: 1, defval: '' });
+    processarLinhas(linhas);
+    renderizarCatalogo();
+    atualizarStatus();
+  } catch (e) {
+    console.error(e);
+    lista.innerHTML = '<div class="vazio">❌ Erro ao ler a planilha:<br>' + e.message + '</div>';
+  }
+}
+
+function processarLinhas(linhas) {
+  PRODUTOS = [];
+  CATEGORIAS = [];
+  let categoriaAtual = 'GERAL';
+
+  for (let i = 0; i < linhas.length; i++) {
+    const L = linhas[i] || [];
+    const A = String(L[0] || '').trim();
+    const B = String(L[1] || '').trim();
+    const C = String(L[2] || '').trim();
+    const D = String(L[3] || '').trim();
+    const E = L[4];  // valor tabela
+    const F = L[5];  // valor venda
+
+    // Detecta linhas de cabeçalho (QTD | DESCRIÇÃO | EMBALAGEM...)
+    if (normalizar(B) === 'DESCRICAO' || normalizar(A) === 'QTD') continue;
+
+    // Detecta título de categoria (só coluna B preenchida, sem valor de tabela)
+    if (B && !E && !C && !D) {
+      categoriaAtual = B;
+      if (!CATEGORIAS.includes(categoriaAtual)) CATEGORIAS.push(categoriaAtual);
+      continue;
+    }
+
+    // Só processa linhas com descrição E valor de tabela numérico
+    const valorTabela = parseFloat(String(E).replace(',', '.'));
+    if (!B || isNaN(valorTabela) || valorTabela <= 0) continue;
+
+    const valorVenda = parseFloat(String(F).replace(',', '.'));
+    PRODUTOS.push({
+      id: gerarId(),
+      linha: i + 1,
+      categoria: categoriaAtual,
+      descricao: B,
+      embalagem: C,
+      peso: D,
+      valorTabela: valorTabela,
+      valorVenda: isNaN(valorVenda) ? null : valorVenda
+    });
+  }
+}
+
+// ---------- RENDERIZAÇÃO DO CATÁLOGO ----------
+function renderizarCategorias() {
+  const box = document.getElementById('filtro-cat');
+  box.innerHTML = '';
+  const btnTodas = document.createElement('button');
+  btnTodas.textContent = 'Todas';
+  btnTodas.className = CATEGORIA_ATUAL === '' ? 'ativo' : '';
+  btnTodas.onclick = () => { CATEGORIA_ATUAL = ''; renderizarCatalogo(); };
+  box.appendChild(btnTodas);
+
+  CATEGORIAS.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.textContent = cat;
+    btn.className = CATEGORIA_ATUAL === cat ? 'ativo' : '';
+    btn.onclick = () => { CATEGORIA_ATUAL = cat; renderizarCatalogo(); };
+    box.appendChild(btn);
+  });
+}
+
+function renderizarCatalogo() {
+  renderizarCategorias();
+  const busca = normalizar(document.getElementById('busca').value);
+  const lista = document.getElementById('lista-produtos');
+  const contador = document.getElementById('contador');
+
+  let filtrados = PRODUTOS.filter(p => {
+    if (CATEGORIA_ATUAL && p.categoria !== CATEGORIA_ATUAL) return false;
+    if (busca && !normalizar(p.descricao + ' ' + p.embalagem + ' ' + p.peso).includes(busca)) return false;
+    return true;
+  });
+
+  contador.textContent = filtrados.length + ' produto(s) encontrado(s)';
+  lista.innerHTML = '';
+
+  if (filtrados.length === 0) {
+    lista.innerHTML = '<div class="vazio">Nenhum produto encontrado.</div>';
+    return;
+  }
+
+  filtrados.slice(0, 200).forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'produto';
+    div.innerHTML =
+      '<div class="produto-info">' +
+        '<div class="desc">' + p.descricao + '</div>' +
+        '<div class="meta">' + (p.embalagem ? p.embalagem + ' • ' : '') + (p.peso || '') +
+          ' <span class="badge cat">' + p.categoria + '</span></div>' +
+        '<div class="preco">' + fmtMoeda(p.valorTabela) + '</div>' +
+      '</div>' +
+      '<div class="produto-add">' +
+        '<input type="number" min="1" value="1" id="qtd-' + p.id + '">' +
+        '<button class="small" onclick="adicionarAoCarrinho(\'' + p.id + '\')">+ Add</button>' +
+      '</div>';
+    lista.appendChild(div);
+  });
+
+  if (filtrados.length > 200) {
+    const aviso = document.createElement('div');
+    aviso.className = 'vazio';
+    aviso.textContent = 'Mostrando 200 de ' + filtrados.length + '. Refine a busca.';
+    lista.appendChild(aviso);
+  }
+}
+
+// ---------- ADICIONAR AO CARRINHO ----------
+function adicionarAoCarrinho(produtoId) {
+  const p = PRODUTOS.find(x => x.id === produtoId);
+  if (!p) return;
+  const inputQtd = document.getElementById('qtd-' + produtoId);
+  const qtd = parseInt(inputQtd.value) || 1;
+
+  const existente = CARRINHO.find(x => x.produtoId === produtoId);
+  if (existente) {
+    existente.qtd += qtd;
+  } else {
+    CARRINHO.push({
+      produtoId: p.id,
+      descricao: p.descricao,
+      embalagem: p.embalagem,
+      peso: p.peso,
+      categoria: p.categoria,
+      valorTabela: p.valorTabela,
+      qtd: qtd,
+      descItem: 0
+    });
+  }
+  inputQtd.value = 1;
+  salvarLocal();
+  atualizarBadge();
+  renderizarPedido();
+  // Feedback visual rápido
+  const btn = inputQtd.nextElementSibling;
+  if (btn) {
+    const original = btn.textContent;
+    btn.textContent = '✓';
+    setTimeout(() => btn.textContent = original, 800);
+  }
+}
+
+// ---------- BADGE DO CARRINHO ----------
+function atualizarBadge() {
+  const badge = document.getElementById('badge-carrinho');
+  const totalItens = CARRINHO.reduce((s, i) => s + i.qtd, 0);
+  badge.textContent = totalItens > 0 ? '(' + totalItens + ')' : '';
+  badge.style.color = totalItens > 0 ? '#ff3b30' : '';
+  badge.style.fontWeight = '700';
+}
+
+// ---------- NAVEGAÇÃO ENTRE TELAS ----------
+function trocarTela(nome) {
+  document.querySelectorAll('.tela').forEach(t => t.classList.remove('ativa'));
+  document.getElementById('tela-' + nome).classList.add('ativa');
+  document.querySelectorAll('nav.bottom button').forEach(b => {
+    b.classList.toggle('ativo', b.dataset.tela === nome);
+  });
+  if (nome === 'lojas') renderizarLojas();
+  if (nome === 'historico') renderizarHistorico();
+  if (nome === 'config') atualizarStatus();
+  if (nome === 'pedido') renderizarPedido();
+  window.scrollTo(0, 0);
+}
+
+function atualizarStatus() {
+  const el = document.getElementById('status-app');
+  if (!el) return;
+  el.innerHTML =
+    '📦 Produtos carregados: <b>' + PRODUTOS.length + '</b><br>' +
+    '🏷️ Categorias: <b>' + CATEGORIAS.length + '</b><br>' +
+    '🏪 Lojas cadastradas: <b>' + LOJAS.length + '</b><br>' +
+    '📜 Pedidos salvos: <b>' + PEDIDOS.length + '</b>';
+}
+
+/* ============================================================
+   Bloco 4/5 - Carrinho, Descontos, Lojas e Histórico
+   ============================================================ */
+
+// ---------- RENDERIZAÇÃO DO PEDIDO ----------
+function renderizarPedido() {
+  const box = document.getElementById('itens-pedido');
+  if (CARRINHO.length === 0) {
+    box.innerHTML = '<div class="vazio">Nenhum item no pedido ainda.<br>Vá ao Catálogo e adicione produtos.</div>';
+    renderizarResumo();
+    return;
+  }
+
+  box.innerHTML = '';
+  CARRINHO.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'item-pedido';
+    div.innerHTML =
+      '<div class="linha1">' +
+        '<div class="desc">' + item.descricao + '</div>' +
+        '<button class="small danger" onclick="removerItem(' + idx + ')">✕</button>' +
+      '</div>' +
+      '<div class="meta" style="font-size:12px;color:#666;margin-top:2px;">' +
+        (item.embalagem ? item.embalagem + ' • ' : '') + (item.peso || '') +
+        ' | Tabela: ' + fmtMoeda(item.valorTabela) +
+      '</div>' +
+      '<div class="linha2">' +
+        '<input type="number" min="1" value="' + item.qtd + '" onchange="alterarQtd(' + idx + ', this.value)" title="Qtd">' +
+        '<input type="number" min="0" max="100" step="0.1" value="' + (item.descItem || 0) + '" onchange="alterarDescItem(' + idx + ', this.value)" title="Desc %">' +
+        '<span style="text-align:center;font-size:12px;">' + fmtMoeda(item.valorTabela * item.qtd) + '</span>' +
+        '<span style="text-align:center;font-size:12px;font-weight:600;color:#0071e3;">' + fmtMoeda(calcularTotalItem(item)) + '</span>' +
+        '<span></span>' +
+      '</div>';
+    box.appendChild(div);
+  });
+  renderizarResumo();
+}
+
+function alterarQtd(idx, valor) {
+  const q = parseInt(valor) || 1;
+  CARRINHO[idx].qtd = q < 1 ? 1 : q;
+  salvarLocal();
+  atualizarBadge();
+  renderizarPedido();
+}
+
+function alterarDescItem(idx, valor) {
+  let d = parseFloat(String(valor).replace(',', '.')) || 0;
+  if (d < 0) d = 0;
+  if (d > 100) d = 100;
+  CARRINHO[idx].descItem = d;
+  salvarLocal();
+  renderizarPedido();
+}
+
+function removerItem(idx) {
+  if (!confirm('Remover este item do pedido?')) return;
+  CARRINHO.splice(idx, 1);
+  salvarLocal();
+  atualizarBadge();
+  renderizarPedido();
+}
+
+// ---------- CÁLCULOS ----------
+// Regra: item COM desconto individual NÃO recebe o desconto global.
+// Item SEM desconto individual recebe o desconto global.
+function calcularTotalItem(item) {
+  const subtotal = item.valorTabela * item.qtd;
+  const descGlobal = parseFloat(document.getElementById('desc-global').value) || 0;
+  const descEfetivo = item.descItem > 0 ? item.descItem : descGlobal;
+  return subtotal * (1 - descEfetivo / 100);
+}
+
+function calcularResumo() {
+  const descGlobal = parseFloat(document.getElementById('desc-global').value) || 0;
+  let subtotal = 0;
+  let totalFinal = 0;
+
+  CARRINHO.forEach(item => {
+    const sub = item.valorTabela * item.qtd;
+    subtotal += sub;
+    const descEfetivo = item.descItem > 0 ? item.descItem : descGlobal;
+    totalFinal += sub * (1 - descEfetivo / 100);
+  });
+
+  const valorDesconto = subtotal - totalFinal;
+  const percentualEfetivo = subtotal > 0 ? (valorDesconto / subtotal) * 100 : 0;
+
+  return { subtotal, totalFinal, valorDesconto, percentualEfetivo, descGlobal };
+}
+
+function renderizarResumo() {
+  const r = calcularResumo();
+  const box = document.getElementById('resumo-pedido');
+  const totalItens = CARRINHO.reduce((s, i) => s + i.qtd, 0);
+
+  box.innerHTML =
+    '<div class="linha"><span>Itens (' + totalItens + ' un.)</span><span>' + CARRINHO.length + ' produto(s)</span></div>' +
+    '<div class="linha"><span>Subtotal sem desconto</span><span>' + fmtMoeda(r.subtotal) + '</span></div>' +
+    '<div class="linha"><span>Desconto</span><span>− ' + fmtMoeda(r.valorDesconto) + ' (' + r.percentualEfetivo.toFixed(2) + '%)</span></div>' +
+    '<div class="linha total"><span>TOTAL</span><span>' + fmtMoeda(r.totalFinal) + '</span></div>';
+
+  // Alerta de desconto global > 25%
+  const alertaBox = document.getElementById('alerta-global');
+  if (r.descGlobal > 25) {
+    alertaBox.innerHTML = '<div class="alerta-vermelho">⚠️ Desconto global de ' +
+      r.descGlobal.toFixed(2) + '% ultrapassa o limite de 25%. Necessária autorização.</div>';
+  } else if (r.descGlobal > 0) {
+    alertaBox.innerHTML = '<div class="info">Desconto global aplicado: ' + r.descGlobal.toFixed(2) + '%</div>';
+  } else {
+    alertaBox.innerHTML = '';
+  }
+}
+
+// ---------- LOJAS ----------
+function renderizarLojas() {
+  const box = document.getElementById('lista-lojas');
+  if (LOJAS.length === 0) {
+    box.innerHTML = '<div class="vazio">Nenhuma loja cadastrada.</div>';
+    return;
+  }
+  box.innerHTML = '';
+  LOJAS.forEach(loja => {
+    const div = document.createElement('div');
+    div.className = 'loja-card';
+    div.innerHTML =
+      '<div style="flex:1;">' +
+        '<div style="font-weight:600;">' + loja.nome +
+          (loja.provisoria ? ' <span class="badge prov">Provisória</span>' : '') + '</div>' +
+        '<div style="font-size:12px;color:#666;margin-top:2px;">' +
+          (loja.contato ? loja.contato + ' • ' : '') +
+          (loja.telefone ? loja.telefone : '') +
+        '</div>' +
+      '</div>' +
+      '<button class="small sec" onclick="editarLoja(\'' + loja.id + '\')">✏️ Editar</button>';
+    box.appendChild(div);
+  });
+  atualizarSelectLojas();
+}
+
+function atualizarSelectLojas() {
+  const sel = document.getElementById('select-loja');
+  const atual = sel.value;
+  sel.innerHTML = '<option value="">-- Selecione uma loja --</option>';
+  LOJAS.forEach(loja => {
+    const opt = document.createElement('option');
+    opt.value = loja.id;
+    opt.textContent = loja.nome + (loja.provisoria ? ' (provisória)' : '');
+    sel.appendChild(opt);
+  });
+  if (atual) sel.value = atual;
+}
+
+function abrirCadastroLoja() {
+  document.getElementById('modal-loja-titulo').textContent = 'Cadastrar Loja';
+  document.getElementById('loja-id').value = '';
+  document.getElementById('loja-nome').value = '';
+  document.getElementById('loja-contato').value = '';
+  document.getElementById('loja-telefone').value = '';
+  document.getElementById('loja-endereco').value = '';
+  document.getElementById('loja-cnpj').value = '';
+  document.getElementById('loja-provisoria').checked = false;
+  document.getElementById('btn-excluir-loja').style.display = 'none';
+  document.getElementById('modal-loja').style.display = 'flex';
+}
+
+function editarLoja(id) {
+  const loja = LOJAS.find(l => l.id === id);
+  if (!loja) return;
+  document.getElementById('modal-loja-titulo').textContent = 'Editar Loja';
+  document.getElementById('loja-id').value = loja.id;
+  document.getElementById('loja-nome').value = loja.nome || '';
+  document.getElementById('loja-contato').value = loja.contato || '';
+  document.getElementById('loja-telefone').value = loja.telefone || '';
+  document.getElementById('loja-endereco').value = loja.endereco || '';
+  document.getElementById('loja-cnpj').value = loja.cnpj || '';
+  document.getElementById('loja-provisoria').checked = !!loja.provisoria;
+  document.getElementById('btn-excluir-loja').style.display = 'block';
+  document.getElementById('modal-loja').style.display = 'flex';
+}
+
+function fecharModalLoja() {
+  document.getElementById('modal-loja').style.display = 'none';
+}
+
+function salvarLoja() {
+  const id = document.getElementById('loja-id').value;
+  const nome = document.getElementById('loja-nome').value.trim();
+  if (!nome) { alert('Informe o nome da loja.'); return; }
+
+  const dados = {
+    nome: nome,
+    contato: document.getElementById('loja-contato').value.trim(),
+    telefone: document.getElementById('loja-telefone').value.trim(),
+    endereco: document.getElementById('loja-endereco').value.trim(),
+    cnpj: document.getElementById('loja-cnpj').value.trim(),
+    provisoria: document.getElementById('loja-provisoria').checked
+  };
+
+  if (id) {
+    const idx = LOJAS.findIndex(l => l.id === id);
+    if (idx >= 0) LOJAS[idx] = Object.assign(LOJAS[idx], dados);
+  } else {
+    LOJAS.push(Object.assign({ id: gerarId(), criadoEm: new Date().toISOString() }, dados));
+  }
+  salvarLocal();
+  fecharModalLoja();
+  renderizarLojas();
+  atualizarStatus();
+}
+
+function excluirLoja() {
+  const id = document.getElementById('loja-id').value;
+  if (!id) return;
+  if (!confirm('Excluir esta loja? Os pedidos vinculados não serão apagados.')) return;
+  LOJAS = LOJAS.filter(l => l.id !== id);
+  salvarLocal();
+  fecharModalLoja();
+  renderizarLojas();
+  atualizarStatus();
+}
+
+// ---------- PEDIDOS ----------
+function salvarPedido() {
+  if (CARRINHO.length === 0) { alert('Adicione itens ao pedido primeiro.'); return; }
+  const lojaId = document.getElementById('select-loja').value;
+  if (!lojaId) { alert('Selecione uma loja antes de salvar o pedido.'); return; }
+
+  const loja = LOJAS.find(l => l.id === lojaId);
+  const r = calcularResumo();
+  const numero = PEDIDOS.length + 1;
+
+  const pedido = {
+    id: gerarId(),
+    numero: numero,
+    data: new Date().toISOString(),
+    lojaId: lojaId,
+    lojaNome: loja ? loja.nome : '',
+    lojaProvisoria: loja ? !!loja.provisoria : false,
+    itens: JSON.parse(JSON.stringify(CARRINHO)),
+    descontoGlobal: r.descGlobal,
+    subtotal: r.subtotal,
+    descontoValor: r.valorDesconto,
+    descontoPercent: r.percentualEfetivo,
+    total: r.totalFinal
+  };
+
+  PEDIDOS.unshift(pedido);
+  salvarLocal();
+  alert('✅ Pedido #' + String(numero).padStart(4, '0') + ' salvo com sucesso!');
+  atualizarStatus();
+}
+
+function limparPedido() {
+  if (CARRINHO.length === 0) return;
+  if (!confirm('Limpar todos os itens do pedido atual?')) return;
+  CARRINHO = [];
+  document.getElementById('desc-global').value = 0;
+  salvarLocal();
+  atualizarBadge();
+  renderizarPedido();
+}
+
+function renderizarHistorico() {
+  const box = document.getElementById('lista-pedidos');
+  if (PEDIDOS.length === 0) {
+    box.innerHTML = '<div class="vazio">Nenhum pedido salvo ainda.</div>';
+    return;
+  }
+  box.innerHTML = '';
+  PEDIDOS.forEach(p => {
+    const d = new Date(p.data);
+    const dataFmt = d.toLocaleDateString('pt-BR') + ' ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    const div = document.createElement('div');
+    div.className = 'loja-card';
+    div.innerHTML =
+      '<div style="flex:1;">' +
+        '<div style="font-weight:600;">Pedido #' + String(p.numero).padStart(4, '0') +
+          ' — ' + p.lojaNome +
+          (p.lojaProvisoria ? ' <span class="badge prov">Provisória</span>' : '') + '</div>' +
+        '<div style="font-size:12px;color:#666;margin-top:2px;">' +
+          dataFmt + ' • ' + p.itens.length + ' itens • Total: ' + fmtMoeda(p.total) +
+        '</div>' +
+      '</div>' +
+      '<button class="small sec" onclick="reabrirPedido(\'' + p.id + '\')">Reabrir</button>' +
+      '<button class="small danger" onclick="excluirPedido(\'' + p.id + '\')">✕</button>';
+    box.appendChild(div);
+  });
+}
+
+function reabrirPedido(id) {
+  const p = PEDIDOS.find(x => x.id === id);
+  if (!p) return;
+  if (CARRINHO.length > 0 && !confirm('Substituir o pedido atual por este?')) return;
+  CARRINHO = JSON.parse(JSON.stringify(p.itens));
+  document.getElementById('desc-global').value = p.descontoGlobal || 0;
+  document.getElementById('select-loja').value = p.lojaId || '';
+  salvarLocal();
+  atualizarBadge();
+  trocarTela('pedido');
+}
+
+function excluirPedido(id) {
+  if (!confirm('Excluir este pedido do histórico?')) return;
+  PEDIDOS = PEDIDOS.filter(p => p.id !== id);
+  salvarLocal();
+  renderizarHistorico();
+  atualizarStatus();
+}
+
+// ---------- BACKUP ----------
+function exportarBackup() {
+  const dados = {
+    versao: 1,
+    exportadoEm: new Date().toISOString(),
+    lojas: LOJAS,
+    pedidos: PEDIDOS
+  };
+  const blob = new Blob([JSON.stringify(dados, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const d = new Date();
+  a.download = 'maxvinil-backup-' + d.getFullYear() + '-' +
+    String(d.getMonth() + 1).padStart(2, '0') + '-' +
+    String(d.getDate()).padStart(2, '0') + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importarBackup(ev) {
+  const file = ev.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const dados = JSON.parse(e.target.result);
+      if (!dados.lojas && !dados.pedidos) throw new Error('Arquivo inválido.');
+      if (!confirm('Isso vai SUBSTITUIR as lojas e pedidos atuais. Continuar?')) return;
+      LOJAS = dados.lojas || [];
+      PEDIDOS = dados.pedidos || [];
+      salvarLocal();
+      renderizarLojas();
+      renderizarHistorico();
+      atualizarStatus();
+      alert('✅ Backup importado com sucesso!');
+    } catch (err) {
+      alert('❌ Erro ao importar: ' + err.message);
+    }
+    ev.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
+function resetarTudo() {
+  if (!confirm('⚠️ Isso vai APAGAR lojas, pedidos e carrinho. Tem certeza?')) return;
+  if (!confirm('Confirma mesmo? Não tem volta.')) return;
+  localStorage.removeItem(STORAGE_KEY_LOJAS);
+  localStorage.removeItem(STORAGE_KEY_PEDIDOS);
+  localStorage.removeItem(STORAGE_KEY_CARRINHO);
+  LOJAS = []; PEDIDOS = []; CARRINHO = [];
+  atualizarBadge();
+  renderizarLojas();
+  renderizarHistorico();
+  renderizarPedido();
+  atualizarStatus();
+}
+
+/* ============================================================
+   Bloco 5/5 - Exportação (PDF + WhatsApp) e Inicialização
+   ============================================================ */
+
+const WHATSAPP_REMETENTE = '5511967602254'; // Seu número MaxVinil
+
+// ---------- TEXTO FORMATADO DO PEDIDO ----------
+function montarTextoPedido() {
+  const lojaId = document.getElementById('select-loja').value;
+  const loja = LOJAS.find(l => l.id === lojaId);
+  const r = calcularResumo();
+
+  let texto = '*MAXVINIL - ORÇAMENTO*\n';
+  texto += '━━━━━━━━━━━━━━━━━━━━━━\n';
+  if (loja) {
+    texto += '🏪 *Loja:* ' + loja.nome + '\n';
+    if (loja.contato) texto += '👤 *Contato:* ' + loja.contato + '\n';
+    if (loja.telefone) texto += '📞 *Telefone:* ' + loja.telefone + '\n';
+    if (loja.endereco) texto += '📍 *Endereço:* ' + loja.endereco + '\n';
+  } else {
+    texto += '🏪 *Loja:* (não selecionada)\n';
+  }
+  texto += '📅 *Data:* ' + new Date().toLocaleDateString('pt-BR') + '\n';
+  texto += '━━━━━━━━━━━━━━━━━━━━━━\n\n';
+  texto += '*ITENS DO PEDIDO:*\n\n';
+
+  const descGlobal = r.descGlobal;
+  CARRINHO.forEach((item, i) => {
+    const sub = item.valorTabela * item.qtd;
+    const descEf = item.descItem > 0 ? item.descItem : descGlobal;
+    const total = sub * (1 - descEf / 100);
+    texto += (i + 1) + '. *' + item.descricao + '*\n';
+    texto += '   ' + (item.embalagem || '') + (item.peso ? ' • ' + item.peso : '') + '\n';
+    texto += '   ' + item.qtd + ' un. × ' + fmtMoeda(item.valorTabela) + ' = ' + fmtMoeda(sub) + '\n';
+    if (descEf > 0) {
+      texto += '   Desconto: ' + descEf.toFixed(2) + '% → ' + fmtMoeda(total) + '\n';
+    }
+    texto += '\n';
+  });
+
+  texto += '━━━━━━━━━━━━━━━━━━━━━━\n';
+  texto += '*Subtotal:* ' + fmtMoeda(r.subtotal) + '\n';
+  texto += '*Desconto:* ' + fmtMoeda(r.valorDesconto) + ' (' + r.percentualEfetivo.toFixed(2) + '%)\n';
+  texto += '*TOTAL: ' + fmtMoeda(r.totalFinal) + '*\n';
+  texto += '━━━━━━━━━━━━━━━━━━━━━━\n\n';
+  texto += '📌 Validade: 7 dias\n';
+  texto += 'MaxVinil • (11) 96760-2254\n';
+
+  return texto;
+}
+
+// ---------- EXPORTAR WHATSAPP ----------
+function exportarWhatsApp() {
+  if (CARRINHO.length === 0) { alert('Adicione itens ao pedido primeiro.'); return; }
+  const lojaId = document.getElementById('select-loja').value;
+  const loja = LOJAS.find(l => l.id === lojaId);
+  const texto = montarTextoPedido();
+  const textoEnc = encodeURIComponent(texto);
+
+  let url;
+  if (loja && loja.telefone) {
+    // Limpa o telefone: só dígitos, com DDI 55
+    let tel = loja.telefone.replace(/\D/g, '');
+    if (tel.length === 11 || tel.length === 10) tel = '55' + tel;
+    url = 'https://wa.me/' + tel + '?text=' + textoEnc;
+  } else {
+    // Sem telefone cadastrado → abre o WhatsApp com o texto, você escolhe o contato
+    url = 'https://wa.me/?text=' + textoEnc;
+  }
+  window.open(url, '_blank');
+}
+
+// ---------- EXPORTAR PDF (via impressão) ----------
+function exportarPDF() {
+  if (CARRINHO.length === 0) { alert('Adicione itens ao pedido primeiro.'); return; }
+  const lojaId = document.getElementById('select-loja').value;
+  const loja = LOJAS.find(l => l.id === lojaId);
+  const r = calcularResumo();
+
+  const dataFmt = new Date().toLocaleDateString('pt-BR');
+  let html = '';
+  html += '<div style="font-family:Arial,sans-serif;padding:30px;max-width:800px;margin:0 auto;color:#1d1d1f;">';
+  html += '<div style="text-align:center;border-bottom:3px solid #1d1d1f;padding-bottom:12px;margin-bottom:20px;">';
+  html += '<h1 style="margin:0;font-size:26px;">MAXVINIL</h1>';
+  html += '<div style="font-size:13px;color:#666;margin-top:4px;">ORÇAMENTO DE VENDA</div>';
+  html += '<div style="font-size:12px;color:#666;margin-top:2px;">(11) 96760-2254</div>';
+  html += '</div>';
+
+  html += '<div style="margin-bottom:20px;font-size:13px;line-height:1.7;">';
+  html += '<b>Data:</b> ' + dataFmt + '<br>';
+  if (loja) {
+    html += '<b>Loja:</b> ' + loja.nome + '<br>';
+    if (loja.contato) html += '<b>Contato:</b> ' + loja.contato + '<br>';
+    if (loja.telefone) html += '<b>Telefone:</b> ' + loja.telefone + '<br>';
+    if (loja.endereco) html += '<b>Endereço:</b> ' + loja.endereco + '<br>';
+    if (loja.cnpj) html += '<b>CNPJ:</b> ' + loja.cnpj + '<br>';
+  }
+  html += '</div>';
+
+  html += '<table style="width:100%;border-collapse:collapse;font-size:12px;">';
+  html += '<thead><tr style="background:#1d1d1f;color:#fff;">';
+  html += '<th style="padding:8px;text-align:left;">Item</th>';
+  html += '<th style="padding:8px;text-align:center;">Qtd</th>';
+  html += '<th style="padding:8px;text-align:right;">Vl. Unit.</th>';
+  html += '<th style="padding:8px;text-align:center;">Desc.</th>';
+  html += '<th style="padding:8px;text-align:right;">Total</th>';
+  html += '</tr></thead><tbody>';
+
+  const descGlobal = r.descGlobal;
+  CARRINHO.forEach(item => {
+    const sub = item.valorTabela * item.qtd;
+    const descEf = item.descItem > 0 ? item.descItem : descGlobal;
+    const total = sub * (1 - descEf / 100);
+    html += '<tr style="border-bottom:1px solid #eee;">';
+    html += '<td style="padding:8px;">' + item.descricao +
+            '<div style="font-size:11px;color:#666;">' + (item.embalagem || '') +
+            (item.peso ? ' • ' + item.peso : '') + '</div></td>';
+    html += '<td style="padding:8px;text-align:center;">' + item.qtd + '</td>';
+    html += '<td style="padding:8px;text-align:right;">' + fmtMoeda(item.valorTabela) + '</td>';
+    html += '<td style="padding:8px;text-align:center;">' + (descEf > 0 ? descEf.toFixed(2) + '%' : '—') + '</td>';
+    html += '<td style="padding:8px;text-align:right;font-weight:600;">' + fmtMoeda(total) + '</td>';
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+
+  html += '<div style="margin-top:20px;text-align:right;font-size:14px;line-height:1.9;">';
+  html += '<div>Subtotal: <b>' + fmtMoeda(r.subtotal) + '</b></div>';
+  html += '<div>Desconto: <b>' + fmtMoeda(r.valorDesconto) + ' (' + r.percentualEfetivo.toFixed(2) + '%)</b></div>';
+  html += '<div style="font-size:20px;margin-top:8px;padding-top:8px;border-top:2px solid #1d1d1f;">TOTAL: <b>' + fmtMoeda(r.totalFinal) + '</b></div>';
+  html += '</div>';
+
+  html += '<div style="margin-top:40px;text-align:center;font-size:11px;color:#666;">';
+  html += 'Validade: 7 dias • MaxVinil • (11) 96760-2254';
+  html += '</div>';
+  html += '</div>';
+
+  // Abre uma janela só com esse HTML e chama a impressão
+  const janela = window.open('', '_blank');
+  janela.document.write('<html><head><title>Orçamento MaxVinil</title></head><body>' + html + '</body></html>');
+  janela.document.close();
+  setTimeout(() => { janela.print(); }, 400);
+}
+
+// ---------- INICIALIZAÇÃO ----------
+function inicializar() {
+  carregarLocal();
+  atualizarBadge();
+  atualizarSelectLojas();
+
+  // Navegação
+  document.querySelectorAll('nav.bottom button').forEach(btn => {
+    btn.addEventListener('click', () => trocarTela(btn.dataset.tela));
+  });
+
+  // Busca no catálogo
+  document.getElementById('busca').addEventListener('input', renderizarCatalogo);
+
+  // Desconto global
+  document.getElementById('desc-global').addEventListener('input', () => {
+    renderizarPedido();
+    salvarLocal();
+  });
+
+  // Importar backup
+  document.getElementById('input-backup').addEventListener('change', importarBackup);
+
+  // Fechar modal clicando fora
+  document.getElementById('modal-loja').addEventListener('click', (e) => {
+    if (e.target.id === 'modal-loja') fecharModalLoja();
+  });
+
+  // Carrega a planilha
+  carregarPlanilha();
+}
+
+document.addEventListener('DOMContentLoaded', inicializar);
+</script>
+</body>
+</html>
