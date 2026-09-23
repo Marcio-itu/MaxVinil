@@ -541,30 +541,25 @@ function identificarTabelaCor(linha, subLinha, descricao) {
   if (norm.includes('ACR GESSO/ALVEN')) return null;
 
   // ═══════════════════════════════════════════════════
-  // 2) SUFIXO CC / CM / CE (TINTOMETRIA)
+  // 2) SUFIXO CC / CM / CE (TINTOMETRIA) — combinam entre si
   // ═══════════════════════════════════════════════════
-  // Verifica se o produto tem CC, CM ou CE no nome (com ou sem combinação)
-  // Ex: "TEXT EXT CC/CM" → CC + CM
-  // Ex: "STELATTO BRIL CC/CM/CE" → CC + CM + CE
+  // Detecta CC, CM, CE como palavras isoladas no nome
   const temCC = /\bCC\b/.test(norm);
   const temCM = /\bCM\b/.test(norm);
   const temCE = /\bCE\b/.test(norm);
 
   if (temCC || temCM || temCE) {
-    // Retorna uma combinação: 'TINTOMETRIA_CC' | 'TINTOMETRIA_CC,CM' | 'TINTOMETRIA_CC,CM,CE' | etc.
     const sufixos = [];
     if (temCC) sufixos.push('CC');
     if (temCM) sufixos.push('CM');
     if (temCE) sufixos.push('CE');
-    return 'TINTOMETRIA_' + sufixos.join(',');
+    return 'TINTOMETRIA_' + sufixos.join(',');  // Ex: 'TINTOMETRIA_CC', 'TINTOMETRIA_CC,CM', 'TINTOMETRIA_CC,CM,CE'
   }
 
   // ═══════════════════════════════════════════════════
-  // 3) PRODUTOS SEM PALETA — só SEM COR + OUTRA
+  // 3) PRODUTOS SEM PALETA — abrem modal com só SEM COR + OUTRA
   // ═══════════════════════════════════════════════════
-  // BASE CLEAR (coberturas / esmaltes automotivos clear)
   if (norm.includes('BASE CLEAR')) return 'SEM_PALETA';
-  // ARRANHADO MG (revestimento)
   if (norm.includes('ARRANHADO MG')) return 'SEM_PALETA';
 
   // ═══════════════════════════════════════════════════
@@ -594,6 +589,7 @@ function identificarTabelaCor(linha, subLinha, descricao) {
   // ═══════════════════════════════════════════════════
   // 5) LINHA ACRILICA
   // ═══════════════════════════════════════════════════
+  // ELASTOMERICO — só MAXFLEX, PINTURA EMBO, VEDAMAX (NÃO os BT)
   if (norm.includes('ELASTOMERICO') && (norm.includes('MAXFLEX') || norm.includes('PINTURA EMBO') || norm.includes('VEDAMAX'))) {
     return 'ELASTOMERICO';
   }
