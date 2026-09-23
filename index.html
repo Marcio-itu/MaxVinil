@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
 <!-- ═══════════════════════════════════════════════════════
-     SUBBLOCO 01 — HEAD (CDN, meta, título)
+     SUBBLOCO 01 — HEAD (meta, título, CDN)
      ═══════════════════════════════════════════════════════ -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,7 +48,7 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
 /* ═══════════════ FIM SUBBLOCO 03 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 04 — CSS: PRODUTOS, PEDIDO, FILTROS
+   SUBBLOCO 04 — CSS: PRODUTOS, PEDIDO, FILTROS, DESCONTOS
    ═══════════════════════════════════════════════════════ */
 .produto { padding: 12px; border-bottom: 1px solid #f0f0f2; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 .produto:last-child { border-bottom: none; }
@@ -56,6 +56,8 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
 .produto-info .desc { font-weight: 600; font-size: 14px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
 .produto-info .meta { font-size: 12px; color: #666; margin-top: 4px; }
 .produto-info .preco { font-size: 15px; color: #0071e3; font-weight: 700; margin-top: 4px; }
+.precos-desconto { font-size: 10px; color: #999; margin-top: 4px; line-height: 1.5; word-spacing: 4px; }
+.precos-desconto span { white-space: nowrap; }
 .produto-add { display: flex; gap: 6px; align-items: center; }
 .produto-add input { width: 60px; padding: 6px; text-align: center; }
 .item-pedido { padding: 12px; border-bottom: 1px solid #f0f0f2; }
@@ -78,7 +80,7 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
 /* ═══════════════ FIM SUBBLOCO 04 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 05 — CSS: NAV INFERIOR + MOBILE + PRINT
+   SUBBLOCO 05 — CSS: NAV, MODAIS, QTD, MOBILE, PRINT
    ═══════════════════════════════════════════════════════ */
 nav.bottom { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #d2d2d7; display: flex; justify-content: space-around; z-index: 100; padding: 8px 0 10px; }
 nav.bottom button { background: none; color: #666; font-size: 11px; font-weight: 500; padding: 6px 8px; margin: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; flex: 1; }
@@ -89,21 +91,25 @@ nav.bottom button.ativo { color: #0071e3; }
 .modal { background: #fff; border-radius: 12px; padding: 20px; max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; }
 .modal-titulo { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
 .modal-sub { font-size: 13px; color: #666; margin-bottom: 16px; }
-.opcoes-acab { display: flex; gap: 8px; margin-top: 4px; }
-.opcoes-acab button { flex: 1; padding: 10px; font-size: 14px; background: #e8e8ed; color: #1d1d1f; margin: 0; }
+.opcoes-acab { display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
+.opcoes-acab button { flex: 1; min-width: 50px; padding: 10px; font-size: 14px; background: #e8e8ed; color: #1d1d1f; margin: 0; }
 .opcoes-acab button.ativo { background: #0071e3; color: #fff; }
 .qtd-controle { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
 .qtd-controle button { width: 44px; height: 44px; padding: 0; font-size: 20px; margin: 0; }
 .qtd-controle input { text-align: center; font-size: 16px; font-weight: 600; }
 .btn-full { width: 100%; padding: 14px; font-size: 15px; margin-top: 16px; }
-@media (max-width: 600px) { .grid { grid-template-columns: 1fr; } .produto { padding: 10px; } }
+.preco-final-box { margin-top: 14px; padding: 10px 12px; background: #eef6ff; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+.preco-final-box .label { font-size: 13px; color: #0066cc; font-weight: 600; }
+.preco-final-box .valor { font-size: 18px; color: #0066cc; font-weight: 700; }
+@media (max-width: 600px) { .produto { padding: 10px; } }
 @media print { nav.bottom, header, .no-print { display: none !important; } body { background: #fff; padding: 0; } .card { box-shadow: none; padding: 0; margin: 0; } }
 /* ═══════════════ FIM SUBBLOCO 05 ═══════════════ */
 </style>
 </head>
 <body>
+
 <!-- ═══════════════════════════════════════════════════════
-     SUBBLOCO 06 — HTML: HEADER + NAV
+     SUBBLOCO 06 — HTML: HEADER
      ═══════════════════════════════════════════════════════ -->
 <header>
   <h1>MaxVinil</h1>
@@ -130,7 +136,7 @@ nav.bottom button.ativo { color: #0071e3; }
 <!-- ═══════════════ FIM SUBBLOCO 07 ═══════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SUBBLOCO 08 — HTML: TELA PEDIDO + LOJAS + HISTÓRICO + CONFIG
+     SUBBLOCO 08 — HTML: TELAS PEDIDO, LOJAS, HISTÓRICO, CONFIG
      ═══════════════════════════════════════════════════════ -->
 <div id="tela-pedido" class="tela">
   <div class="card">
@@ -212,7 +218,7 @@ nav.bottom button.ativo { color: #0071e3; }
 <!-- ═══════════════ FIM SUBBLOCO 09 ═══════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SUBBLOCO 10 — HTML: MODAL COR + ACABAMENTO (novo)
+     SUBBLOCO 10 — HTML: MODAL COR + ACABAMENTO + DESCONTO
      ═══════════════════════════════════════════════════════ -->
 <div id="modal-cor" class="modal-overlay">
   <div class="modal">
@@ -232,6 +238,14 @@ nav.bottom button.ativo { color: #0071e3; }
       <div class="opcoes-acab" id="mc-acab"></div>
     </div>
 
+    <label>Desconto</label>
+    <div class="opcoes-acab" id="mc-desc"></div>
+
+    <div class="preco-final-box">
+      <span class="label">Preço final</span>
+      <span class="valor" id="mc-preco-final">—</span>
+    </div>
+
     <label>Quantidade</label>
     <div class="qtd-controle">
       <button class="sec" onclick="mcMudarQtd(-1)">−</button>
@@ -248,11 +262,11 @@ nav.bottom button.ativo { color: #0071e3; }
 
 <script>
 /* ═══════════════════════════════════════════════════════
-   Continua no Bloco B (JavaScript — dados)
+   Continua na PARTE 2 (JS — Estado + Tabelas + Parser)
    ═══════════════════════════════════════════════════════ */
- 
+     
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 11 — ESTADO GLOBAL + ÍNDICE DE TABELAS DE CORES
+   SUBBLOCO 11 — ESTADO GLOBAL
    ═══════════════════════════════════════════════════════ */
 let PRODUTOS = [];
 let LINHAS = [];
@@ -266,133 +280,21 @@ let PEDIDOS = [];
 // Produto temporário enquanto o modal de cor está aberto
 let MC_PRODUTO = null;
 let MC_ACAB_SELECIONADO = '';
+let MC_DESCONTO = 0;
 
 const STORAGE_KEY_LOJAS = 'maxvinil_lojas';
 const STORAGE_KEY_PEDIDOS = 'maxvinil_pedidos';
 const STORAGE_KEY_CARRINHO = 'maxvinil_carrinho_atual';
 
-// Índice: chave = prefixo/nome identificador do produto; valor = array de cores
-// Cada tabela de cores fica num SUBBLOCO próprio abaixo (12 a 21).
+// Índice: chave = nome identificador; valor = array de cores
 const TABELAS_CORES = {};
 /* ═══════════════ FIM SUBBLOCO 11 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 12 — TABELA DE CORES 01
-   Aplicação: ESM IND. AUTOMOTIVO — "CORES" (não intensas)
-   Produtos que usam: PRIMER ACAB ACE CORES, ESM IND/AGR ACE/FOS/BRIL CORES,
-                      ESM IND/AGR DF S/B CORES (ESPECIAL)
-   ═══════════════════════════════════════════════════════ */
-TABELAS_CORES['ESM_IND_AUTOM_CORES'] = [
-  "AREIA", "AZUL 2,5PB 4/10", "AZUL CELESTE", "AZUL DEL REY",
-  "AZUL FRANÇA", "AZUL NEW HOLLAND", "CAMURÇA", "CINZA CHASSI SCANIA",
-  "CINZA CLARO N6,5 (Platina)", "CINZA ESCURO", "CINZA MASSEY FERGUSON",
-  "CINZA MEDIO N5", "CINZA SUBGRAY", "COLORADO", "MARFIM 5Y 8.5/4",
-  "MARROM CONHAQUE 7,5YR", "TABACO", "VERDE 10GY 6/6", "VERDE MÁQUINAS"
-];
-/* ═══════════════ FIM SUBBLOCO 12 ═══════════════ */
-
-/* ═══════════════════════════════════════════════════════
-   SUBBLOCO 13 — TABELA DE CORES 02
-   Aplicação: ESM IND. AUTOMOTIVO — "CORES INTENSAS"
-   Produtos que usam: PRIMER ACAB ACE CORES INTENSAS,
-                      ESM IND/AGR ACE/FOS/BRIL CORES INTENSAS,
-                      ESM IND/AGR DF S/B CORES INTENSAS (ESPECIAL)
-   ═══════════════════════════════════════════════════════ */
-TABELAS_CORES['ESM_IND_AUTOM_CORES_INTENSAS'] = [
-  "AMARELO 5Y 8/12", "AMARELO CARTEPILAR 10YR 7/12", "AMARELO OURO 10YR 8/14",
-  "AMARELO PETROBRAS 2.5Y 8/12", "LARANJA 2.5Y 6/14", "LARANJA STARA",
-  "MARROM 2,5YR 2/4", "VERDE 2,5 3/4", "VERDE FOLHA", "VERDE JOHN DEERE",
-  "VERMELHO 5R 4/14", "VERMELHO CASE II", "VERMELHO MASSEY FERGUSON"
-];
-/* ═══════════════ FIM SUBBLOCO 13 ═══════════════ */
-
-/* ═══════════════════════════════════════════════════════
-   SUBBLOCO 14 — TABELA DE CORES 03
-   Aplicação: ESM D FERRUGEM BRIL (ESMALTE BASE SOLVENTE)
-   Acabamento: sempre BR (Brilhante) — não pergunta
-   ═══════════════════════════════════════════════════════ */
-TABELAS_CORES['ESM_D_FERRUGEM'] = [
-  "AMARELO 5Y 8/12", "AZUL DEL REY", "AZUL FRANÇA", "BRANCO GELO N9",
-  "BRANCO N9,5", "BRONZE (Metálico)", "CINZA CLARO N6,5 (Platina)",
-  "CINZA ESCURO N3,5", "CINZA MÉDIO N5", "MARROM 2,5YR 2/4",
-  "OURO (Metálico)", "OURO ANTIGO (Metálico)", "PRETO N1", "TABACO",
-  "VERDE FOLHA", "VERMELHO 5R 4/14"
-];
-/* ═══════════════ FIM SUBBLOCO 14 ═══════════════ */
-
-/* ═══════════════════════════════════════════════════════
-   SUBBLOCO 15 — TABELA DE CORES 04
-   Aplicação: ESM COBERTEX BRIL (ESMALTE BASE SOLVENTE)
-   ═══════════════════════════════════════════════════════ */
-TABELAS_CORES['ESM_COBERTEX_BRIL'] = [
-  "AMARELO OURO", "AREIA", "AZUL DEL REY", "AZUL FRANÇA", "BRANCO GELO",
-  "BRANCO NEVE", "CAMURÇA", "CINZA ESCURO", "CINZA MÉDIO", "COLORADO",
-  "LARANJA", "MARFIM", "MARROM", "MARROM CONHAQUE", "PLATINA", "PRETO",
-  "TABACO", "VERDE FOLHA", "VERMELHO", "VERMELHO GOYA"
-];
-/* ═══════════════ FIM SUBBLOCO 15 ═══════════════ */
-
-/* ═══════════════════════════════════════════════════════
-   SUBBLOCO 16 — TABELA DE CORES 05
-   Aplicação: ESMALTE BASE AGUA (ESMALTES)
-   Produtos: ESM B. AGUA SEC RAP ACE / FOS, ... BRIL, ... BRIL CORES (ESPECIAL)
-   ═══════════════════════════════════════════════════════ */
-TABELAS_CORES['ESM_BASE_AGUA'] = [
-  "AMARELO OURO", "AZUL DEL REY", "AZUL FRANÇA", "BRANCO GELO",
-  "BRANCO NEVE", "CINZA ESCURO", "CINZA MÉDIO", "MARROM", "PLATINA",
-  "PRETO", "TABACO", "VERDE FOLHA", "VERMELHO"
-];
-/* ═══════════════ FIM SUBBLOCO 16 ═══════════════ */
-
-/* ═══════════════════════════════════════════════════════
-   SUBBLOCO 17 — TABELA DE CORES 06
-   Aplicação: EPOXI E POLIURETANO
-   Produtos: EPOXI BASE AGUA BRIL, KIT PRIMER EPOXI UG/MF, KIT EPOXI UG/MASTIC,
-             KIT EPOXI ALCATRAO, KIT EPOXI PISO HS, KIT ESM PU
-   ═══════════════════════════════════════════════════════ */
-TABELAS_CORES['EPOXI_PU'] = [
-  "AMARELO 5Y 8/12", "AMARELO OURO 10YR 8/14", "AZUL 2,5 PB 4/10",
-  "BRANCO N9,5", "CINZA CLARO N6,5 (Platina)", "CINZA MÉDIO N5",
-  "LARANJA 2,5YR 6/14", "PRETO N1", "VERDE 10GY 6/6",
-  "VERMELHO 5R 4/14", "VERMELHO ÓXIDO"
-];
-/* ═══════════════ FIM SUBBLOCO 17 ═══════════════ */
-
-/* ═══════════════════════════════════════════════════════
-   SUBBLOCO 18 — TABELA DE CORES 07
-   Aplicação: KIT PU PISCINA
-   ═══════════════════════════════════════════════════════ */
-TABELAS_CORES['KIT_PU_PISCINA'] = [
-  "AZUL", "BRANCO"
-];
-/* ═══════════════ FIM SUBBLOCO 18 ═══════════════ */
-
-/* ═══════════════════════════════════════════════════════
-   SUBBLOCO 19 — TABELA DE CORES 08
-   Aplicação: LINHA MADEIRA
-   Produtos: SELADORA P/ MADEIRA, VERNIZ COPAL BRIL,
-             VERNIZ FILTRO SOLAR BRIL, MASSA P/ MADEIRA
-   ═══════════════════════════════════════════════════════ */
-TABELAS_CORES['LINHA_MADEIRA'] = [
-  "INCOLOR Copal", "INCOLOR Filtro Solar", "INCOLOR Marítimo",
-  "IMBUIA Filtro Solar", "MOGNO Filtro Solar", "NOGUEIRA Filtro Solar"
-];
-/* ═══════════════ FIM SUBBLOCO 19 ═══════════════ */
-
-
-
-/* ═══════════════════════════════════════════════════════
    SUBBLOCO 20 — TABELAS DE CORES (todas)
-   Estrutura:
-   - Cada produto com paleta aponta para o nome de uma tabela
-   - O modal busca a tabela em TABELAS_CORES
    ═══════════════════════════════════════════════════════ */
 
-/* ───────────────────────────────────────────
-   01 — ESM IND. AUTOMOTIVO / CORES
-   Produtos: PRIMER ACAB ACE CORES, ESM IND/AGR ACE/FOS/BRIL CORES,
-             ESM IND/AGR DF S/B CORES (ESPECIAL)
-   ─────────────────────────────────────────── */
+/* 01 — ESM IND. AUTOMOTIVO / CORES */
 TABELAS_CORES['ESM_IND_AUTOM_CORES'] = [
   "AREIA", "AZUL 2,5PB 4/10", "AZUL CELESTE", "AZUL DEL REY",
   "AZUL FRANÇA", "AZUL NEW HOLLAND", "CAMURÇA", "CINZA CHASSI SCANIA",
@@ -401,9 +303,7 @@ TABELAS_CORES['ESM_IND_AUTOM_CORES'] = [
   "MARROM CONHAQUE 7,5YR", "TABACO", "VERDE 10GY 6/6", "VERDE MÁQUINAS"
 ];
 
-/* ───────────────────────────────────────────
-   02 — ESM IND. AUTOMOTIVO / CORES INTENSAS
-   ─────────────────────────────────────────── */
+/* 02 — ESM IND. AUTOMOTIVO / CORES INTENSAS */
 TABELAS_CORES['ESM_IND_AUTOM_CORES_INTENSAS'] = [
   "AMARELO 5Y 8/12", "AMARELO CARTEPILAR 10YR 7/12", "AMARELO OURO 10YR 8/14",
   "AMARELO PETROBRAS 2.5Y 8/12", "LARANJA 2.5Y 6/14", "LARANJA STARA",
@@ -411,9 +311,7 @@ TABELAS_CORES['ESM_IND_AUTOM_CORES_INTENSAS'] = [
   "VERMELHO 5R 4/14", "VERMELHO CASE II", "VERMELHO MASSEY FERGUSON"
 ];
 
-/* ───────────────────────────────────────────
-   03 — ESM D FERRUGEM BRIL
-   ─────────────────────────────────────────── */
+/* 03 — ESM D FERRUGEM BRIL */
 TABELAS_CORES['ESM_D_FERRUGEM'] = [
   "AMARELO 5Y 8/12", "AZUL DEL REY", "AZUL FRANÇA", "BRANCO GELO N9",
   "BRANCO N9,5", "BRONZE (Metálico)", "CINZA CLARO N6,5 (Platina)",
@@ -422,9 +320,7 @@ TABELAS_CORES['ESM_D_FERRUGEM'] = [
   "VERDE FOLHA", "VERMELHO 5R 4/14"
 ];
 
-/* ───────────────────────────────────────────
-   04 — ESM COBERTEX BRIL
-   ─────────────────────────────────────────── */
+/* 04 — ESM COBERTEX BRIL */
 TABELAS_CORES['ESM_COBERTEX_BRIL'] = [
   "AMARELO OURO", "AREIA", "AZUL DEL REY", "AZUL FRANÇA", "BRANCO GELO",
   "BRANCO NEVE", "CAMURÇA", "CINZA ESCURO", "CINZA MÉDIO", "COLORADO",
@@ -432,18 +328,14 @@ TABELAS_CORES['ESM_COBERTEX_BRIL'] = [
   "TABACO", "VERDE FOLHA", "VERMELHO", "VERMELHO GOYA"
 ];
 
-/* ───────────────────────────────────────────
-   05 — ESMALTE BASE AGUA
-   ─────────────────────────────────────────── */
+/* 05 — ESMALTE BASE AGUA */
 TABELAS_CORES['ESM_BASE_AGUA'] = [
   "AMARELO OURO", "AZUL DEL REY", "AZUL FRANÇA", "BRANCO GELO",
   "BRANCO NEVE", "CINZA ESCURO", "CINZA MÉDIO", "MARROM", "PLATINA",
   "PRETO", "TABACO", "VERDE FOLHA", "VERMELHO"
 ];
 
-/* ───────────────────────────────────────────
-   06 — EPOXI E POLIURETANO
-   ─────────────────────────────────────────── */
+/* 06 — EPOXI E POLIURETANO */
 TABELAS_CORES['EPOXI_PU'] = [
   "AMARELO 5Y 8/12", "AMARELO OURO 10YR 8/14", "AZUL 2,5 PB 4/10",
   "BRANCO N9,5", "CINZA CLARO N6,5 (Platina)", "CINZA MÉDIO N5",
@@ -451,38 +343,24 @@ TABELAS_CORES['EPOXI_PU'] = [
   "VERMELHO 5R 4/14", "VERMELHO ÓXIDO"
 ];
 
-/* ───────────────────────────────────────────
-   07 — KIT PU PISCINA
-   ─────────────────────────────────────────── */
-TABELAS_CORES['KIT_PU_PISCINA'] = [
-  "AZUL", "BRANCO"
-];
+/* 07 — KIT PU PISCINA */
+TABELAS_CORES['KIT_PU_PISCINA'] = ["AZUL", "BRANCO"];
 
-/* ───────────────────────────────────────────
-   08 — LINHA MADEIRA
-   ─────────────────────────────────────────── */
+/* 08 — LINHA MADEIRA */
 TABELAS_CORES['LINHA_MADEIRA'] = [
   "INCOLOR Copal", "INCOLOR Filtro Solar", "INCOLOR Marítimo",
   "IMBUIA Filtro Solar", "MOGNO Filtro Solar", "NOGUEIRA Filtro Solar"
 ];
 
-/* ───────────────────────────────────────────
-   09 — DEMARCAÇÃO VIÁRIA
-   ─────────────────────────────────────────── */
-TABELAS_CORES['DEMARCACAO_VIARIA'] = [
-  "AMARELO DEMARCAÇÃO", "BRANCO", "VERMELHO"
-];
+/* 09 — DEMARCAÇÃO VIÁRIA */
+TABELAS_CORES['DEMARCACAO_VIARIA'] = ["AMARELO DEMARCAÇÃO", "BRANCO", "VERMELHO"];
 
-/* ───────────────────────────────────────────
-   10 — ACRILICA / ELASTOMERICO (MAXFLEX, PINTURA EMBO, VEDAMAX)
-   ─────────────────────────────────────────── */
+/* 10 — ACRILICA / ELASTOMERICO */
 TABELAS_CORES['ELASTOMERICO'] = [
   "BRANCO GELO", "BRANCO NEVE", "CRÔMIO", "NEVOEIRO", "NÉVOA DA MANHÃ", "PRATA"
 ];
 
-/* ───────────────────────────────────────────
-   11 — ACRILICA / PREMIUM
-   ─────────────────────────────────────────── */
+/* 11 — ACRILICA / PREMIUM */
 TABELAS_CORES['ACRILICA_PREMIUM'] = [
   "ALGODÃO EGÍPCIO", "AREIA", "BRANCO GELO", "BRANCO NEVE", "CAMURÇA",
   "CINZA NÉVOA", "CONCRETO", "CRÔMIO", "ERVA DOCE", "FOLHAGEM",
@@ -491,9 +369,7 @@ TABELAS_CORES['ACRILICA_PREMIUM'] = [
   "SONHO DISTANTE", "TRILHA DE PEDRA"
 ];
 
-/* ───────────────────────────────────────────
-   12 — ACRILICA / STANDARD (COBERTEX)
-   ─────────────────────────────────────────── */
+/* 12 — ACRILICA / STANDARD (COBERTEX) */
 TABELAS_CORES['ACRILICA_STANDARD_COBERTEX'] = [
   "ALGODÃO EGÍPCIO", "AMANHECER", "AREIA", "ARARA AZUL", "BRANCO GELO",
   "BRANCO NEVE", "CAMURÇA", "CERRADO", "CONCRETO", "CRÔMIO",
@@ -502,37 +378,24 @@ TABELAS_CORES['ACRILICA_STANDARD_COBERTEX'] = [
   "PEQUI", "PRATA", "TOQUE DE KIWI", "VERMELHO CARDEAL"
 ];
 
-/* ───────────────────────────────────────────
-   13 — ACRILICA / STANDARD (RENDE MAIS)
-   ─────────────────────────────────────────── */
+/* 13 — ACRILICA / STANDARD (RENDE MAIS) */
 TABELAS_CORES['ACRILICA_STANDARD_RENDE_MAIS'] = [
   "AREIA", "BRANCO GELO", "BRANCO NEVE", "CAMURÇA", "CRÔMIO",
   "NEVOEIRO", "NÉVOA DA MANHÃ", "PAPEL PICADO", "PRATA"
 ];
 
-/* ───────────────────────────────────────────
-   14 — ACRILICA / ECONÔMICO (PINTAMAX / ESSENCIAL)
-   ─────────────────────────────────────────── */
+/* 14 — ACRILICA / ECONÔMICO */
 TABELAS_CORES['ACRILICA_ECONOMICO'] = [
   "AMARELO FESTIVAL", "AREIA", "AZUL REI", "BATIDA DE UVA", "BOLO DE CENOURA",
   "BRANCO GELO", "BRANCO NEVE", "CÉU DE BRIGADEIRO", "CERRADO", "MARFIM",
   "NEVOEIRO", "PALHA", "PERIQUITO", "TERRA VERMELHA", "VERDE NOSTALGIA"
 ];
 
-/* ───────────────────────────────────────────
-   15 — ACRILICA / ECONÔMICO (GESSO/ALVENARIA)
-   (não usada no momento — produto vai direto, mas mantida como referência)
-   ─────────────────────────────────────────── */
-TABELAS_CORES['ACRILICA_ECONOMICO_GESSO'] = [
-  "BRANCO NEVE"
-];
+/* 15 — ACRILICA / ECONÔMICO GESSO (referência) */
+TABELAS_CORES['ACRILICA_ECONOMICO_GESSO'] = ["BRANCO NEVE"];
 
-/* ───────────────────────────────────────────
-   CC / CM / CE — TINTOMETRIA (usadas por produtos com sufixo)
-   ─────────────────────────────────────────── */
-TABELAS_CORES['TINTOMETRIA_CC'] = [
-  "BRANCO"
-];
+/* CC / CM / CE — TINTOMETRIA */
+TABELAS_CORES['TINTOMETRIA_CC'] = ["BRANCO"];
 
 TABELAS_CORES['TINTOMETRIA_CM'] = [
   "AREIA", "AZUL 2,5PB 4/10", "AZUL CELESTE", "AZUL DEL REY",
@@ -549,18 +412,10 @@ TABELAS_CORES['TINTOMETRIA_CE'] = [
   "VERMELHO MASSEY FERGUSON"
 ];
 
-/* ───────────────────────────────────────────
-   SEM_PALETA — produtos que abrem modal mas só têm SEM COR + OUTRA
-   (BASE CLEAR, ARRANHADO MG)
-   ─────────────────────────────────────────── */
+/* SEM_PALETA — abre modal mas só com SEM COR + OUTRA */
 TABELAS_CORES['SEM_PALETA'] = [];
-
 /* ═══════════════ FIM SUBBLOCO 20 ═══════════════ */
-     
-/* ═══════════════════════════════════════════════════════
-   Continua no Bloco C (JavaScript — lógica)
-   ═══════════════════════════════════════════════════════ */
- 
+
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 21 — UTILITÁRIOS E STORAGE
    ═══════════════════════════════════════════════════════ */
@@ -614,12 +469,6 @@ async function carregarPlanilha() {
 
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 23 — PARSER DA PLANILHA (L, SL, P, D)
-   Regras:
-   - 'L'  = Linha (família)      → nova linha, zera sub-linha
-   - 'SL' = Sub-linha             → nova sub-linha
-   - 'P'  = Produto               → adiciona ao catálogo
-   - 'D'  = Desconsidere          → pula linha
-   - vazio = cabeçalhos/linhas em branco → pula
    Colunas: A=TIPO, B=QTD, C=DESCRIÇÃO, D=EMBALAGEM, E=PESO/LITRO, F=VALOR TABELA
    ═══════════════════════════════════════════════════════ */
 function processarLinhas(linhas) {
@@ -675,99 +524,74 @@ function processarLinhas(linhas) {
   }
 }
 
-/* Identifica qual tabela de cores usar para um produto (ou null se não escolhe cor) */
 function identificarTabelaCor(linha, subLinha, descricao) {
   const norm = normalizar(descricao + ' ' + subLinha + ' ' + linha);
 
-  // ═══════════════════════════════════════════════════
-  // 1) EXCEÇÕES GLOBAIS — cor fixa, NUNCA abrem modal
-  // ═══════════════════════════════════════════════════
+  // 1) EXCEÇÕES GLOBAIS — cor fixa
   if (norm.includes('FERRUGEM METALICO')) return null;
   if (norm.includes('COBERTEX BRIL ALUMINIO')) return null;
   if (norm.includes('EPOXI BASE AGUA BRIL BRANCO')) return null;
   if (norm.includes('ACR GESSO/ALVEN')) return null;
 
-  // ═══════════════════════════════════════════════════
-  // 2) SUFIXO CC / CM / CE (TINTOMETRIA) — combinam entre si
-  // ═══════════════════════════════════════════════════
-  // Detecta CC, CM, CE como palavras isoladas no nome
+  // 2) SUFIXO CC / CM / CE (TINTOMETRIA) — combinam
   const temCC = /\bCC\b/.test(norm);
   const temCM = /\bCM\b/.test(norm);
   const temCE = /\bCE\b/.test(norm);
-
   if (temCC || temCM || temCE) {
     const sufixos = [];
     if (temCC) sufixos.push('CC');
     if (temCM) sufixos.push('CM');
     if (temCE) sufixos.push('CE');
-    return 'TINTOMETRIA_' + sufixos.join(',');  // Ex: 'TINTOMETRIA_CC', 'TINTOMETRIA_CC,CM', 'TINTOMETRIA_CC,CM,CE'
+    return 'TINTOMETRIA_' + sufixos.join(',');
   }
 
-  // ═══════════════════════════════════════════════════
-  // 3) PRODUTOS SEM PALETA — abrem modal com só SEM COR + OUTRA
-  // ═══════════════════════════════════════════════════
+  // 3) PRODUTOS SEM PALETA
   if (norm.includes('BASE CLEAR')) return 'SEM_PALETA';
   if (norm.includes('ARRANHADO MG')) return 'SEM_PALETA';
 
-  // ═══════════════════════════════════════════════════
   // 4) LINHA ESMALTES
-  // ═══════════════════════════════════════════════════
   if (norm.includes('CORES INTENSAS')) return 'ESM_IND_AUTOM_CORES_INTENSAS';
-
   if (norm.includes('ACE/FOS/BRIL CORES') || norm.includes('ACAB ACE CORES') || norm.includes('DF S/B CORES')) {
     return 'ESM_IND_AUTOM_CORES';
   }
-
   if (norm.includes('FERRUGEM BRIL')) return 'ESM_D_FERRUGEM';
   if (norm.includes('ESM COBERTEX BRIL')) return 'ESM_COBERTEX_BRIL';
-
   if (norm.includes('ESM B. AGUA SEC RAP') && !norm.includes('BRANCO NEVE')) return 'ESM_BASE_AGUA';
-
   if (norm.includes('EPOXI') || norm.includes('KIT ESM PU')) return 'EPOXI_PU';
   if (norm.includes('PISCINA')) return 'KIT_PU_PISCINA';
-
   if (norm.includes('VERNIZ COPAL') || norm.includes('VERNIZ FILTRO') ||
       norm.includes('SELADORA P/ MADEIRA') || norm.includes('MASSA P/ MADEIRA')) {
     return 'LINHA_MADEIRA';
   }
-
   if (norm.includes('MAX TRAFEGO')) return 'DEMARCACAO_VIARIA';
 
-  // ═══════════════════════════════════════════════════
   // 5) LINHA ACRILICA
-  // ═══════════════════════════════════════════════════
-  // ELASTOMERICO — só MAXFLEX, PINTURA EMBO, VEDAMAX (NÃO os BT)
   if (norm.includes('ELASTOMERICO') && (norm.includes('MAXFLEX') || norm.includes('PINTURA EMBO') || norm.includes('VEDAMAX'))) {
     return 'ELASTOMERICO';
   }
-
   if (norm.includes('PREMIUM') && (norm.includes('ACR PREMIUM') || norm.includes('LUZ E BRI'))) {
     return 'ACRILICA_PREMIUM';
   }
-
   if (norm.includes('ACR COBERTEX FOS') || norm.includes('ACR COBERTEX S/B')) {
     return 'ACRILICA_STANDARD_COBERTEX';
   }
+  if (norm.includes('ACR RENDE MAIS')) return 'ACRILICA_STANDARD_RENDE_MAIS';
+  if (norm.includes('ACR PINTAMAX') || norm.includes('ACR ESSENCIAL')) return 'ACRILICA_ECONOMICO';
 
-  if (norm.includes('ACR RENDE MAIS')) {
-    return 'ACRILICA_STANDARD_RENDE_MAIS';
-  }
-
-  if (norm.includes('ACR PINTAMAX') || norm.includes('ACR ESSENCIAL')) {
-    return 'ACRILICA_ECONOMICO';
-  }
-
-  return null; // não escolhe cor
+  return null;
 }
 
-/* Identifica os acabamentos possíveis a partir do nome do produto */
 function identificarAcabamentos(descricao) {
   const norm = normalizar(descricao);
   if (norm.includes('ACE/FOS/BRIL')) return ['ACETINADO', 'FOSCO', 'BRILHANTE'];
   if (norm.includes('ACE / FOS') || norm.includes('ACE/FOS')) return ['ACETINADO', 'FOSCO'];
-  return []; // sem escolha de acabamento
+  return [];
 }
 /* ═══════════════ FIM SUBBLOCO 23 ═══════════════ */
+
+/* ═══════════════════════════════════════════════════════
+   Continua na PARTE 3 (JS — Catálogo, Modal, Carrinho, etc.)
+   ═══════════════════════════════════════════════════════ */
      
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 24 — FILTROS (LINHA E SUB-LINHA)
@@ -819,7 +643,7 @@ function renderizarFiltros() {
 /* ═══════════════ FIM SUBBLOCO 24 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 25 — CATÁLOGO (RENDER + BUSCA + ADD)
+   SUBBLOCO 25 — CATÁLOGO (RENDER + BUSCA + ADD + DESCONTOS)
    ═══════════════════════════════════════════════════════ */
 function renderizarCatalogo() {
   renderizarFiltros();
@@ -846,12 +670,15 @@ function renderizarCatalogo() {
     const div = document.createElement('div');
     div.className = 'produto';
     const qtdNoCarrinho = calcularQtdNoCarrinho(p.id);
+    const linhaDescontos = gerarLinhaDescontos(p.valorTabela);
+
     div.innerHTML =
       '<div class="produto-info">' +
         '<div class="desc">' + p.descricao + '</div>' +
         '<div class="meta">' + (p.embalagem ? p.embalagem + ' • ' : '') + (p.peso || '') +
           ' <span class="badge cat">' + p.subLinha + '</span></div>' +
         '<div class="preco">' + fmtMoeda(p.valorTabela) + '</div>' +
+        '<div class="precos-desconto">' + linhaDescontos + '</div>' +
       '</div>' +
       '<div class="produto-add">' +
         '<input type="number" min="1" value="' + (qtdNoCarrinho > 0 ? qtdNoCarrinho : 1) + '" id="qtd-' + p.id + '">' +
@@ -868,42 +695,49 @@ function renderizarCatalogo() {
   }
 }
 
+function gerarLinhaDescontos(valorTabela) {
+  const descontos = [5, 10, 15, 20, 25];
+  const partes = descontos.map(d => {
+    const v = valorTabela * (1 - d / 100);
+    return '<span>-' + d + '% ' + fmtMoeda(v).replace('R$ ', '').trim() + '</span>';
+  });
+  return partes.join(' ');
+}
+
 function calcularQtdNoCarrinho(produtoId) {
   return CARRINHO.filter(i => i.produtoId === produtoId).reduce((s, i) => s + i.qtd, 0);
 }
 
-/* Chamado quando clica em "+ Add" no catálogo */
 function clicouAdd(produtoId) {
   const p = PRODUTOS.find(x => x.id === produtoId);
   if (!p) return;
 
-  // Produto SEM escolha de cor → adiciona direto
   if (!p.tabelaCor) {
     const inputQtd = document.getElementById('qtd-' + produtoId);
     const qtd = parseInt(inputQtd.value) || 1;
-    adicionarAoCarrinho(p, qtd, null, '');
+    adicionarAoCarrinho(p, qtd, null, '', 0);
     return;
   }
 
-  // Produto COM escolha de cor → abre modal
   abrirModalCor(p);
 }
 /* ═══════════════ FIM SUBBLOCO 25 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 26 — MODAL DE COR E ACABAMENTO
+   SUBBLOCO 26 — MODAL DE COR, ACABAMENTO E DESCONTO
    ═══════════════════════════════════════════════════════ */
 function abrirModalCor(produto) {
   MC_PRODUTO = produto;
   MC_ACAB_SELECIONADO = '';
+  MC_DESCONTO = 0;
 
   document.getElementById('mc-titulo').textContent = produto.descricao;
   document.getElementById('mc-sub').textContent = (produto.embalagem || '') + (produto.peso ? ' • ' + produto.peso : '') + ' — ' + fmtMoeda(produto.valorTabela);
 
-  // Preenche dropdown de cores
+  // Dropdown de cores
   const sel = document.getElementById('mc-cor');
   sel.innerHTML = '';
-  const cores = TABELAS_CORES[produto.tabelaCor] || [];
+  const cores = obterCoresDoProduto(produto);
   const coresOrdenadas = [...cores].sort((a, b) => a.localeCompare(b, 'pt-BR'));
 
   coresOrdenadas.forEach(c => {
@@ -921,7 +755,6 @@ function abrirModalCor(produto) {
   optOutra.textContent = '— OUTRA (digitar) —';
   sel.appendChild(optOutra);
 
-  // Configura reação ao mudar cor
   sel.onchange = () => {
     if (sel.value === '__OUTRA__') {
       const custom = prompt('Digite a cor desejada:');
@@ -960,17 +793,65 @@ function abrirModalCor(produto) {
     MC_ACAB_SELECIONADO = '';
   }
 
-  // Quantidade
+  // Descontos
+  const boxDesc = document.getElementById('mc-desc');
+  boxDesc.innerHTML = '';
+  const opcoesDesc = [
+    { label: 'sem', valor: 0 },
+    { label: '5%', valor: 5 },
+    { label: '10%', valor: 10 },
+    { label: '15%', valor: 15 },
+    { label: '20%', valor: 20 },
+    { label: '25%', valor: 25 }
+  ];
+  opcoesDesc.forEach(op => {
+    const btn = document.createElement('button');
+    btn.textContent = op.label;
+    btn.className = op.valor === 0 ? 'ativo' : '';
+    btn.onclick = () => {
+      MC_DESCONTO = op.valor;
+      boxDesc.querySelectorAll('button').forEach(b => b.classList.remove('ativo'));
+      btn.classList.add('ativo');
+      atualizarPrecoFinalModal();
+    };
+    boxDesc.appendChild(btn);
+  });
+
   const qtdNoCarrinho = calcularQtdNoCarrinho(produto.id);
   document.getElementById('mc-qtd').value = qtdNoCarrinho > 0 ? qtdNoCarrinho : 1;
 
+  atualizarPrecoFinalModal();
   document.getElementById('modal-cor').classList.add('aberto');
+}
+
+function obterCoresDoProduto(produto) {
+  const chave = produto.tabelaCor;
+  if (!chave) return [];
+
+  if (chave.includes(',')) {
+    let cores = [];
+    chave.split(',').forEach(parte => {
+      const nomeTabela = parte.trim();
+      const tabela = TABELAS_CORES['TINTOMETRIA_' + nomeTabela];
+      if (tabela) cores = cores.concat(tabela);
+    });
+    return [...new Set(cores)];
+  }
+
+  return TABELAS_CORES[chave] || [];
+}
+
+function atualizarPrecoFinalModal() {
+  if (!MC_PRODUTO) return;
+  const preco = MC_PRODUTO.valorTabela * (1 - MC_DESCONTO / 100);
+  document.getElementById('mc-preco-final').textContent = fmtMoeda(preco);
 }
 
 function fecharModalCor() {
   document.getElementById('modal-cor').classList.remove('aberto');
   MC_PRODUTO = null;
   MC_ACAB_SELECIONADO = '';
+  MC_DESCONTO = 0;
 }
 
 function mcMudarQtd(delta) {
@@ -985,7 +866,7 @@ function confirmarModalCor() {
   if (!MC_PRODUTO) return;
   const cor = document.getElementById('mc-cor').value;
   const qtd = parseInt(document.getElementById('mc-qtd').value) || 1;
-  adicionarAoCarrinho(MC_PRODUTO, qtd, cor, MC_ACAB_SELECIONADO);
+  adicionarAoCarrinho(MC_PRODUTO, qtd, cor, MC_ACAB_SELECIONADO, MC_DESCONTO);
   fecharModalCor();
 }
 /* ═══════════════ FIM SUBBLOCO 26 ═══════════════ */
@@ -993,13 +874,14 @@ function confirmarModalCor() {
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 27 — CARRINHO
    ═══════════════════════════════════════════════════════ */
-function adicionarAoCarrinho(produto, qtd, cor, acabamento) {
-  // Chave de agrupamento: mesmo produto + mesma cor + mesmo acabamento = soma
+function adicionarAoCarrinho(produto, qtd, cor, acabamento, descontoInicial) {
+  const descIni = parseFloat(descontoInicial) || 0;
   const chave = produto.id + '|' + (cor || '') + '|' + (acabamento || '');
   const existente = CARRINHO.find(x => (x.produtoId + '|' + (x.cor || '') + '|' + (x.acabamento || '')) === chave);
 
   if (existente) {
     existente.qtd += qtd;
+    if (descIni > 0) existente.descItem = descIni;
   } else {
     CARRINHO.push({
       produtoId: produto.id,
@@ -1012,15 +894,14 @@ function adicionarAoCarrinho(produto, qtd, cor, acabamento) {
       cor: cor || '',
       acabamento: acabamento || '',
       qtd: qtd,
-      descItem: 0
+      descItem: descIni
     });
   }
   salvarLocal();
   atualizarBadge();
   renderizarPedido();
-  renderizarCatalogo(); // pra atualizar o campo de QTD no catálogo
+  renderizarCatalogo();
 
-  // Feedback visual
   const inputQtd = document.getElementById('qtd-' + produto.id);
   if (inputQtd) {
     const btn = inputQtd.nextElementSibling;
@@ -1250,8 +1131,8 @@ function salvarPedido() {
     lojaId: lojaId, lojaNome: loja ? loja.nome : '',
     lojaProvisoria: loja ? !!loja.provisoria : false,
     itens: JSON.parse(JSON.stringify(CARRINHO)),
-    descontoGlobal: r.d
-   .descontoValor, descontoPercent: r.percentualEfetivo, total: r.totalFinal
+    descontoGlobal: r.descGlobal, subtotal: r.subtotal,
+    descontoValor: r.valorDesconto, descontoPercent: r.percentualEfetivo, total: r.totalFinal
   };
   PEDIDOS.unshift(pedido);
   salvarLocal();
@@ -1298,7 +1179,7 @@ function excluirPedido(id) {
 /* ═══════════════ FIM SUBBLOCO 30 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 31 — NAVEGAÇÃO + STATUS
+   SUBBLOCO 31 — NAVEGAÇÃO E STATUS
    ═══════════════════════════════════════════════════════ */
 function trocarTela(nome) {
   document.querySelectorAll('.tela').forEach(t => t.classList.remove('ativa'));
@@ -1504,45 +1385,34 @@ function exportarPDF() {
 /* ═══════════════ FIM SUBBLOCO 33 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   Continua no Bloco D (finalização)
-   ═══════════════════════════════════════════════════════ */
- 
-/* ═══════════════════════════════════════════════════════
-   SUBBLOCO 34 — INICIALIZAÇÃO DO APP
+   SUBBLOCO 34 — INICIALIZAÇÃO
    ═══════════════════════════════════════════════════════ */
 function inicializar() {
   carregarLocal();
   atualizarBadge();
   atualizarSelectLojas();
 
-  // Navegação inferior
   document.querySelectorAll('nav.bottom button').forEach(btn => {
     btn.addEventListener('click', () => trocarTela(btn.dataset.tela));
   });
 
-  // Busca no catálogo
   document.getElementById('busca').addEventListener('input', renderizarCatalogo);
 
-  // Desconto global
   document.getElementById('desc-global').addEventListener('input', () => {
     renderizarPedido();
     salvarLocal();
   });
 
-  // Importar backup
   document.getElementById('input-backup').addEventListener('change', importarBackup);
 
-  // Fechar modal de loja clicando fora
   document.getElementById('modal-loja').addEventListener('click', (e) => {
     if (e.target.id === 'modal-loja') fecharModalLoja();
   });
 
-  // Fechar modal de cor clicando fora
   document.getElementById('modal-cor').addEventListener('click', (e) => {
     if (e.target.id === 'modal-cor') fecharModalCor();
   });
 
-  // Fechar modais com tecla ESC
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       fecharModalLoja();
@@ -1550,21 +1420,15 @@ function inicializar() {
     }
   });
 
-  // Carrega a planilha
   carregarPlanilha();
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
 /* ═══════════════ FIM SUBBLOCO 34 ═══════════════ */
-
-/* ═══════════════════════════════════════════════════════
-   SUBBLOCO 35 — FIM DO JAVASCRIPT
-   ═══════════════════════════════════════════════════════ */
 </script>
-<!-- ═══════════════ FIM SUBBLOCO 35 ═══════════════ -->
 
 </body>
 </html>
 <!-- ═══════════════════════════════════════════════════════
-   SUBBLOCO 36 — FIM DO ARQUIVO
-   ═══════════════════════════════════════════════════════ -->
+     FIM DO ARQUIVO (subbloco 36 — fechamento)
+     ═══════════════════════════════════════════════════════ -->
