@@ -50,19 +50,19 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 04 — CSS: PRODUTOS, PEDIDO, FILTROS, DESCONTOS
    ═══════════════════════════════════════════════════════ */
-.produto { padding: 12px; border-bottom: 1px solid #f0f0f2; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.produto { padding: 10px 12px; border-bottom: 1px solid #f0f0f2; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 .produto:last-child { border-bottom: none; }
 .produto-info { flex: 1; min-width: 0; }
 .produto-info .desc { font-weight: 600; font-size: 14px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
-.produto-info .meta { font-size: 12px; color: #666; margin-top: 4px; }
-.produto-info .preco { font-size: 15px; color: #0071e3; font-weight: 700; margin-top: 4px; }
+.produto-info .meta { font-size: 12px; color: #666; margin-top: 2px; }
+.produto-info .preco { font-size: 15px; color: #0071e3; font-weight: 700; margin-top: 2px; }
 
-/* ─── Chips de desconto (feature nova) ─── */
+/* ─── Chips de desconto (feature nova v2) ─── */
 .precos-desconto {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
-  margin-top: 6px;
+  gap: 3px;
+  margin-top: 4px;
 }
 .precos-desconto span {
   font-size: 10px;
@@ -72,11 +72,9 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
   padding: 2px 6px;
   background: #f7fafe;
   line-height: 1.3;
-  width: 62px;
+  min-width: 74px;
   text-align: center;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .produto-add { display: flex; gap: 6px; align-items: center; }
