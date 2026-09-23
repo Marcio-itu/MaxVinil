@@ -379,20 +379,48 @@ TABELAS_CORES['LINHA_MADEIRA'] = [
 ];
 /* ═══════════════ FIM SUBBLOCO 19 ═══════════════ */
 
+
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 20 — TABELA DE CORES 09 e 10
-   Aplicação 09: DEMARCAÇÃO VIARIA (MAX TRAFEGO BASE SOLV CORES)
-   Aplicação 10: ACRILICA / ELASTOMERICO (MAXFLEX, PINTURA EMBO, VEDAMAX)
+   SUBBLOCO 20-A — TABELAS DE CORES 11 a 15 (LINHA ACRILICA)
    ═══════════════════════════════════════════════════════ */
-TABELAS_CORES['DEMARCACAO_VIARIA'] = [
-  "AMARELO DEMARCAÇÃO", "BRANCO", "VERMELHO"
+// 11 — ACRILICA / PREMIUM
+TABELAS_CORES['ACRILICA_PREMIUM'] = [
+  "ALGODÃO EGÍPCIO", "AREIA", "BRANCO GELO", "BRANCO NEVE", "CAMURÇA",
+  "CINZA NÉVOA", "CONCRETO", "CRÔMIO", "ERVA DOCE", "FOLHAGEM",
+  "HAVANA AMOR", "MARFIM", "NEVOEIRO", "NÉVOA DA MANHÃ", "NOITE IMPONENTE",
+  "OVELHA", "PALHA", "PAPEL PICADO", "POMAR VERDE", "PRATA",
+  "SONHO DISTANTE", "TRILHA DE PEDRA"
 ];
 
-TABELAS_CORES['ELASTOMERICO'] = [
-  "BRANCO GELO", "BRANCO NEVE", "CRÔMIO", "NEVOEIRO", "NÉVOA DA MANHÃ", "PRATA"
+// 12 — ACRILICA / STANDARD (COBERTEX)
+TABELAS_CORES['ACRILICA_STANDARD_COBERTEX'] = [
+  "ALGODÃO EGÍPCIO", "AMANHECER", "AREIA", "ARARA AZUL", "BRANCO GELO",
+  "BRANCO NEVE", "CAMURÇA", "CERRADO", "CONCRETO", "CRÔMIO",
+  "DELÍCIA DE MILHO", "ERVA DOCE", "MARFIM", "NEVOEIRO", "NÉVOA DA MANHÃ",
+  "ORQUÍDEA", "OVELHA", "PALHA", "PAPEL PICADO", "PASSEIO NO PARQUE",
+  "PEQUI", "PRATA", "TOQUE DE KIWI", "VERMELHO CARDEAL"
 ];
-/* ═══════════════ FIM SUBBLOCO 20 ═══════════════ */
 
+// 13 — ACRILICA / STANDARD (RENDE MAIS)
+TABELAS_CORES['ACRILICA_STANDARD_RENDE_MAIS'] = [
+  "AREIA", "BRANCO GELO", "BRANCO NEVE", "CAMURÇA", "CRÔMIO",
+  "NEVOEIRO", "NÉVOA DA MANHÃ", "PAPEL PICADO", "PRATA"
+];
+
+// 14 — ACRILICA / ECONÔMICO (PINTAMAX / ESSENCIAL)
+TABELAS_CORES['ACRILICA_ECONOMICO'] = [
+  "AMARELO FESTIVAL", "AREIA", "AZUL REI", "BATIDA DE UVA", "BOLO DE CENOURA",
+  "BRANCO GELO", "BRANCO NEVE", "CÉU DE BRIGADEIRO", "CERRADO", "MARFIM",
+  "NEVOEIRO", "PALHA", "PERIQUITO", "TERRA VERMELHA", "VERDE NOSTALGIA"
+];
+
+// 15 — ACRILICA / ECONÔMICO (GESSO/ALVENARIA)
+// Esta tabela existe, mas o produto ACR GESSO/ALVEN FOSCO adiciona direto
+// (não abre modal), conforme definido. Mantida aqui para referência futura.
+TABELAS_CORES['ACRILICA_ECONOMICO_GESSO'] = [
+  "BRANCO NEVE"
+];
+/* ═══════════════ FIM SUBBLOCO 20-A ═══════════════ */
 /* ═══════════════════════════════════════════════════════
    Continua no Bloco C (JavaScript — lógica)
    ═══════════════════════════════════════════════════════ */
@@ -511,29 +539,42 @@ function processarLinhas(linhas) {
   }
 }
 
-/* Identifica qual tabela de cores usar para um produto (ou null se não tem escolha de cor) */
+/* Identifica qual tabela de cores usar para um produto (ou null se não escolhe cor) */
 function identificarTabelaCor(linha, subLinha, descricao) {
   const norm = normalizar(descricao + ' ' + subLinha + ' ' + linha);
 
-  // ESMALTE IND. AUTOMOTIVO — CORES INTENSAS (checar ANTES de "CORES" simples)
+  // ═══════════════════════════════════════════════════
+  // EXCEÇÕES — produtos que NÃO abrem modal mesmo contendo termos similares
+  // ═══════════════════════════════════════════════════
+  // ACR GESSO/ALVEN FOSCO → adiciona direto (cor fixa)
+  if (norm.includes('ACR GESSO/ALVEN')) return null;
+  // ESM D FERRUGEM METALICO → adiciona direto (cor fixa)
+  if (norm.includes('FERRUGEM METALICO')) return null;
+  // ESM COBERTEX BRIL ALUMINIO → adiciona direto (cor fixa)
+  if (norm.includes('COBERTEX BRIL ALUMINIO')) return null;
+
+  // ═══════════════════════════════════════════════════
+  // LINHA ESMALTES
+  // ═══════════════════════════════════════════════════
+  // ESM IND. AUTOMOTIVO — CORES INTENSAS (checar ANTES de CORES simples)
   if (norm.includes('CORES INTENSAS')) return 'ESM_IND_AUTOM_CORES_INTENSAS';
 
-  // ESMALTE IND. AUTOMOTIVO — CORES
+  // ESM IND. AUTOMOTIVO — CORES
   if (norm.includes('ACE/FOS/BRIL CORES') || norm.includes('ACAB ACE CORES') || norm.includes('DF S/B CORES')) {
     if (norm.includes('INTENSAS')) return 'ESM_IND_AUTOM_CORES_INTENSAS';
     return 'ESM_IND_AUTOM_CORES';
   }
 
-  // ESM D FERRUGEM BRIL
+  // ESM D FERRUGEM BRIL (só o BRIL, o METALICO já foi tratado acima)
   if (norm.includes('FERRUGEM BRIL')) return 'ESM_D_FERRUGEM';
 
-  // ESM COBERTEX BRIL (mas não confundir com ACR COBERTEX)
+  // ESM COBERTEX BRIL (mas o ALUMINIO já foi tratado acima)
   if (norm.includes('ESM COBERTEX BRIL')) return 'ESM_COBERTEX_BRIL';
 
-  // ESMALTE BASE AGUA — só os que têm escolha de cor
+  // ESMALTE BASE AGUA — só os que escolhem cor (BRANCO NEVE tem cor fixa)
   if (norm.includes('ESM B. AGUA SEC RAP') && !norm.includes('BRANCO NEVE')) return 'ESM_BASE_AGUA';
 
-  // EPOXI E POLIURETANO (kits)
+  // EPOXI E POLIURETANO
   if (norm.includes('EPOXI') || norm.includes('KIT ESM PU')) return 'EPOXI_PU';
 
   // KIT PU PISCINA
@@ -545,15 +586,39 @@ function identificarTabelaCor(linha, subLinha, descricao) {
     return 'LINHA_MADEIRA';
   }
 
-  // DEMARCAÇÃO VIÁRIA — só os que escolhem cor
-  if (norm.includes('MAX TRAFEGO') && (norm.includes('CORES') || norm.includes('BRANCO/CORES'))) {
-    return 'DEMARCACAO_VIARIA';
-  }
+  // DEMARCAÇÃO VIÁRIA — todos os MAX TRAFEGO escolhem cor
+  // (inclui: BASE AGUA, BASE SOLV BRANCO, BASE SOLV CORES, BASE SOLV BRANCO/CORES)
+  if (norm.includes('MAX TRAFEGO')) return 'DEMARCACAO_VIARIA';
 
-  // ACRILICA / ELASTOMERICO
+  // ═══════════════════════════════════════════════════
+  // LINHA ACRILICA
+  // ═══════════════════════════════════════════════════
+  // ELASTOMERICO — só MAXFLEX, PINTURA EMBO, VEDAMAX
   if (norm.includes('ELASTOMERICO') && (norm.includes('MAXFLEX') || norm.includes('PINTURA EMBO') || norm.includes('VEDAMAX'))) {
     return 'ELASTOMERICO';
   }
+
+  // PREMIUM
+  if (norm.includes('PREMIUM') && (norm.includes('ACR PREMIUM') || norm.includes('LUZ E BRI'))) {
+    return 'ACRILICA_PREMIUM';
+  }
+
+  // STANDARD — COBERTEX
+  if (norm.includes('ACR COBERTEX FOS') || norm.includes('ACR COBERTEX S/B')) {
+    return 'ACRILICA_STANDARD_COBERTEX';
+  }
+
+  // STANDARD — RENDE MAIS
+  if (norm.includes('ACR RENDE MAIS')) {
+    return 'ACRILICA_STANDARD_RENDE_MAIS';
+  }
+
+  // ECONÔMICO — PINTAMAX / ESSENCIAL
+  if (norm.includes('ACR PINTAMAX') || norm.includes('ACR ESSENCIAL')) {
+    return 'ACRILICA_ECONOMICO';
+  }
+
+  // (ACR GESSO/ALVEN já foi tratado como exceção no topo — retorna null)
 
   return null; // não escolhe cor
 }
