@@ -382,10 +382,154 @@ TABELAS_CORES['LINHA_MADEIRA'] = [
 
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 20-B — TABELAS DE CORES: CC / CM / CE (TINTOMETRIA)
-   Regra: quando aparecer CC, CM ou CE no nome do produto,
-   usa a tabela correspondente (ou a combinação).
+   SUBBLOCO 20 — TABELAS DE CORES (todas)
+   Estrutura:
+   - Cada produto com paleta aponta para o nome de uma tabela
+   - O modal busca a tabela em TABELAS_CORES
    ═══════════════════════════════════════════════════════ */
+
+/* ───────────────────────────────────────────
+   01 — ESM IND. AUTOMOTIVO / CORES
+   Produtos: PRIMER ACAB ACE CORES, ESM IND/AGR ACE/FOS/BRIL CORES,
+             ESM IND/AGR DF S/B CORES (ESPECIAL)
+   ─────────────────────────────────────────── */
+TABELAS_CORES['ESM_IND_AUTOM_CORES'] = [
+  "AREIA", "AZUL 2,5PB 4/10", "AZUL CELESTE", "AZUL DEL REY",
+  "AZUL FRANÇA", "AZUL NEW HOLLAND", "CAMURÇA", "CINZA CHASSI SCANIA",
+  "CINZA CLARO N6,5 (Platina)", "CINZA ESCURO", "CINZA MASSEY FERGUSON",
+  "CINZA MEDIO N5", "CINZA SUBGRAY", "COLORADO", "MARFIM 5Y 8.5/4",
+  "MARROM CONHAQUE 7,5YR", "TABACO", "VERDE 10GY 6/6", "VERDE MÁQUINAS"
+];
+
+/* ───────────────────────────────────────────
+   02 — ESM IND. AUTOMOTIVO / CORES INTENSAS
+   ─────────────────────────────────────────── */
+TABELAS_CORES['ESM_IND_AUTOM_CORES_INTENSAS'] = [
+  "AMARELO 5Y 8/12", "AMARELO CARTEPILAR 10YR 7/12", "AMARELO OURO 10YR 8/14",
+  "AMARELO PETROBRAS 2.5Y 8/12", "LARANJA 2.5Y 6/14", "LARANJA STARA",
+  "MARROM 2,5YR 2/4", "VERDE 2,5 3/4", "VERDE FOLHA", "VERDE JOHN DEERE",
+  "VERMELHO 5R 4/14", "VERMELHO CASE II", "VERMELHO MASSEY FERGUSON"
+];
+
+/* ───────────────────────────────────────────
+   03 — ESM D FERRUGEM BRIL
+   ─────────────────────────────────────────── */
+TABELAS_CORES['ESM_D_FERRUGEM'] = [
+  "AMARELO 5Y 8/12", "AZUL DEL REY", "AZUL FRANÇA", "BRANCO GELO N9",
+  "BRANCO N9,5", "BRONZE (Metálico)", "CINZA CLARO N6,5 (Platina)",
+  "CINZA ESCURO N3,5", "CINZA MÉDIO N5", "MARROM 2,5YR 2/4",
+  "OURO (Metálico)", "OURO ANTIGO (Metálico)", "PRETO N1", "TABACO",
+  "VERDE FOLHA", "VERMELHO 5R 4/14"
+];
+
+/* ───────────────────────────────────────────
+   04 — ESM COBERTEX BRIL
+   ─────────────────────────────────────────── */
+TABELAS_CORES['ESM_COBERTEX_BRIL'] = [
+  "AMARELO OURO", "AREIA", "AZUL DEL REY", "AZUL FRANÇA", "BRANCO GELO",
+  "BRANCO NEVE", "CAMURÇA", "CINZA ESCURO", "CINZA MÉDIO", "COLORADO",
+  "LARANJA", "MARFIM", "MARROM", "MARROM CONHAQUE", "PLATINA", "PRETO",
+  "TABACO", "VERDE FOLHA", "VERMELHO", "VERMELHO GOYA"
+];
+
+/* ───────────────────────────────────────────
+   05 — ESMALTE BASE AGUA
+   ─────────────────────────────────────────── */
+TABELAS_CORES['ESM_BASE_AGUA'] = [
+  "AMARELO OURO", "AZUL DEL REY", "AZUL FRANÇA", "BRANCO GELO",
+  "BRANCO NEVE", "CINZA ESCURO", "CINZA MÉDIO", "MARROM", "PLATINA",
+  "PRETO", "TABACO", "VERDE FOLHA", "VERMELHO"
+];
+
+/* ───────────────────────────────────────────
+   06 — EPOXI E POLIURETANO
+   ─────────────────────────────────────────── */
+TABELAS_CORES['EPOXI_PU'] = [
+  "AMARELO 5Y 8/12", "AMARELO OURO 10YR 8/14", "AZUL 2,5 PB 4/10",
+  "BRANCO N9,5", "CINZA CLARO N6,5 (Platina)", "CINZA MÉDIO N5",
+  "LARANJA 2,5YR 6/14", "PRETO N1", "VERDE 10GY 6/6",
+  "VERMELHO 5R 4/14", "VERMELHO ÓXIDO"
+];
+
+/* ───────────────────────────────────────────
+   07 — KIT PU PISCINA
+   ─────────────────────────────────────────── */
+TABELAS_CORES['KIT_PU_PISCINA'] = [
+  "AZUL", "BRANCO"
+];
+
+/* ───────────────────────────────────────────
+   08 — LINHA MADEIRA
+   ─────────────────────────────────────────── */
+TABELAS_CORES['LINHA_MADEIRA'] = [
+  "INCOLOR Copal", "INCOLOR Filtro Solar", "INCOLOR Marítimo",
+  "IMBUIA Filtro Solar", "MOGNO Filtro Solar", "NOGUEIRA Filtro Solar"
+];
+
+/* ───────────────────────────────────────────
+   09 — DEMARCAÇÃO VIÁRIA
+   ─────────────────────────────────────────── */
+TABELAS_CORES['DEMARCACAO_VIARIA'] = [
+  "AMARELO DEMARCAÇÃO", "BRANCO", "VERMELHO"
+];
+
+/* ───────────────────────────────────────────
+   10 — ACRILICA / ELASTOMERICO (MAXFLEX, PINTURA EMBO, VEDAMAX)
+   ─────────────────────────────────────────── */
+TABELAS_CORES['ELASTOMERICO'] = [
+  "BRANCO GELO", "BRANCO NEVE", "CRÔMIO", "NEVOEIRO", "NÉVOA DA MANHÃ", "PRATA"
+];
+
+/* ───────────────────────────────────────────
+   11 — ACRILICA / PREMIUM
+   ─────────────────────────────────────────── */
+TABELAS_CORES['ACRILICA_PREMIUM'] = [
+  "ALGODÃO EGÍPCIO", "AREIA", "BRANCO GELO", "BRANCO NEVE", "CAMURÇA",
+  "CINZA NÉVOA", "CONCRETO", "CRÔMIO", "ERVA DOCE", "FOLHAGEM",
+  "HAVANA AMOR", "MARFIM", "NEVOEIRO", "NÉVOA DA MANHÃ", "NOITE IMPONENTE",
+  "OVELHA", "PALHA", "PAPEL PICADO", "POMAR VERDE", "PRATA",
+  "SONHO DISTANTE", "TRILHA DE PEDRA"
+];
+
+/* ───────────────────────────────────────────
+   12 — ACRILICA / STANDARD (COBERTEX)
+   ─────────────────────────────────────────── */
+TABELAS_CORES['ACRILICA_STANDARD_COBERTEX'] = [
+  "ALGODÃO EGÍPCIO", "AMANHECER", "AREIA", "ARARA AZUL", "BRANCO GELO",
+  "BRANCO NEVE", "CAMURÇA", "CERRADO", "CONCRETO", "CRÔMIO",
+  "DELÍCIA DE MILHO", "ERVA DOCE", "MARFIM", "NEVOEIRO", "NÉVOA DA MANHÃ",
+  "ORQUÍDEA", "OVELHA", "PALHA", "PAPEL PICADO", "PASSEIO NO PARQUE",
+  "PEQUI", "PRATA", "TOQUE DE KIWI", "VERMELHO CARDEAL"
+];
+
+/* ───────────────────────────────────────────
+   13 — ACRILICA / STANDARD (RENDE MAIS)
+   ─────────────────────────────────────────── */
+TABELAS_CORES['ACRILICA_STANDARD_RENDE_MAIS'] = [
+  "AREIA", "BRANCO GELO", "BRANCO NEVE", "CAMURÇA", "CRÔMIO",
+  "NEVOEIRO", "NÉVOA DA MANHÃ", "PAPEL PICADO", "PRATA"
+];
+
+/* ───────────────────────────────────────────
+   14 — ACRILICA / ECONÔMICO (PINTAMAX / ESSENCIAL)
+   ─────────────────────────────────────────── */
+TABELAS_CORES['ACRILICA_ECONOMICO'] = [
+  "AMARELO FESTIVAL", "AREIA", "AZUL REI", "BATIDA DE UVA", "BOLO DE CENOURA",
+  "BRANCO GELO", "BRANCO NEVE", "CÉU DE BRIGADEIRO", "CERRADO", "MARFIM",
+  "NEVOEIRO", "PALHA", "PERIQUITO", "TERRA VERMELHA", "VERDE NOSTALGIA"
+];
+
+/* ───────────────────────────────────────────
+   15 — ACRILICA / ECONÔMICO (GESSO/ALVENARIA)
+   (não usada no momento — produto vai direto, mas mantida como referência)
+   ─────────────────────────────────────────── */
+TABELAS_CORES['ACRILICA_ECONOMICO_GESSO'] = [
+  "BRANCO NEVE"
+];
+
+/* ───────────────────────────────────────────
+   CC / CM / CE — TINTOMETRIA (usadas por produtos com sufixo)
+   ─────────────────────────────────────────── */
 TABELAS_CORES['TINTOMETRIA_CC'] = [
   "BRANCO"
 ];
@@ -395,8 +539,8 @@ TABELAS_CORES['TINTOMETRIA_CM'] = [
   "AZUL FRANÇA", "AZUL NEW HOLLAND", "CAMURÇA", "CINZA CHASSI SCANIA",
   "CINZA CLARO N6,5 (Platina)", "CINZA ESCURO", "CINZA MASSEY FERGUSON",
   "CINZA MEDIO N5", "CINZA SUBGRAY", "COLORADO", "MARFIM 5Y 8.5/4",
-  "MARROM CONHAQUE 7,5YR", "TABACO", "VERDE 10GY 6/6", "VERDE MÁQUINAS",
-  "PLATINA"
+  "MARROM CONHAQUE 7,5YR", "PLATINA", "TABACO", "VERDE 10GY 6/6",
+  "VERDE MÁQUINAS"
 ];
 
 TABELAS_CORES['TINTOMETRIA_CE'] = [
@@ -405,10 +549,13 @@ TABELAS_CORES['TINTOMETRIA_CE'] = [
   "VERMELHO MASSEY FERGUSON"
 ];
 
-// Tabela "vazia" — usada por produtos BASE CLEAR e ARRANHADO MG
-// (abre modal, mas só com SEM COR + OUTRA)
+/* ───────────────────────────────────────────
+   SEM_PALETA — produtos que abrem modal mas só têm SEM COR + OUTRA
+   (BASE CLEAR, ARRANHADO MG)
+   ─────────────────────────────────────────── */
 TABELAS_CORES['SEM_PALETA'] = [];
-/* ═══════════════ FIM SUBBLOCO 20-B ═══════════════ */
+
+/* ═══════════════ FIM SUBBLOCO 20 ═══════════════ */
      
 /* ═══════════════════════════════════════════════════════
    Continua no Bloco C (JavaScript — lógica)
