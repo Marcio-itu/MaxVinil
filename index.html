@@ -380,47 +380,36 @@ TABELAS_CORES['LINHA_MADEIRA'] = [
 /* ═══════════════ FIM SUBBLOCO 19 ═══════════════ */
 
 
+
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 20-A — TABELAS DE CORES 11 a 15 (LINHA ACRILICA)
+   SUBBLOCO 20-B — TABELAS DE CORES: CC / CM / CE (TINTOMETRIA)
+   Regra: quando aparecer CC, CM ou CE no nome do produto,
+   usa a tabela correspondente (ou a combinação).
    ═══════════════════════════════════════════════════════ */
-// 11 — ACRILICA / PREMIUM
-TABELAS_CORES['ACRILICA_PREMIUM'] = [
-  "ALGODÃO EGÍPCIO", "AREIA", "BRANCO GELO", "BRANCO NEVE", "CAMURÇA",
-  "CINZA NÉVOA", "CONCRETO", "CRÔMIO", "ERVA DOCE", "FOLHAGEM",
-  "HAVANA AMOR", "MARFIM", "NEVOEIRO", "NÉVOA DA MANHÃ", "NOITE IMPONENTE",
-  "OVELHA", "PALHA", "PAPEL PICADO", "POMAR VERDE", "PRATA",
-  "SONHO DISTANTE", "TRILHA DE PEDRA"
+TABELAS_CORES['TINTOMETRIA_CC'] = [
+  "BRANCO"
 ];
 
-// 12 — ACRILICA / STANDARD (COBERTEX)
-TABELAS_CORES['ACRILICA_STANDARD_COBERTEX'] = [
-  "ALGODÃO EGÍPCIO", "AMANHECER", "AREIA", "ARARA AZUL", "BRANCO GELO",
-  "BRANCO NEVE", "CAMURÇA", "CERRADO", "CONCRETO", "CRÔMIO",
-  "DELÍCIA DE MILHO", "ERVA DOCE", "MARFIM", "NEVOEIRO", "NÉVOA DA MANHÃ",
-  "ORQUÍDEA", "OVELHA", "PALHA", "PAPEL PICADO", "PASSEIO NO PARQUE",
-  "PEQUI", "PRATA", "TOQUE DE KIWI", "VERMELHO CARDEAL"
+TABELAS_CORES['TINTOMETRIA_CM'] = [
+  "AREIA", "AZUL 2,5PB 4/10", "AZUL CELESTE", "AZUL DEL REY",
+  "AZUL FRANÇA", "AZUL NEW HOLLAND", "CAMURÇA", "CINZA CHASSI SCANIA",
+  "CINZA CLARO N6,5 (Platina)", "CINZA ESCURO", "CINZA MASSEY FERGUSON",
+  "CINZA MEDIO N5", "CINZA SUBGRAY", "COLORADO", "MARFIM 5Y 8.5/4",
+  "MARROM CONHAQUE 7,5YR", "TABACO", "VERDE 10GY 6/6", "VERDE MÁQUINAS",
+  "PLATINA"
 ];
 
-// 13 — ACRILICA / STANDARD (RENDE MAIS)
-TABELAS_CORES['ACRILICA_STANDARD_RENDE_MAIS'] = [
-  "AREIA", "BRANCO GELO", "BRANCO NEVE", "CAMURÇA", "CRÔMIO",
-  "NEVOEIRO", "NÉVOA DA MANHÃ", "PAPEL PICADO", "PRATA"
+TABELAS_CORES['TINTOMETRIA_CE'] = [
+  "AMARELO 5Y 8/12", "AMARELO PETROBRAS 2.5Y 8/12", "LARANJA STARA",
+  "VERDE FOLHA", "VERDE JOHN DEERE", "VERMELHO CASE II",
+  "VERMELHO MASSEY FERGUSON"
 ];
 
-// 14 — ACRILICA / ECONÔMICO (PINTAMAX / ESSENCIAL)
-TABELAS_CORES['ACRILICA_ECONOMICO'] = [
-  "AMARELO FESTIVAL", "AREIA", "AZUL REI", "BATIDA DE UVA", "BOLO DE CENOURA",
-  "BRANCO GELO", "BRANCO NEVE", "CÉU DE BRIGADEIRO", "CERRADO", "MARFIM",
-  "NEVOEIRO", "PALHA", "PERIQUITO", "TERRA VERMELHA", "VERDE NOSTALGIA"
-];
-
-// 15 — ACRILICA / ECONÔMICO (GESSO/ALVENARIA)
-// Esta tabela existe, mas o produto ACR GESSO/ALVEN FOSCO adiciona direto
-// (não abre modal), conforme definido. Mantida aqui para referência futura.
-TABELAS_CORES['ACRILICA_ECONOMICO_GESSO'] = [
-  "BRANCO NEVE"
-];
-/* ═══════════════ FIM SUBBLOCO 20-A ═══════════════ */
+// Tabela "vazia" — usada por produtos BASE CLEAR e ARRANHADO MG
+// (abre modal, mas só com SEM COR + OUTRA)
+TABELAS_CORES['SEM_PALETA'] = [];
+/* ═══════════════ FIM SUBBLOCO 20-B ═══════════════ */
+     
 /* ═══════════════════════════════════════════════════════
    Continua no Bloco C (JavaScript — lógica)
    ═══════════════════════════════════════════════════════ */
@@ -542,20 +531,44 @@ function processarLinhas(linhas) {
 /* Identifica qual tabela de cores usar para um produto (ou null se não escolhe cor) */
 function identificarTabelaCor(linha, subLinha, descricao) {
   const norm = normalizar(descricao + ' ' + subLinha + ' ' + linha);
-  const ehBT = norm.startsWith('BT '); // produtos "BT ..." nunca escolhem cor
 
   // ═══════════════════════════════════════════════════
-  // EXCEÇÕES GLOBAIS — produtos com cor fixa no SKU (nunca abrem modal)
+  // 1) EXCEÇÕES GLOBAIS — cor fixa, NUNCA abrem modal
   // ═══════════════════════════════════════════════════
-  if (norm.includes('INCOLOR')) return null;
   if (norm.includes('FERRUGEM METALICO')) return null;
   if (norm.includes('COBERTEX BRIL ALUMINIO')) return null;
   if (norm.includes('EPOXI BASE AGUA BRIL BRANCO')) return null;
   if (norm.includes('ACR GESSO/ALVEN')) return null;
-  if (ehBT) return null; // qualquer produto "BT ..." tem cor fixa
 
   // ═══════════════════════════════════════════════════
-  // LINHA ESMALTES
+  // 2) SUFIXO CC / CM / CE (TINTOMETRIA)
+  // ═══════════════════════════════════════════════════
+  // Verifica se o produto tem CC, CM ou CE no nome (com ou sem combinação)
+  // Ex: "TEXT EXT CC/CM" → CC + CM
+  // Ex: "STELATTO BRIL CC/CM/CE" → CC + CM + CE
+  const temCC = /\bCC\b/.test(norm);
+  const temCM = /\bCM\b/.test(norm);
+  const temCE = /\bCE\b/.test(norm);
+
+  if (temCC || temCM || temCE) {
+    // Retorna uma combinação: 'TINTOMETRIA_CC' | 'TINTOMETRIA_CC,CM' | 'TINTOMETRIA_CC,CM,CE' | etc.
+    const sufixos = [];
+    if (temCC) sufixos.push('CC');
+    if (temCM) sufixos.push('CM');
+    if (temCE) sufixos.push('CE');
+    return 'TINTOMETRIA_' + sufixos.join(',');
+  }
+
+  // ═══════════════════════════════════════════════════
+  // 3) PRODUTOS SEM PALETA — só SEM COR + OUTRA
+  // ═══════════════════════════════════════════════════
+  // BASE CLEAR (coberturas / esmaltes automotivos clear)
+  if (norm.includes('BASE CLEAR')) return 'SEM_PALETA';
+  // ARRANHADO MG (revestimento)
+  if (norm.includes('ARRANHADO MG')) return 'SEM_PALETA';
+
+  // ═══════════════════════════════════════════════════
+  // 4) LINHA ESMALTES
   // ═══════════════════════════════════════════════════
   if (norm.includes('CORES INTENSAS')) return 'ESM_IND_AUTOM_CORES_INTENSAS';
 
@@ -579,7 +592,7 @@ function identificarTabelaCor(linha, subLinha, descricao) {
   if (norm.includes('MAX TRAFEGO')) return 'DEMARCACAO_VIARIA';
 
   // ═══════════════════════════════════════════════════
-  // LINHA ACRILICA
+  // 5) LINHA ACRILICA
   // ═══════════════════════════════════════════════════
   if (norm.includes('ELASTOMERICO') && (norm.includes('MAXFLEX') || norm.includes('PINTURA EMBO') || norm.includes('VEDAMAX'))) {
     return 'ELASTOMERICO';
@@ -612,7 +625,7 @@ function identificarAcabamentos(descricao) {
   return []; // sem escolha de acabamento
 }
 /* ═══════════════ FIM SUBBLOCO 23 ═══════════════ */
-
+     
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 24 — FILTROS (LINHA E SUB-LINHA)
    ═══════════════════════════════════════════════════════ */
