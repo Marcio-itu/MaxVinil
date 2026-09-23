@@ -716,13 +716,15 @@ function renderizarCatalogo() {
   }
 }
 
+/* Gera a linha de descontos com chips (sem "R$", formato compacto) */
 function gerarLinhaDescontos(valorTabela) {
   const descontos = [5, 10, 15, 20, 25];
   const partes = descontos.map(d => {
     const v = valorTabela * (1 - d / 100);
-    return '<span>-' + d + '% ' + fmtMoeda(v).replace('R$ ', '').trim() + '</span>';
+    const valor = fmtMoeda(v).replace('R$ ', '').trim();
+    return '<span>-' + d + '% ' + valor + '</span>';
   });
-  return partes.join(' ');
+  return partes.join('');
 }
 
 function calcularQtdNoCarrinho(produtoId) {
