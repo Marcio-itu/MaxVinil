@@ -2,11 +2,16 @@
 <html lang="pt-br">
 <head>
 <!-- ═══════════════════════════════════════════════════════
-     SUBBLOCO 01 — HEAD (meta, título, CDN)
+     SUBBLOCO 01 — HEAD (meta, título, favicon, CDN)
      ═══════════════════════════════════════════════════════ -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MaxVinil - Simulador de Vendas</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MaxVinil">
+<meta name="theme-color" content="#ffcc00">
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <!-- ═══════════════ FIM SUBBLOCO 01 ═══════════════ -->
 
@@ -48,16 +53,10 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
 /* ═══════════════ FIM SUBBLOCO 03 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 04 — CSS: PRODUTOS, PEDIDO, FILTROS, DESCONTOS
+   SUBBLOCO 04-A — CSS: CHIPS DE DESCONTO + MODAL FAMÍLIAS + BTN 30%
    ═══════════════════════════════════════════════════════ */
-.produto { padding: 10px 12px; border-bottom: 1px solid #f0f0f2; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-.produto:last-child { border-bottom: none; }
-.produto-info { flex: 1; min-width: 0; }
-.produto-info .desc { font-weight: 600; font-size: 14px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
-.produto-info .meta { font-size: 12px; color: #666; margin-top: 2px; }
-.produto-info .preco { font-size: 15px; color: #0071e3; font-weight: 700; margin-top: 2px; }
 
-/* ─── Chips de desconto (feature nova v2) ─── */
+/* Chips de desconto no catálogo (NÃO ALTERADO) */
 .precos-desconto {
   display: flex;
   flex-wrap: wrap;
@@ -77,26 +76,35 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
   white-space: nowrap;
 }
 
-.produto-add { display: flex; gap: 6px; align-items: center; }
-.produto-add input { width: 60px; padding: 6px; text-align: center; }
-.item-pedido { padding: 12px; border-bottom: 1px solid #f0f0f2; }
-.item-pedido:last-child { border-bottom: none; }
-.item-pedido .linha1 { display: flex; justify-content: space-between; gap: 8px; }
-.item-pedido .desc { font-weight: 600; font-size: 14px; flex: 1; }
-.item-pedido .linha2 { display: grid; grid-template-columns: 60px 1fr 1fr 1fr auto; gap: 6px; margin-top: 8px; align-items: center; font-size: 12px; }
-.item-pedido input { padding: 6px; font-size: 13px; text-align: center; }
-.resumo { background: #1d1d1f; color: #fff; padding: 16px; border-radius: 12px; margin-top: 12px; }
-.resumo .linha { display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; }
-.resumo .total { font-size: 20px; font-weight: 700; padding-top: 10px; border-top: 1px solid #444; margin-top: 6px; }
-.loja-card { padding: 12px; border-bottom: 1px solid #f0f0f2; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-.loja-card:last-child { border-bottom: none; }
-.contador { font-size: 12px; color: #666; margin-top: 6px; }
-.vazio { text-align: center; color: #999; padding: 30px 10px; font-size: 14px; }
-.filtro-cat { display: flex; gap: 6px; overflow-x: auto; padding: 4px 0; margin: 8px 0; -webkit-overflow-scrolling: touch; }
-.filtro-cat button { white-space: nowrap; padding: 6px 12px; font-size: 12px; background: #e8e8ed; color: #1d1d1f; margin: 0; border-radius: 20px; }
-.filtro-cat button.ativo { background: #0071e3; color: #fff; }
-.nivel-label { font-size: 11px; color: #999; text-transform: uppercase; margin-top: 12px; margin-bottom: 2px; font-weight: 600; letter-spacing: 0.5px; }
-/* ═══════════════ FIM SUBBLOCO 04 ═══════════════ */
+/* Linha família + sub-linha dentro do modal */
+.modal-familias {
+  font-size: 11px;
+  color: #999;
+  margin-bottom: 4px;
+  line-height: 1.3;
+  letter-spacing: 0.3px;
+}
+
+/* Botão de desconto 30% — mesmo estilo dos demais, só a borda laranja */
+.opcoes-acab button.btn-30 {
+  border: 1px solid #ff9800;
+  color: #e65100;
+  background: #fff8f0;
+}
+.opcoes-acab button.btn-30.ativo {
+  background: #ff9800;
+  color: #fff;
+  border-color: #ff9800;
+}
+
+/* Botões de desconto no modal — 7 por linha */
+#mc-desc button {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 8px 2px;
+  font-size: 12px;
+}
+/* ═══════════════ FIM SUBBLOCO 04-A ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 05 — CSS: NAV, MODAIS, QTD, MOBILE, PRINT
@@ -243,6 +251,7 @@ nav.bottom button.ativo { color: #0071e3; }
   <div class="modal">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
       <div>
+        <div class="modal-familias" id="mc-familias">—</div>
         <div class="modal-titulo" id="mc-titulo">—</div>
         <div class="modal-sub" id="mc-sub">—</div>
       </div>
@@ -752,6 +761,8 @@ function abrirModalCor(produto) {
   MC_ACAB_SELECIONADO = '';
   MC_DESCONTO = 0;
 
+  // Família + Sub-linha (acima do nome do produto)
+  document.getElementById('mc-familias').textContent = produto.linha + ' • ' + produto.subLinha;
   document.getElementById('mc-titulo').textContent = produto.descricao;
   document.getElementById('mc-sub').textContent = (produto.embalagem || '') + (produto.peso ? ' • ' + produto.peso : '') + ' — ' + fmtMoeda(produto.valorTabela);
 
@@ -825,10 +836,18 @@ function abrirModalCor(produto) {
     { label: '20%', valor: 20 },
     { label: '25%', valor: 25 }
   ];
+
+  // Adiciona 30% apenas para produtos da LINHA ACRILICA
+  const ehAcrilica = (produto.linha || '').toUpperCase().includes('ACRILICA');
+  if (ehAcrilica) {
+    opcoesDesc.push({ label: '30%', valor: 30, ehTrinta: true });
+  }
+
   opcoesDesc.forEach(op => {
     const btn = document.createElement('button');
     btn.textContent = op.label;
-    btn.className = op.valor === 0 ? 'ativo' : '';
+    if (op.valor === 0) btn.classList.add('ativo');
+    if (op.ehTrinta) btn.classList.add('btn-30');
     btn.onclick = () => {
       MC_DESCONTO = op.valor;
       boxDesc.querySelectorAll('button').forEach(b => b.classList.remove('ativo'));
