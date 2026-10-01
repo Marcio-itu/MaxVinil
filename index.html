@@ -1368,23 +1368,48 @@ function resetarTudo() {
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 33 — EXPORTAÇÃO (PDF + WHATSAPP)
    ═══════════════════════════════════════════════════════ */
+
+/* ─── Dados fixos da empresa ─── */
+const EMPRESA_NOME = 'PERFORMA BRAND';
+const EMPRESA_RAZAO = 'REPRESENTAÇÕES E CONSULTORIA LTDA';
+const EMPRESA_CNPJ = '63.334.766/0001-22';
+const EMPRESA_CIDADE = 'Itu • São Paulo';
+const MARCA_REPRESENTADA = 'MARCA REPRESENTADA: MAXVINIL - CNPJ 00.777.674/0001-05';
+const CONDICOES_COMERCIAIS = [
+  'Validade deste orçamento: 7 dias (salvo erros de digitação)',
+  'A venda à prazo está sujeita a análise de crédito;',
+  'Reservamo-nos o direito de corrigir eventuais erros de digitação neste orçamento.'
+];
+
+/* ─── TEXTO DO WHATSAPP ─── */
 function montarTextoPedido() {
   const lojaId = document.getElementById('select-loja').value;
   const loja = LOJAS.find(l => l.id === lojaId);
   const r = calcularResumo();
 
-  let texto = '*MAXVINIL - ORÇAMENTO*\n';
-  texto += '━━━━━━━━━━━━━━━━━━━━━━\n';
+  let texto = '━━━━━━━━━━━━━━━━━━━━━━\n';
+  texto += '*' + EMPRESA_NOME + '*\n';
+  texto += EMPRESA_RAZAO + '\n';
+  texto += 'CNPJ ' + EMPRESA_CNPJ + '\n';
+  texto += EMPRESA_CIDADE + '\n';
+  texto += '\n';
+  texto += MARCA_REPRESENTADA + '\n';
+  texto += '━━━━━━━━━━━━━━━━━━━━━━\n\n';
+
+  texto += '*ORÇAMENTO DE VENDA*\n';
+  texto += '📅 *Data:* ' + new Date().toLocaleDateString('pt-BR') + '\n\n';
+
   if (loja) {
+    texto += '*DADOS DO CLIENTE:*\n';
     texto += '🏪 *Loja:* ' + loja.nome + '\n';
     if (loja.contato) texto += '👤 *Contato:* ' + loja.contato + '\n';
     if (loja.telefone) texto += '📞 *Telefone:* ' + loja.telefone + '\n';
     if (loja.endereco) texto += '📍 *Endereço:* ' + loja.endereco + '\n';
-  } else {
-    texto += '🏪 *Loja:* (não selecionada)\n';
+    if (loja.cnpj) texto += '📄 *CNPJ:* ' + loja.cnpj + '\n';
+    texto += '\n';
   }
-  texto += '📅 *Data:* ' + new Date().toLocaleDateString('pt-BR') + '\n';
-  texto += '━━━━━━━━━━━━━━━━━━━━━━\n\n';
+
+  texto += '━━━━━━━━━━━━━━━━━━━━━━\n';
   texto += '*ITENS DO PEDIDO:*\n\n';
 
   const descGlobal = r.descGlobal;
@@ -1406,8 +1431,12 @@ function montarTextoPedido() {
   texto += '*Desconto:* ' + fmtMoeda(r.valorDesconto) + ' (' + r.percentualEfetivo.toFixed(2) + '%)\n';
   texto += '*TOTAL: ' + fmtMoeda(r.totalFinal) + '*\n';
   texto += '━━━━━━━━━━━━━━━━━━━━━━\n\n';
-  texto += '📌 Validade: 7 dias\n';
-  texto += 'MaxVinil • (11) 96760-2254\n';
+
+  texto += '*CONDIÇÕES COMERCIAIS:*\n\n';
+  CONDICOES_COMERCIAIS.forEach(c => {
+    texto += '👉 ' + c + '\n';
+  });
+
   return texto;
 }
 
@@ -1429,6 +1458,7 @@ function exportarWhatsApp() {
   window.open(url, '_blank');
 }
 
+/* ─── PDF ─── */
 function exportarPDF() {
   if (CARRINHO.length === 0) { alert('Adicione itens ao pedido primeiro.'); return; }
   const lojaId = document.getElementById('select-loja').value;
@@ -1438,12 +1468,20 @@ function exportarPDF() {
 
   let html = '';
   html += '<div style="font-family:Arial,sans-serif;padding:30px;max-width:800px;margin:0 auto;color:#1d1d1f;">';
+
+  /* ─── Cabeçalho (Perfoma Brand) ─── */
   html += '<div style="text-align:center;border-bottom:3px solid #1d1d1f;padding-bottom:12px;margin-bottom:20px;">';
-  html += '<h1 style="margin:0;font-size:26px;">MAXVINIL</h1>';
-  html += '<div style="font-size:13px;color:#666;margin-top:4px;">ORÇAMENTO DE VENDA</div>';
-  html += '<div style="font-size:12px;color:#666;margin-top:2px;">(11) 96760-2254</div>';
+  html += '<h1 style="margin:0;font-size:22px;letter-spacing:1px;">' + EMPRESA_NOME + '</h1>';
+  html += '<div style="font-size:13px;color:#333;margin-top:4px;">' + EMPRESA_RAZAO + '</div>';
+  html += '<div style="font-size:12px;color:#666;margin-top:2px;">CNPJ ' + EMPRESA_CNPJ + '</div>';
+  html += '<div style="font-size:12px;color:#666;margin-top:2px;">' + EMPRESA_CIDADE + '</div>';
+  html += '<div style="font-size:11px;color:#666;margin-top:8px;font-style:italic;">' + MARCA_REPRESENTADA + '</div>';
   html += '</div>';
 
+  /* ─── Título ─── */
+  html += '<div style="text-align:center;font-size:15px;font-weight:600;margin-bottom:16px;">ORÇAMENTO DE VENDA</div>';
+
+  /* ─── Dados ─── */
   html += '<div style="margin-bottom:20px;font-size:13px;line-height:1.7;">';
   html += '<b>Data:</b> ' + dataFmt + '<br>';
   if (loja) {
@@ -1455,6 +1493,7 @@ function exportarPDF() {
   }
   html += '</div>';
 
+  /* ─── Tabela de itens ─── */
   html += '<table style="width:100%;border-collapse:collapse;font-size:12px;">';
   html += '<thead><tr style="background:#1d1d1f;color:#fff;">';
   html += '<th style="padding:8px;text-align:left;">Item</th>';
@@ -1482,15 +1521,26 @@ function exportarPDF() {
   });
   html += '</tbody></table>';
 
+  /* ─── Totais ─── */
   html += '<div style="margin-top:20px;text-align:right;font-size:14px;line-height:1.9;">';
   html += '<div>Subtotal: <b>' + fmtMoeda(r.subtotal) + '</b></div>';
   html += '<div>Desconto: <b>' + fmtMoeda(r.valorDesconto) + ' (' + r.percentualEfetivo.toFixed(2) + '%)</b></div>';
   html += '<div style="font-size:20px;margin-top:8px;padding-top:8px;border-top:2px solid #1d1d1f;">TOTAL: <b>' + fmtMoeda(r.totalFinal) + '</b></div>';
   html += '</div>';
 
-  html += '<div style="margin-top:40px;text-align:center;font-size:11px;color:#666;">';
-  html += 'Validade: 7 dias • MaxVinil • (11) 96760-2254';
-  html += '</div></div>';
+  /* ─── Rodapé: condições comerciais ─── */
+  html += '<div style="margin-top:36px;padding-top:16px;border-top:1px solid #ddd;font-size:12px;line-height:1.7;">';
+  html += '<div style="font-weight:700;margin-bottom:8px;">CONDIÇÕES COMERCIAIS:</div>';
+  CONDICOES_COMERCIAIS.forEach(c => {
+    html += '<div style="margin-bottom:4px;">👉 ' + c + '</div>';
+  });
+  html += '</div>';
+
+  html += '<div style="margin-top:20px;text-align:center;font-size:10px;color:#999;font-style:italic;">';
+  html += 'Conteúdo gerado pelo sistema MaxVinil';
+  html += '</div>';
+
+  html += '</div>';
 
   const janela = window.open('', '_blank');
   janela.document.write('<html><head><title>Orçamento MaxVinil</title></head><body>' + html + '</body></html>');
