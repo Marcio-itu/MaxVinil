@@ -51,7 +51,7 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
 .alerta-vermelho { background: #ffebeb; color: #c00; padding: 10px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-top: 8px; border-left: 4px solid #ff3b30; }
 .info { background: #eef6ff; color: #0066cc; padding: 10px 12px; border-radius: 8px; font-size: 13px; margin-top: 8px; }
 /* ═══════════════ FIM SUBBLOCO 03 ═══════════════ */
-
+     
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 04 — CSS: FILTROS, PRODUTOS, CHIPS, MODAL
    ═══════════════════════════════════════════════════════ */
@@ -135,7 +135,7 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
 .item-pedido:last-child { border-bottom: none; }
 .item-pedido .linha1 { display: flex; justify-content: space-between; gap: 8px; }
 .item-pedido .desc { font-weight: 600; font-size: 14px; flex: 1; }
-.item-pedido .linha2 { display: grid; grid-template-columns: 60px 1fr 1fr 1fr auto; gap: 6px; margin-top: 8px; align-items: center; font-size: 12px; }
+.item-pedido .linha2 { display: grid; grid-template-columns: 60px 60px 1fr 1fr auto; gap: 6px; margin-top: 8px; align-items: center; font-size: 12px; }
 .item-pedido input { padding: 6px; font-size: 13px; text-align: center; }
 
 /* ─── Resumo do pedido ─── */
@@ -822,21 +822,27 @@ function clicouAdd(produtoId) {
   abrirModalCor(p);
 }
 /* ═══════════════ FIM SUBBLOCO 25 ═══════════════ */
-
+     
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 26 — MODAL DE COR, ACABAMENTO E DESCONTO
-   (v2 — força display inline para não depender do CSS)
+   (v3 — com modo edição pré-preenchido)
    ═══════════════════════════════════════════════════════ */
+let MC_ITEM_EM_EDICAO = null;
+
 function abrirModalCor(produto) {
   MC_PRODUTO = produto;
-  MC_ACAB_SELECIONADO = '';
-  MC_DESCONTO = 0;
+
+  // Se está editando um item existente, usa os valores dele
+  const editando = MC_ITEM_EM_EDICAO !== null;
+
+  MC_ACAB_SELECIONADO = editando ? (MC_ITEM_EM_EDICAO.acabamento || '') : '';
+  MC_DESCONTO = editando ? (MC_ITEM_EM_EDICAO.desconto || 0) : 0;
 
   document.getElementById('mc-familias').textContent = produto.linha + ' • ' + produto.subLinha;
   document.getElementById('mc-titulo').textContent = produto.descricao;
   document.getElementById('mc-sub').textContent = (produto.embalagem || '') + (produto.peso ? ' • ' + produto.peso : '') + ' — ' + fmtMoeda(produto.valorTabela);
 
-  // ─── Cor (só mostra se tiver paleta) ───
+  // ─── Cor ───
   const cores = obterCoresDoProduto(produto);
   const temPaleta = (cores.length > 0) || produto.tabelaCor === 'SEM_PALETA';
   const selectCor = document.getElementById('mc-cor');
@@ -860,6 +866,21 @@ function abrirModalCor(produto) {
     optOutra.value = '__OUTRA__';
     optOutra.textContent = '— OUTRA (digitar) —';
     selectCor.appendChild(optOutra);
+
+    // Pré-seleciona a cor, se estiver editando
+    if (editando && MC_ITEM_EM_EDICAO.cor) {
+      const corExiste = coresOrdenadas.includes(MC_ITEM_EM_EDICAO.cor);
+      if (corExiste) {
+        selectCor.value = MC_ITEM_EM_EDICAO.cor;
+      } else {
+        // Cor customizada (não está na lista original)
+        const opt = document.createElement('option');
+        opt.value = MC_ITEM_EM_EDICAO.cor;
+        opt.textContent = MC_ITEM_EM_EDICAO.cor;
+        selectCor.insertBefore(opt, selectCor.firstChild);
+        selectCor.value = MC_ITEM_EM_EDICAO.cor;
+      }
+    }
 
     selectCor.onchange = () => {
       if (selectCor.value === '__OUTRA__') {
@@ -888,7 +909,9 @@ function abrirModalCor(produto) {
     produto.acabamentos.forEach((a, idx) => {
       const btn = document.createElement('button');
       btn.textContent = a;
-      btn.className = idx === 0 ? 'ativo' : '';
+      // Pré-seleciona o acabamento se estiver editando
+      const ativo = editando ? (a === MC_ITEM_EM_EDICAO.acabamento) : (idx === 0);
+      btn.className = ativo ? 'ativo' : '';
       btn.onclick = () => {
         MC_ACAB_SELECIONADO = a;
         divAcab.querySelectorAll('button').forEach(b => b.classList.remove('ativo'));
@@ -896,7 +919,11 @@ function abrirModalCor(produto) {
       };
       divAcab.appendChild(btn);
     });
-    MC_ACAB_SELECIONADO = produto.acabamentos[0];
+    if (editando && MC_ITEM_EM_EDICAO.acabamento) {
+      MC_ACAB_SELECIONADO = MC_ITEM_EM_EDICAO.acabamento;
+    } else {
+      MC_ACAB_SELECIONADO = produto.acabamentos[0];
+    }
   } else {
     boxAcab.style.display = 'none';
     MC_ACAB_SELECIONADO = '';
@@ -922,7 +949,8 @@ function abrirModalCor(produto) {
   opcoesDesc.forEach(op => {
     const btn = document.createElement('button');
     btn.textContent = op.label;
-    if (op.valor === 0) btn.classList.add('ativo');
+    const ativo = op.valor === MC_DESCONTO;
+    if (ativo) btn.classList.add('ativo');
     if (op.ehTrinta) btn.classList.add('btn-30');
     btn.onclick = () => {
       MC_DESCONTO = op.valor;
@@ -934,12 +962,16 @@ function abrirModalCor(produto) {
   });
 
   // ─── Quantidade ───
-  const qtdNoCarrinho = calcularQtdNoCarrinho(produto.id);
-  document.getElementById('mc-qtd').value = qtdNoCarrinho > 0 ? qtdNoCarrinho : 1;
+  if (editando) {
+    document.getElementById('mc-qtd').value = MC_ITEM_EM_EDICAO.qtd;
+  } else {
+    const qtdNoCarrinho = calcularQtdNoCarrinho(produto.id);
+    document.getElementById('mc-qtd').value = qtdNoCarrinho > 0 ? qtdNoCarrinho : 1;
+  }
 
   atualizarPrecoFinalModal();
 
-  // ─── FORÇA ABERTURA (não depende do CSS) ───
+  // ─── FORÇA ABERTURA ───
   const modal = document.getElementById('modal-cor');
   modal.style.display = 'flex';
   modal.classList.add('aberto');
@@ -975,6 +1007,7 @@ function fecharModalCor() {
   MC_PRODUTO = null;
   MC_ACAB_SELECIONADO = '';
   MC_DESCONTO = 0;
+  MC_ITEM_EM_EDICAO = null;
 }
 
 function mcMudarQtd(delta) {
@@ -991,6 +1024,7 @@ function confirmarModalCor() {
   const cor = (selectCor && selectCor.style.display !== 'none') ? selectCor.value : '';
   const qtd = parseInt(document.getElementById('mc-qtd').value) || 1;
   adicionarAoCarrinho(MC_PRODUTO, qtd, cor, MC_ACAB_SELECIONADO, MC_DESCONTO);
+  MC_ITEM_EM_EDICAO = null;
   fecharModalCor();
 }
 /* ═══════════════ FIM SUBBLOCO 26 ═══════════════ */
@@ -1061,8 +1095,40 @@ function removerItem(idx) {
   CARRINHO.splice(idx, 1);
   salvarLocal(); atualizarBadge(); renderizarPedido(); renderizarCatalogo();
 }
-/* ═══════════════ FIM SUBBLOCO 27 ═══════════════ */
 
+/* Abre modal pré-preenchido para editar item do pedido */
+function editarItemPedido(idx) {
+  const item = CARRINHO[idx];
+  if (!item) return;
+
+  // Busca o produto original no catálogo
+  const produto = PRODUTOS.find(p => p.id === item.produtoId);
+  if (!produto) {
+    alert('Produto não encontrado no catálogo.');
+    return;
+  }
+
+  // Guarda os valores atuais para pré-preencher o modal
+  MC_ITEM_EM_EDICAO = {
+    idx: idx,
+    cor: item.cor || '',
+    acabamento: item.acabamento || '',
+    desconto: item.descItem || 0,
+    qtd: item.qtd || 1
+  };
+
+  // Remove do carrinho (vai ser re-adicionado quando confirmar)
+  CARRINHO.splice(idx, 1);
+  salvarLocal();
+  atualizarBadge();
+  renderizarPedido();
+  renderizarCatalogo();
+
+  // Abre o modal
+  abrirModalCor(produto);
+}
+/* ═══════════════ FIM SUBBLOCO 27 ═══════════════ */
+     
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 28 — PEDIDO (RENDER) + DESCONTOS + RESUMO
    ═══════════════════════════════════════════════════════ */
@@ -1082,7 +1148,10 @@ function renderizarPedido() {
     div.innerHTML =
       '<div class="linha1">' +
         '<div class="desc">' + item.descricao + tags + '</div>' +
-        '<button class="small danger" onclick="removerItem(' + idx + ')">✕</button>' +
+        '<div style="display:flex;gap:4px;flex-shrink:0;">' +
+          '<button class="small sec" onclick="editarItemPedido(' + idx + ')" title="Editar">✏️ Editar</button>' +
+          '<button class="small danger" onclick="removerItem(' + idx + ')" title="Remover">✕</button>' +
+        '</div>' +
       '</div>' +
       '<div style="font-size:12px;color:#666;margin-top:2px;">' +
         (item.embalagem ? item.embalagem + ' • ' : '') + (item.peso || '') +
@@ -1090,10 +1159,10 @@ function renderizarPedido() {
       '</div>' +
       '<div class="linha2">' +
         '<input type="number" min="1" value="' + item.qtd + '" onchange="alterarQtd(' + idx + ', this.value)" title="Qtd">' +
-        '<input type="number" min="0" max="100" step="0.1" value="' + (item.descItem || 0) + '" onchange="alterarDescItem(' + idx + ', this.value)" title="Desc %">' +
+        '<input type="number" min="0" max="100" step="0.1" value="' + (item.descItem || 0) + '" onchange="alterarDescItem(' + idx + ', this.value)" title="Desconto %">' +
         '<span style="text-align:center;font-size:12px;">' + fmtMoeda(item.valorTabela * item.qtd) + '</span>' +
         '<span style="text-align:center;font-size:12px;font-weight:600;color:#0071e3;">' + fmtMoeda(calcularTotalItem(item)) + '</span>' +
-        '<span></span>' +
+        '<span style="text-align:center;font-size:12px;color:#666;font-weight:600;">%</span>' +
       '</div>';
     box.appendChild(div);
   });
