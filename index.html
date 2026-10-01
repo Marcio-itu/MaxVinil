@@ -53,10 +53,43 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
 /* ═══════════════ FIM SUBBLOCO 03 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 04-A — CSS: CHIPS DE DESCONTO + MODAL FAMÍLIAS + BTN 30%
+   SUBBLOCO 04-A — CSS: FILTROS + CHIPS + MODAL FAMÍLIAS + BTN 30%
    ═══════════════════════════════════════════════════════ */
 
-/* Chips de desconto no catálogo (NÃO ALTERADO) */
+/* ─── Filtros de Linha e Sub-linha (scroll horizontal) ─── */
+.filtro-cat {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 4px 0;
+  margin: 8px 0;
+  -webkit-overflow-scrolling: touch;
+}
+.filtro-cat button {
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 12px;
+  background: #e8e8ed;
+  color: #1d1d1f;
+  margin: 0;
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+.filtro-cat button.ativo {
+  background: #0071e3;
+  color: #fff;
+}
+.nivel-label {
+  font-size: 11px;
+  color: #999;
+  text-transform: uppercase;
+  margin-top: 12px;
+  margin-bottom: 2px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* ─── Chips de desconto no catálogo ─── */
 .precos-desconto {
   display: flex;
   flex-wrap: wrap;
@@ -76,7 +109,14 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
   white-space: nowrap;
 }
 
-/* Linha família + sub-linha dentro do modal */
+/* ─── Chip 30% no catálogo (só LINHA ACRILICA) ─── */
+.precos-desconto span.chip-30 {
+  border-color: #ff9800;
+  color: #e65100;
+  background: #fff8f0;
+}
+
+/* ─── Linha família + sub-linha dentro do modal ─── */
 .modal-familias {
   font-size: 11px;
   color: #999;
@@ -85,7 +125,7 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
   letter-spacing: 0.3px;
 }
 
-/* Botão de desconto 30% — mesmo estilo dos demais, só a borda laranja */
+/* ─── Botão 30% no modal — borda laranja ─── */
 .opcoes-acab button.btn-30 {
   border: 1px solid #ff9800;
   color: #e65100;
@@ -97,7 +137,7 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
   border-color: #ff9800;
 }
 
-/* Botões de desconto no modal — 7 por linha */
+/* ─── Botões de desconto no modal — 7 por linha ─── */
 #mc-desc button {
   flex: 1 1 0;
   min-width: 0;
@@ -698,7 +738,7 @@ function renderizarCatalogo() {
     const div = document.createElement('div');
     div.className = 'produto';
     const qtdNoCarrinho = calcularQtdNoCarrinho(p.id);
-    const linhaDescontos = gerarLinhaDescontos(p.valorTabela);
+    const linhaDescontos = gerarLinhaDescontos(p.valorTabela, p.linha);
 
     div.innerHTML =
       '<div class="produto-info">' +
@@ -723,13 +763,17 @@ function renderizarCatalogo() {
   }
 }
 
-/* Gera a linha de descontos com chips (sem "R$", formato compacto) */
-function gerarLinhaDescontos(valorTabela) {
+/* Gera os chips de desconto. Se a linha for ACRILICA, inclui -30% */
+function gerarLinhaDescontos(valorTabela, linha) {
   const descontos = [5, 10, 15, 20, 25];
+  const ehAcrilica = (linha || '').toUpperCase().includes('ACRILICA');
+  if (ehAcrilica) descontos.push(30);
+
   const partes = descontos.map(d => {
     const v = valorTabela * (1 - d / 100);
     const valor = fmtMoeda(v).replace('R$ ', '').trim();
-    return '<span>-' + d + '% ' + valor + '</span>';
+    const classe = d === 30 ? ' class="chip-30"' : '';
+    return '<span' + classe + '>-' + d + '% ' + valor + '</span>';
   });
   return partes.join('');
 }
@@ -761,7 +805,6 @@ function abrirModalCor(produto) {
   MC_ACAB_SELECIONADO = '';
   MC_DESCONTO = 0;
 
-  // Família + Sub-linha (acima do nome do produto)
   document.getElementById('mc-familias').textContent = produto.linha + ' • ' + produto.subLinha;
   document.getElementById('mc-titulo').textContent = produto.descricao;
   document.getElementById('mc-sub').textContent = (produto.embalagem || '') + (produto.peso ? ' • ' + produto.peso : '') + ' — ' + fmtMoeda(produto.valorTabela);
@@ -837,7 +880,6 @@ function abrirModalCor(produto) {
     { label: '25%', valor: 25 }
   ];
 
-  // Adiciona 30% apenas para produtos da LINHA ACRILICA
   const ehAcrilica = (produto.linha || '').toUpperCase().includes('ACRILICA');
   if (ehAcrilica) {
     opcoesDesc.push({ label: '30%', valor: 30, ehTrinta: true });
@@ -910,7 +952,7 @@ function confirmarModalCor() {
   fecharModalCor();
 }
 /* ═══════════════ FIM SUBBLOCO 26 ═══════════════ */
-
+     
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 27 — CARRINHO
    ═══════════════════════════════════════════════════════ */
