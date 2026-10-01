@@ -135,8 +135,31 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
 .item-pedido:last-child { border-bottom: none; }
 .item-pedido .linha1 { display: flex; justify-content: space-between; gap: 8px; }
 .item-pedido .desc { font-weight: 600; font-size: 14px; flex: 1; }
-.item-pedido .linha2 { display: grid; grid-template-columns: 60px 60px 1fr 1fr auto; gap: 6px; margin-top: 8px; align-items: center; font-size: 12px; }
+.item-pedido .linha2 { display: grid; grid-template-columns: 60px 1fr 1fr 1fr auto; gap: 6px; margin-top: 8px; align-items: center; font-size: 12px; }
 .item-pedido input { padding: 6px; font-size: 13px; text-align: center; }
+
+/* ─── Desconto com símbolo % dentro da mesma caixa ─── */
+.item-pedido .desc-wrap {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+.item-pedido .desc-wrap input {
+  flex: 1;
+  min-width: 0;
+  padding-right: 22px;
+  text-align: center;
+}
+.item-pedido .desc-wrap .desc-simbolo {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: #666;
+  font-weight: 600;
+  pointer-events: none;
+}
 
 /* ─── Resumo do pedido ─── */
 .resumo { background: #1d1d1f; color: #fff; padding: 16px; border-radius: 12px; margin-top: 12px; }
@@ -1159,10 +1182,13 @@ function renderizarPedido() {
       '</div>' +
       '<div class="linha2">' +
         '<input type="number" min="1" value="' + item.qtd + '" onchange="alterarQtd(' + idx + ', this.value)" title="Qtd">' +
-        '<input type="number" min="0" max="100" step="0.1" value="' + (item.descItem || 0) + '" onchange="alterarDescItem(' + idx + ', this.value)" title="Desconto %">' +
+        '<div class="desc-wrap">' +
+          '<input type="number" min="0" max="100" step="0.1" value="' + (item.descItem || 0) + '" onchange="alterarDescItem(' + idx + ', this.value)" title="Desconto %">' +
+          '<span class="desc-simbolo">%</span>' +
+        '</div>' +
         '<span style="text-align:center;font-size:12px;">' + fmtMoeda(item.valorTabela * item.qtd) + '</span>' +
         '<span style="text-align:center;font-size:12px;font-weight:600;color:#0071e3;">' + fmtMoeda(calcularTotalItem(item)) + '</span>' +
-        '<span style="text-align:center;font-size:12px;color:#666;font-weight:600;">%</span>' +
+        '<span></span>' +
       '</div>';
     box.appendChild(div);
   });
