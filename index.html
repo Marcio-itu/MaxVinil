@@ -825,6 +825,7 @@ function clicouAdd(produtoId) {
 
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 26 — MODAL DE COR, ACABAMENTO E DESCONTO
+   (v2 — força display inline para não depender do CSS)
    ═══════════════════════════════════════════════════════ */
 function abrirModalCor(produto) {
   MC_PRODUTO = produto;
@@ -837,55 +838,45 @@ function abrirModalCor(produto) {
 
   // ─── Cor (só mostra se tiver paleta) ───
   const cores = obterCoresDoProduto(produto);
-  const blocoCor = document.getElementById('mc-cor').parentElement; // <label> + <select>
-  const labelCorAnterior = blocoCor.previousElementSibling; // o <label> "Cor"
+  const temPaleta = (cores.length > 0) || produto.tabelaCor === 'SEM_PALETA';
+  const selectCor = document.getElementById('mc-cor');
 
-  if (cores.length > 0 || produto.tabelaCor === 'SEM_PALETA') {
-    // Mostra o seletor de cor
-    blocoCor.style.display = 'block';
-    if (labelCorAnterior && labelCorAnterior.tagName === 'LABEL') {
-      labelCorAnterior.style.display = 'block';
-    }
-
-    const sel = document.getElementById('mc-cor');
-    sel.innerHTML = '';
+  if (temPaleta && selectCor) {
+    selectCor.style.display = 'block';
+    selectCor.innerHTML = '';
     const coresOrdenadas = [...cores].sort((a, b) => a.localeCompare(b, 'pt-BR'));
 
     coresOrdenadas.forEach(c => {
       const opt = document.createElement('option');
       opt.value = c;
       opt.textContent = c;
-      sel.appendChild(opt);
+      selectCor.appendChild(opt);
     });
     const optSem = document.createElement('option');
     optSem.value = 'SEM COR';
     optSem.textContent = '— SEM COR —';
-    sel.appendChild(optSem);
+    selectCor.appendChild(optSem);
     const optOutra = document.createElement('option');
     optOutra.value = '__OUTRA__';
     optOutra.textContent = '— OUTRA (digitar) —';
-    sel.appendChild(optOutra);
+    selectCor.appendChild(optOutra);
 
-    sel.onchange = () => {
-      if (sel.value === '__OUTRA__') {
+    selectCor.onchange = () => {
+      if (selectCor.value === '__OUTRA__') {
         const custom = prompt('Digite a cor desejada:');
         if (custom && custom.trim()) {
           const opt = document.createElement('option');
           opt.value = custom.trim();
           opt.textContent = custom.trim();
-          sel.insertBefore(opt, sel.firstChild);
-          sel.value = custom.trim();
+          selectCor.insertBefore(opt, selectCor.firstChild);
+          selectCor.value = custom.trim();
         } else {
-          sel.value = coresOrdenadas[0] || 'SEM COR';
+          selectCor.value = coresOrdenadas[0] || 'SEM COR';
         }
       }
     };
-  } else {
-    // Esconde o seletor de cor (produto sem paleta)
-    blocoCor.style.display = 'none';
-    if (labelCorAnterior && labelCorAnterior.tagName === 'LABEL') {
-      labelCorAnterior.style.display = 'none';
-    }
+  } else if (selectCor) {
+    selectCor.style.display = 'none';
   }
 
   // ─── Acabamentos ───
@@ -947,7 +938,11 @@ function abrirModalCor(produto) {
   document.getElementById('mc-qtd').value = qtdNoCarrinho > 0 ? qtdNoCarrinho : 1;
 
   atualizarPrecoFinalModal();
-  document.getElementById('modal-cor').classList.add('aberto');
+
+  // ─── FORÇA ABERTURA (não depende do CSS) ───
+  const modal = document.getElementById('modal-cor');
+  modal.style.display = 'flex';
+  modal.classList.add('aberto');
 }
 
 function obterCoresDoProduto(produto) {
@@ -974,7 +969,9 @@ function atualizarPrecoFinalModal() {
 }
 
 function fecharModalCor() {
-  document.getElementById('modal-cor').classList.remove('aberto');
+  const modal = document.getElementById('modal-cor');
+  modal.style.display = 'none';
+  modal.classList.remove('aberto');
   MC_PRODUTO = null;
   MC_ACAB_SELECIONADO = '';
   MC_DESCONTO = 0;
@@ -990,9 +987,8 @@ function mcMudarQtd(delta) {
 
 function confirmarModalCor() {
   if (!MC_PRODUTO) return;
-  // Se não tem cor, passa vazio
-  const sel = document.getElementById('mc-cor');
-  const cor = sel.offsetParent !== null ? sel.value : '';
+  const selectCor = document.getElementById('mc-cor');
+  const cor = (selectCor && selectCor.style.display !== 'none') ? selectCor.value : '';
   const qtd = parseInt(document.getElementById('mc-qtd').value) || 1;
   adicionarAoCarrinho(MC_PRODUTO, qtd, cor, MC_ACAB_SELECIONADO, MC_DESCONTO);
   fecharModalCor();
