@@ -815,17 +815,10 @@ function calcularQtdNoCarrinho(produtoId) {
   return CARRINHO.filter(i => i.produtoId === produtoId).reduce((s, i) => s + i.qtd, 0);
 }
 
+/* SEMPRE abre o modal (com ou sem cor) */
 function clicouAdd(produtoId) {
   const p = PRODUTOS.find(x => x.id === produtoId);
   if (!p) return;
-
-  if (!p.tabelaCor) {
-    const inputQtd = document.getElementById('qtd-' + produtoId);
-    const qtd = parseInt(inputQtd.value) || 1;
-    adicionarAoCarrinho(p, qtd, null, '', 0);
-    return;
-  }
-
   abrirModalCor(p);
 }
 /* ═══════════════ FIM SUBBLOCO 25 ═══════════════ */
@@ -842,43 +835,60 @@ function abrirModalCor(produto) {
   document.getElementById('mc-titulo').textContent = produto.descricao;
   document.getElementById('mc-sub').textContent = (produto.embalagem || '') + (produto.peso ? ' • ' + produto.peso : '') + ' — ' + fmtMoeda(produto.valorTabela);
 
-  // Dropdown de cores
-  const sel = document.getElementById('mc-cor');
-  sel.innerHTML = '';
+  // ─── Cor (só mostra se tiver paleta) ───
   const cores = obterCoresDoProduto(produto);
-  const coresOrdenadas = [...cores].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+  const blocoCor = document.getElementById('mc-cor').parentElement; // <label> + <select>
+  const labelCorAnterior = blocoCor.previousElementSibling; // o <label> "Cor"
 
-  coresOrdenadas.forEach(c => {
-    const opt = document.createElement('option');
-    opt.value = c;
-    opt.textContent = c;
-    sel.appendChild(opt);
-  });
-  const optSem = document.createElement('option');
-  optSem.value = 'SEM COR';
-  optSem.textContent = '— SEM COR —';
-  sel.appendChild(optSem);
-  const optOutra = document.createElement('option');
-  optOutra.value = '__OUTRA__';
-  optOutra.textContent = '— OUTRA (digitar) —';
-  sel.appendChild(optOutra);
-
-  sel.onchange = () => {
-    if (sel.value === '__OUTRA__') {
-      const custom = prompt('Digite a cor desejada:');
-      if (custom && custom.trim()) {
-        const opt = document.createElement('option');
-        opt.value = custom.trim();
-        opt.textContent = custom.trim();
-        sel.insertBefore(opt, sel.firstChild);
-        sel.value = custom.trim();
-      } else {
-        sel.value = coresOrdenadas[0] || 'SEM COR';
-      }
+  if (cores.length > 0 || produto.tabelaCor === 'SEM_PALETA') {
+    // Mostra o seletor de cor
+    blocoCor.style.display = 'block';
+    if (labelCorAnterior && labelCorAnterior.tagName === 'LABEL') {
+      labelCorAnterior.style.display = 'block';
     }
-  };
 
-  // Acabamentos
+    const sel = document.getElementById('mc-cor');
+    sel.innerHTML = '';
+    const coresOrdenadas = [...cores].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+
+    coresOrdenadas.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c;
+      opt.textContent = c;
+      sel.appendChild(opt);
+    });
+    const optSem = document.createElement('option');
+    optSem.value = 'SEM COR';
+    optSem.textContent = '— SEM COR —';
+    sel.appendChild(optSem);
+    const optOutra = document.createElement('option');
+    optOutra.value = '__OUTRA__';
+    optOutra.textContent = '— OUTRA (digitar) —';
+    sel.appendChild(optOutra);
+
+    sel.onchange = () => {
+      if (sel.value === '__OUTRA__') {
+        const custom = prompt('Digite a cor desejada:');
+        if (custom && custom.trim()) {
+          const opt = document.createElement('option');
+          opt.value = custom.trim();
+          opt.textContent = custom.trim();
+          sel.insertBefore(opt, sel.firstChild);
+          sel.value = custom.trim();
+        } else {
+          sel.value = coresOrdenadas[0] || 'SEM COR';
+        }
+      }
+    };
+  } else {
+    // Esconde o seletor de cor (produto sem paleta)
+    blocoCor.style.display = 'none';
+    if (labelCorAnterior && labelCorAnterior.tagName === 'LABEL') {
+      labelCorAnterior.style.display = 'none';
+    }
+  }
+
+  // ─── Acabamentos ───
   const boxAcab = document.getElementById('mc-acab-box');
   const divAcab = document.getElementById('mc-acab');
   divAcab.innerHTML = '';
@@ -901,7 +911,7 @@ function abrirModalCor(produto) {
     MC_ACAB_SELECIONADO = '';
   }
 
-  // Descontos
+  // ─── Descontos ───
   const boxDesc = document.getElementById('mc-desc');
   boxDesc.innerHTML = '';
   const opcoesDesc = [
@@ -932,6 +942,7 @@ function abrirModalCor(produto) {
     boxDesc.appendChild(btn);
   });
 
+  // ─── Quantidade ───
   const qtdNoCarrinho = calcularQtdNoCarrinho(produto.id);
   document.getElementById('mc-qtd').value = qtdNoCarrinho > 0 ? qtdNoCarrinho : 1;
 
@@ -979,7 +990,9 @@ function mcMudarQtd(delta) {
 
 function confirmarModalCor() {
   if (!MC_PRODUTO) return;
-  const cor = document.getElementById('mc-cor').value;
+  // Se não tem cor, passa vazio
+  const sel = document.getElementById('mc-cor');
+  const cor = sel.offsetParent !== null ? sel.value : '';
   const qtd = parseInt(document.getElementById('mc-qtd').value) || 1;
   adicionarAoCarrinho(MC_PRODUTO, qtd, cor, MC_ACAB_SELECIONADO, MC_DESCONTO);
   fecharModalCor();
