@@ -56,7 +56,6 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
    SUBBLOCO 04 — CSS: FILTROS, PRODUTOS, CHIPS, MODAL
    ═══════════════════════════════════════════════════════ */
 
-/* ─── Filtros de Linha e Sub-linha (scroll horizontal) ─── */
 .filtro-cat {
   display: flex;
   gap: 6px;
@@ -89,7 +88,6 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
   letter-spacing: 0.5px;
 }
 
-/* ─── Produtos no catálogo ─── */
 .produto {
   padding: 12px;
   border-bottom: 1px solid #f0f0f2;
@@ -106,7 +104,6 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
 .produto-add { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
 .produto-add input { width: 60px; padding: 6px; text-align: center; }
 
-/* ─── Chips de desconto no catálogo (grid 3 colunas) ─── */
 .precos-desconto {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -130,7 +127,6 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
   background: #fff8f0;
 }
 
-/* ─── Itens do pedido ─── */
 .item-pedido { padding: 12px; border-bottom: 1px solid #f0f0f2; }
 .item-pedido:last-child { border-bottom: none; }
 .item-pedido .linha1 { display: flex; justify-content: space-between; gap: 8px; }
@@ -159,18 +155,15 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
   pointer-events: none;
 }
 
-/* ─── Resumo do pedido ─── */
 .resumo { background: #1d1d1f; color: #fff; padding: 16px; border-radius: 12px; margin-top: 12px; }
 .resumo .linha { display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; }
 .resumo .total { font-size: 20px; font-weight: 700; padding-top: 10px; border-top: 1px solid #444; margin-top: 6px; }
 
-/* ─── Lojas / histórico ─── */
 .loja-card { padding: 12px; border-bottom: 1px solid #f0f0f2; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 .loja-card:last-child { border-bottom: none; }
 .contador { font-size: 12px; color: #666; margin-top: 6px; }
 .vazio { text-align: center; color: #999; padding: 30px 10px; font-size: 14px; }
 
-/* ─── Modal: linha família + sub-linha ─── */
 .modal-familias {
   font-size: 11px;
   color: #999;
@@ -179,7 +172,6 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
   letter-spacing: 0.3px;
 }
 
-/* ─── Modal: botão 30% (borda laranja) ─── */
 .opcoes-acab button.btn-30 {
   border: 1px solid #ff9800;
   color: #e65100;
@@ -191,8 +183,8 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
   border-color: #ff9800;
 }
 
-/* ─── Modal: botões de desconto (7 por linha) ─── */
-#mc-desc button {
+#mc-desc button,
+#mk-desc button {
   flex: 1 1 0;
   min-width: 0;
   padding: 8px 2px;
@@ -201,10 +193,9 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
 /* ═══════════════ FIM SUBBLOCO 04 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 04-B — CSS: KALK
+   SUBBLOCO 04-B — CSS: KALK (painel simplificado)
    ═══════════════════════════════════════════════════════ */
 
-/* Card do produto selecionado no Kalk */
 .kalk-produto-card {
   background: #f9fafb;
   border: 1px solid #e5e7eb;
@@ -229,7 +220,6 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
   color: #0071e3;
 }
 
-/* Abas do Kalk */
 .kalk-abas {
   display: flex;
   gap: 4px;
@@ -256,11 +246,29 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
   border-bottom-color: #0071e3;
   background: transparent;
 }
+.kalk-abas button {
+  min-height: 52px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  line-height: 1.2;
+}
+.kalk-abas button .linha1 {
+  font-size: 10px;
+  font-weight: 500;
+  opacity: 0.75;
+}
+.kalk-abas button .linha2 {
+  font-size: 12px;
+  font-weight: 700;
+}
+
 .kalk-aba-conteudo {
   padding-top: 16px;
 }
 
-/* Resultados do Kalk */
 .kalk-resultado {
   background: #eef6ff;
   border-radius: 10px;
@@ -288,7 +296,6 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
 .kalk-resultado.laranja { background: #fff8f0; }
 .kalk-resultado.laranja .linha.destaque { color: #e65100; border-top-color: #ffcc80; }
 
-/* Rodapé didático do Kalk */
 .kalk-rodape {
   background: #f5f5f7;
   border-radius: 10px;
@@ -306,7 +313,6 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
 .kalk-rodape p { margin-bottom: 8px; }
 .kalk-rodape strong { color: #1d1d1f; }
 
-/* Placeholder quando não tem produto */
 .kalk-placeholder {
   text-align: center;
   padding: 40px 20px;
@@ -348,13 +354,14 @@ nav.bottom button.ativo { color: #0071e3; }
 .qtd-controle button { width: 44px; height: 44px; padding: 0; font-size: 20px; margin: 0; }
 .qtd-controle input { text-align: center; font-size: 16px; font-weight: 600; }
 .btn-full { width: 100%; padding: 14px; font-size: 15px; margin-top: 16px; }
+.btn-full.kalk { background: #34a853; margin-top: 8px; }
+.btn-full.kalk:hover { background: #2d9249; }
 .preco-final-box { margin-top: 14px; padding: 10px 12px; background: #eef6ff; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
 .preco-final-box .label { font-size: 13px; color: #0066cc; font-weight: 600; }
 .preco-final-box .valor { font-size: 18px; color: #0066cc; font-weight: 700; }
 @media (max-width: 600px) { .produto { padding: 10px; } }
 @media print { nav.bottom, header, .no-print { display: none !important; } body { background: #fff; padding: 0; } .card { box-shadow: none; padding: 0; margin: 0; } }
 
-/* ─── Ajuste pra iOS Safari: nav sempre visível ─── */
 @supports (-webkit-touch-callout: none) {
   nav.bottom {
     padding-bottom: calc(10px + env(safe-area-inset-bottom));
@@ -366,57 +373,19 @@ nav.bottom button.ativo { color: #0071e3; }
 /* ═══════════════ FIM SUBBLOCO 05 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 05-B — CSS: NAV FIXA NO iOS (via transform)
+   SUBBLOCO 05-B — CSS: NAV FIXA NO iOS (reforço)
    ═══════════════════════════════════════════════════════ */
-
-/* Nav base — sem bottom fixo (o JS controla) */
 nav.bottom {
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
-  background: #fff;
-  border-top: 1px solid #d2d2d7;
-  display: flex;
-  justify-content: space-around;
-  z-index: 100;
-  padding: 8px 0 10px;
   transform: translate3d(0, 0, 0);
   -webkit-transform: translate3d(0, 0, 0);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   -webkit-perspective: 1000px;
   perspective: 1000px;
-}
-
-/* Safe area pra iPhone (home indicator) */
-@supports (-webkit-touch-callout: none) {
-  nav.bottom {
-    padding-bottom: calc(10px + env(safe-area-inset-bottom));
-  }
-  body {
-    padding-bottom: calc(90px + env(safe-area-inset-bottom));
-  }
-}
-
-/* Abas do Kalk com 2 linhas */
-.kalk-abas button {
-  min-height: 52px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 2px;
-  line-height: 1.2;
-}
-.kalk-abas button .linha1 {
-  font-size: 10px;
-  font-weight: 500;
-  opacity: 0.75;
-}
-.kalk-abas button .linha2 {
-  font-size: 12px;
-  font-weight: 700;
 }
 /* ═══════════════ FIM SUBBLOCO 05-B ═══════════════ */
 </style>
@@ -452,7 +421,6 @@ nav.bottom {
 
 <!-- ═══════════════════════════════════════════════════════
      SUBBLOCO 08 — HTML: TELAS PEDIDO, LOJAS, CONFIG
-     (Histórico está dentro de Config agora)
      ═══════════════════════════════════════════════════════ -->
 <div id="tela-pedido" class="tela">
   <div class="card">
@@ -509,7 +477,6 @@ nav.bottom {
   <button data-tela="catalogo" class="ativo"><span class="ico">📋</span>Catálogo</button>
   <button data-tela="pedido"><span class="ico">🛒</span>Pedido <span id="badge-carrinho"></span></button>
   <button data-tela="lojas"><span class="ico">🏪</span>Lojas</button>
-  <button data-tela="kalk"><span class="ico">🧮</span>Kalk</button>
   <button data-tela="config"><span class="ico">⚙️</span>Config</button>
 </nav>
 
@@ -533,7 +500,7 @@ nav.bottom {
 <!-- ═══════════════ FIM SUBBLOCO 09 ═══════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SUBBLOCO 10 — HTML: MODAL COR + ACABAMENTO + DESCONTO (catálogo/pedido)
+     SUBBLOCO 10 — HTML: MODAL COR + ACABAMENTO + DESCONTO
      ═══════════════════════════════════════════════════════ -->
 <div id="modal-cor" class="modal-overlay">
   <div class="modal">
@@ -572,28 +539,19 @@ nav.bottom {
     </div>
 
     <button class="btn-full" onclick="confirmarModalCor()">ADICIONAR AO PEDIDO</button>
+    <button class="btn-full kalk" onclick="enviarProKalk()">🧮 ENVIAR PRO KALK</button>
   </div>
 </div>
 <!-- ═══════════════ FIM SUBBLOCO 10 ═══════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SUBBLOCO 10-B — HTML: TELA KALK
+     SUBBLOCO 10-B — HTML: TELA KALK (só painel)
      ═══════════════════════════════════════════════════════ -->
 <div id="tela-kalk" class="tela">
-  <div class="card">
-    <h2>🧮 Kalk</h2>
-    <p style="font-size:13px;color:#666;margin-bottom:8px;">Escolha um produto MaxVinil para calcular preço, margem e markup.</p>
-    <input type="text" id="kalk-busca" placeholder="🔍 Buscar produto (ex: premium fosco)">
-    <div class="nivel-label">Linha (família)</div>
-    <div class="filtro-cat" id="kalk-filtro-linha"></div>
-    <div class="nivel-label" id="kalk-label-sublinha">Sub-linha</div>
-    <div class="filtro-cat" id="kalk-filtro-sublinha"></div>
-    <div class="contador" id="kalk-contador"></div>
+  <div class="card" style="padding:16px;">
+    <h2 style="margin-bottom:12px;">🧮 Kalk</h2>
+    <div id="kalk-painel"></div>
   </div>
-
-  <div class="card" id="kalk-lista-produtos"></div>
-
-  <div id="kalk-painel"></div>
 
   <div class="kalk-rodape">
     <h3>📚 Entendendo Markup e Margem</h3>
@@ -603,65 +561,6 @@ nav.bottom {
   </div>
 </div>
 <!-- ═══════════════ FIM SUBBLOCO 10-B ═══════════════ -->
-
-<!-- ═══════════════════════════════════════════════════════
-     SUBBLOCO 10-C — HTML: MODAL KALK
-     ═══════════════════════════════════════════════════════ -->
-<div id="modal-kalk" class="modal-overlay">
-  <div class="modal">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
-      <div>
-        <div class="modal-familias" id="mk-familias">—</div>
-        <div class="modal-titulo" id="mk-titulo">—</div>
-        <div class="modal-sub" id="mk-sub">—</div>
-      </div>
-      <button class="sec small" onclick="fecharModalKalk()" style="margin:0;">✕</button>
-    </div>
-
-    <div id="mk-cor-wrap">
-      <label>Cor</label>
-      <select id="mk-cor"></select>
-    </div>
-
-    <div id="mk-acab-box" style="display:none;">
-      <label>Acabamento</label>
-      <div class="opcoes-acab" id="mk-acab"></div>
-    </div>
-
-    <label>Desconto</label>
-    <div class="opcoes-acab" id="mk-desc"></div>
-
-    <div class="preco-final-box">
-      <span class="label">Preço com desconto</span>
-      <span class="valor" id="mk-preco-final">—</span>
-    </div>
-
-    <label style="display:flex;align-items:center;gap:8px;margin-top:14px;cursor:pointer;">
-      <input type="checkbox" id="mk-impostos-toggle" style="width:auto;" onchange="kalkToggleImpostos(this.checked)">
-      <span>Adicionar impostos</span>
-    </label>
-
-    <div id="mk-impostos-box" style="display:none;margin-top:8px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <div>
-          <label>Imposto 1 (%)</label>
-          <input type="number" id="mk-imposto1" value="0" min="0" max="100" step="0.01" onchange="kalkAtualizarImpostos()">
-        </div>
-        <div>
-          <label>Imposto 2 (%)</label>
-          <input type="number" id="mk-imposto2" value="0" min="0" max="100" step="0.01" onchange="kalkAtualizarImpostos()">
-        </div>
-      </div>
-      <div class="preco-final-box" style="background:#fff3e0;">
-        <span class="label" style="color:#e65100;">Custo final (com impostos)</span>
-        <span class="valor" id="mk-custo-final" style="color:#e65100;">—</span>
-      </div>
-    </div>
-
-    <button class="btn-full" onclick="kalkConfirmarProduto()">USAR ESTE PRODUTO NO KALK</button>
-  </div>
-</div>
-<!-- ═══════════════ FIM SUBBLOCO 10-C ═══════════════ -->
 
 </div><!-- /container -->
 
@@ -687,36 +586,28 @@ let MC_PRODUTO = null;
 let MC_ACAB_SELECIONADO = '';
 let MC_DESCONTO = 0;
 let MC_ITEM_EM_EDICAO = null;
+let MC_MODO = 'pedido';   // 'pedido' ou 'kalk'
 
 // Estado do Kalk
-let KALK_PRODUTO = null;              // produto escolhido
-let KALK_COR = '';                    // cor escolhida
-let KALK_ACABAMENTO = '';             // acabamento escolhido
-let KALK_DESCONTO = 0;                // desconto escolhido
-let KALK_IMPOSTO1 = 0;                // imposto 1 (%)
-let KALK_IMPOSTO2 = 0;                // imposto 2 (%)
-let KALK_LINHA_ATUAL = '';            // filtro linha
-let KALK_SUBLINHA_ATUAL = '';         // filtro sub-linha
-let KALK_ABA_ATUAL = 1;               // aba ativa (1, 2 ou 3)
-
-// Controle do modal Kalk
-let MK_PRODUTO = null;
-let MK_ACAB_SELECIONADO = '';
-let MK_DESCONTO = 0;
+let KALK_PRODUTO = null;
+let KALK_COR = '';
+let KALK_ACABAMENTO = '';
+let KALK_DESCONTO = 0;
+let KALK_IMPOSTO1 = 0;
+let KALK_IMPOSTO2 = 0;
+let KALK_ABA_ATUAL = 1;
 
 const STORAGE_KEY_LOJAS = 'maxvinil_lojas';
 const STORAGE_KEY_PEDIDOS = 'maxvinil_pedidos';
 const STORAGE_KEY_CARRINHO = 'maxvinil_carrinho_atual';
 
-// Índice: chave = nome identificador; valor = array de cores
 const TABELAS_CORES = {};
 /* ═══════════════ FIM SUBBLOCO 11 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 20 — TABELAS DE CORES (todas)
+   SUBBLOCO 20 — TABELAS DE CORES
    ═══════════════════════════════════════════════════════ */
 
-/* 01 — ESM IND. AUTOMOTIVO / CORES */
 TABELAS_CORES['ESM_IND_AUTOM_CORES'] = [
   "AREIA", "AZUL 2,5PB 4/10", "AZUL CELESTE", "AZUL DEL REY",
   "AZUL FRANÇA", "AZUL NEW HOLLAND", "CAMURÇA", "CINZA CHASSI SCANIA",
@@ -725,7 +616,6 @@ TABELAS_CORES['ESM_IND_AUTOM_CORES'] = [
   "MARROM CONHAQUE 7,5YR", "TABACO", "VERDE 10GY 6/6", "VERDE MÁQUINAS"
 ];
 
-/* 02 — ESM IND. AUTOMOTIVO / CORES INTENSAS */
 TABELAS_CORES['ESM_IND_AUTOM_CORES_INTENSAS'] = [
   "AMARELO 5Y 8/12", "AMARELO CARTEPILAR 10YR 7/12", "AMARELO OURO 10YR 8/14",
   "AMARELO PETROBRAS 2.5Y 8/12", "LARANJA 2.5Y 6/14", "LARANJA STARA",
@@ -733,7 +623,6 @@ TABELAS_CORES['ESM_IND_AUTOM_CORES_INTENSAS'] = [
   "VERMELHO 5R 4/14", "VERMELHO CASE II", "VERMELHO MASSEY FERGUSON"
 ];
 
-/* 03 — ESM D FERRUGEM BRIL */
 TABELAS_CORES['ESM_D_FERRUGEM'] = [
   "AMARELO 5Y 8/12", "AZUL DEL REY", "AZUL FRANÇA", "BRANCO GELO N9",
   "BRANCO N9,5", "BRONZE (Metálico)", "CINZA CLARO N6,5 (Platina)",
@@ -742,7 +631,6 @@ TABELAS_CORES['ESM_D_FERRUGEM'] = [
   "VERDE FOLHA", "VERMELHO 5R 4/14"
 ];
 
-/* 04 — ESM COBERTEX BRIL */
 TABELAS_CORES['ESM_COBERTEX_BRIL'] = [
   "AMARELO OURO", "AREIA", "AZUL DEL REY", "AZUL FRANÇA", "BRANCO GELO",
   "BRANCO NEVE", "CAMURÇA", "CINZA ESCURO", "CINZA MÉDIO", "COLORADO",
@@ -750,14 +638,12 @@ TABELAS_CORES['ESM_COBERTEX_BRIL'] = [
   "TABACO", "VERDE FOLHA", "VERMELHO", "VERMELHO GOYA"
 ];
 
-/* 05 — ESMALTE BASE AGUA */
 TABELAS_CORES['ESM_BASE_AGUA'] = [
   "AMARELO OURO", "AZUL DEL REY", "AZUL FRANÇA", "BRANCO GELO",
   "BRANCO NEVE", "CINZA ESCURO", "CINZA MÉDIO", "MARROM", "PLATINA",
   "PRETO", "TABACO", "VERDE FOLHA", "VERMELHO"
 ];
 
-/* 06 — EPOXI E POLIURETANO */
 TABELAS_CORES['EPOXI_PU'] = [
   "AMARELO 5Y 8/12", "AMARELO OURO 10YR 8/14", "AZUL 2,5 PB 4/10",
   "BRANCO N9,5", "CINZA CLARO N6,5 (Platina)", "CINZA MÉDIO N5",
@@ -765,24 +651,19 @@ TABELAS_CORES['EPOXI_PU'] = [
   "VERMELHO 5R 4/14", "VERMELHO ÓXIDO"
 ];
 
-/* 07 — KIT PU PISCINA */
 TABELAS_CORES['KIT_PU_PISCINA'] = ["AZUL", "BRANCO"];
 
-/* 08 — LINHA MADEIRA */
 TABELAS_CORES['LINHA_MADEIRA'] = [
   "INCOLOR Copal", "INCOLOR Filtro Solar", "INCOLOR Marítimo",
   "IMBUIA Filtro Solar", "MOGNO Filtro Solar", "NOGUEIRA Filtro Solar"
 ];
 
-/* 09 — DEMARCAÇÃO VIÁRIA */
 TABELAS_CORES['DEMARCACAO_VIARIA'] = ["AMARELO DEMARCAÇÃO", "BRANCO", "VERMELHO"];
 
-/* 10 — ACRILICA / ELASTOMERICO */
 TABELAS_CORES['ELASTOMERICO'] = [
   "BRANCO GELO", "BRANCO NEVE", "CRÔMIO", "NEVOEIRO", "NÉVOA DA MANHÃ", "PRATA"
 ];
 
-/* 11 — ACRILICA / PREMIUM */
 TABELAS_CORES['ACRILICA_PREMIUM'] = [
   "ALGODÃO EGÍPCIO", "AREIA", "BRANCO GELO", "BRANCO NEVE", "CAMURÇA",
   "CINZA NÉVOA", "CONCRETO", "CRÔMIO", "ERVA DOCE", "FOLHAGEM",
@@ -791,7 +672,6 @@ TABELAS_CORES['ACRILICA_PREMIUM'] = [
   "SONHO DISTANTE", "TRILHA DE PEDRA"
 ];
 
-/* 12 — ACRILICA / STANDARD (COBERTEX) */
 TABELAS_CORES['ACRILICA_STANDARD_COBERTEX'] = [
   "ALGODÃO EGÍPCIO", "AMANHECER", "AREIA", "ARARA AZUL", "BRANCO GELO",
   "BRANCO NEVE", "CAMURÇA", "CERRADO", "CONCRETO", "CRÔMIO",
@@ -800,23 +680,19 @@ TABELAS_CORES['ACRILICA_STANDARD_COBERTEX'] = [
   "PEQUI", "PRATA", "TOQUE DE KIWI", "VERMELHO CARDEAL"
 ];
 
-/* 13 — ACRILICA / STANDARD (RENDE MAIS) */
 TABELAS_CORES['ACRILICA_STANDARD_RENDE_MAIS'] = [
   "AREIA", "BRANCO GELO", "BRANCO NEVE", "CAMURÇA", "CRÔMIO",
   "NEVOEIRO", "NÉVOA DA MANHÃ", "PAPEL PICADO", "PRATA"
 ];
 
-/* 14 — ACRILICA / ECONÔMICO */
 TABELAS_CORES['ACRILICA_ECONOMICO'] = [
   "AMARELO FESTIVAL", "AREIA", "AZUL REI", "BATIDA DE UVA", "BOLO DE CENOURA",
   "BRANCO GELO", "BRANCO NEVE", "CÉU DE BRIGADEIRO", "CERRADO", "MARFIM",
   "NEVOEIRO", "PALHA", "PERIQUITO", "TERRA VERMELHA", "VERDE NOSTALGIA"
 ];
 
-/* 15 — ACRILICA / ECONÔMICO GESSO (referência) */
 TABELAS_CORES['ACRILICA_ECONOMICO_GESSO'] = ["BRANCO NEVE"];
 
-/* CC / CM / CE — TINTOMETRIA */
 TABELAS_CORES['TINTOMETRIA_CC'] = ["BRANCO"];
 
 TABELAS_CORES['TINTOMETRIA_CM'] = [
@@ -834,7 +710,6 @@ TABELAS_CORES['TINTOMETRIA_CE'] = [
   "VERMELHO MASSEY FERGUSON"
 ];
 
-/* SEM_PALETA — abre modal mas só com SEM COR + OUTRA */
 TABELAS_CORES['SEM_PALETA'] = [];
 /* ═══════════════ FIM SUBBLOCO 20 ═══════════════ */
 
@@ -951,13 +826,11 @@ function processarLinhas(linhas) {
 function identificarTabelaCor(linha, subLinha, descricao) {
   const norm = normalizar(descricao + ' ' + subLinha + ' ' + linha);
 
-  // 1) EXCEÇÕES GLOBAIS — cor fixa
   if (norm.includes('FERRUGEM METALICO')) return null;
   if (norm.includes('COBERTEX BRIL ALUMINIO')) return null;
   if (norm.includes('EPOXI BASE AGUA BRIL BRANCO')) return null;
   if (norm.includes('ACR GESSO/ALVEN')) return null;
 
-  // 2) SUFIXO CC / CM / CE (TINTOMETRIA) — combinam
   const temCC = /\bCC\b/.test(norm);
   const temCM = /\bCM\b/.test(norm);
   const temCE = /\bCE\b/.test(norm);
@@ -969,11 +842,9 @@ function identificarTabelaCor(linha, subLinha, descricao) {
     return 'TINTOMETRIA_' + sufixos.join(',');
   }
 
-  // 3) PRODUTOS SEM PALETA
   if (norm.includes('BASE CLEAR')) return 'SEM_PALETA';
   if (norm.includes('ARRANHADO MG')) return 'SEM_PALETA';
 
-  // 4) LINHA ESMALTES
   if (norm.includes('CORES INTENSAS')) return 'ESM_IND_AUTOM_CORES_INTENSAS';
   if (norm.includes('ACE/FOS/BRIL CORES') || norm.includes('ACAB ACE CORES') || norm.includes('DF S/B CORES')) {
     return 'ESM_IND_AUTOM_CORES';
@@ -989,7 +860,6 @@ function identificarTabelaCor(linha, subLinha, descricao) {
   }
   if (norm.includes('MAX TRAFEGO')) return 'DEMARCACAO_VIARIA';
 
-  // 5) LINHA ACRILICA
   if (norm.includes('ELASTOMERICO') && (norm.includes('MAXFLEX') || norm.includes('PINTURA EMBO') || norm.includes('VEDAMAX'))) {
     return 'ELASTOMERICO';
   }
@@ -1014,11 +884,7 @@ function identificarAcabamentos(descricao) {
 /* ═══════════════ FIM SUBBLOCO 23 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   Continua na Parte 3 (JS — Catálogo, Modal, Carrinho, Pedido, Lojas, etc.)
-   ═══════════════════════════════════════════════════════ */
-     
-/* ═══════════════════════════════════════════════════════
-   SUBBLOCO 24 — FILTROS (CATÁLOGO)
+   SUBBLOCO 24 — FILTROS DO CATÁLOGO
    ═══════════════════════════════════════════════════════ */
 function renderizarFiltros() {
   const boxL = document.getElementById('filtro-linha');
@@ -1065,6 +931,10 @@ function renderizarFiltros() {
   });
 }
 /* ═══════════════ FIM SUBBLOCO 24 ═══════════════ */
+
+/* ═══════════════════════════════════════════════════════
+   Continua na Parte 3 (JS — Catálogo, Modal, Carrinho, etc.)
+   ═══════════════════════════════════════════════════════ */
      
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 25 — CATÁLOGO (RENDER + BUSCA + ADD + DESCONTOS)
@@ -1094,7 +964,7 @@ function renderizarCatalogo() {
     const div = document.createElement('div');
     div.className = 'produto';
     const qtdNoCarrinho = calcularQtdNoCarrinho(p.id);
-    const linhaDescontos = gerarLinhaDescontos(p.valorTabela, p.linha);
+    const linhaDescontos = gerarLinhaDescontos(p.valorTabela);
 
     div.innerHTML =
       '<div class="produto-info">' +
@@ -1119,8 +989,8 @@ function renderizarCatalogo() {
   }
 }
 
-/* Gera os chips de desconto — agora SEMPRE inclui 30% */
-function gerarLinhaDescontos(valorTabela, linha) {
+/* Gera os chips de desconto — 30% para todos os produtos */
+function gerarLinhaDescontos(valorTabela) {
   const descontos = [5, 10, 15, 20, 25, 30];
 
   const partes = descontos.map(d => {
@@ -1136,16 +1006,16 @@ function calcularQtdNoCarrinho(produtoId) {
   return CARRINHO.filter(i => i.produtoId === produtoId).reduce((s, i) => s + i.qtd, 0);
 }
 
-/* SEMPRE abre o modal (com ou sem cor) */
 function clicouAdd(produtoId) {
   const p = PRODUTOS.find(x => x.id === produtoId);
   if (!p) return;
+  MC_MODO = 'pedido';
   abrirModalCor(p);
 }
 /* ═══════════════ FIM SUBBLOCO 25 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 26 — MODAL DE COR, ACABAMENTO E DESCONTO (catálogo/pedido)
+   SUBBLOCO 26 — MODAL DE COR, ACABAMENTO E DESCONTO
    ═══════════════════════════════════════════════════════ */
 function abrirModalCor(produto) {
   MC_PRODUTO = produto;
@@ -1243,7 +1113,7 @@ function abrirModalCor(produto) {
     MC_ACAB_SELECIONADO = '';
   }
 
-  // ─── Descontos (agora TODOS têm 30%) ───
+  // ─── Descontos ───
   const boxDesc = document.getElementById('mc-desc');
   boxDesc.innerHTML = '';
   const opcoesDesc = [
@@ -1406,7 +1276,6 @@ function removerItem(idx) {
   salvarLocal(); atualizarBadge(); renderizarPedido(); renderizarCatalogo();
 }
 
-/* Abre modal pré-preenchido para editar item do pedido */
 function editarItemPedido(idx) {
   const item = CARRINHO[idx];
   if (!item) return;
@@ -1431,6 +1300,7 @@ function editarItemPedido(idx) {
   renderizarPedido();
   renderizarCatalogo();
 
+  MC_MODO = 'pedido';
   abrirModalCor(produto);
 }
 /* ═══════════════ FIM SUBBLOCO 27 ═══════════════ */
@@ -1678,8 +1548,8 @@ function excluirPedido(id) {
   PEDIDOS = PEDIDOS.filter(p => p.id !== id);
   salvarLocal(); renderizarHistorico(); atualizarStatus();
 }
-/* ═══════════════ FIM SUBBLOCO 30 ═════════════
-     
+/* ═══════════════ FIM SUBBLOCO 30 ═══════════════ */
+
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 31 — NAVEGAÇÃO E STATUS
    ═══════════════════════════════════════════════════════ */
@@ -1693,7 +1563,7 @@ function trocarTela(nome) {
   if (nome === 'lojas') renderizarLojas();
   if (nome === 'config') { renderizarHistorico(); atualizarStatus(); }
   if (nome === 'pedido') renderizarPedido();
-  if (nome === 'kalk') renderizarKalk();
+  if (nome === 'kalk') renderizarKalkPainel();
   window.scrollTo(0, 0);
 }
 
@@ -1757,7 +1627,6 @@ function resetarTudo() {
    SUBBLOCO 33 — EXPORTAÇÃO (PDF + WHATSAPP)
    ═══════════════════════════════════════════════════════ */
 
-/* ─── Dados fixos da empresa ─── */
 const EMPRESA_NOME = 'PERFORMA BRAND';
 const EMPRESA_RAZAO = 'REP E CONSULTORIA LTDA';
 const EMPRESA_CNPJ = '63.334.766/0001-22';
@@ -1771,7 +1640,6 @@ const CONDICOES_COMERCIAIS = [
 
 const LINHA_WA = '─────────';
 
-/* ─── TEXTO DO WHATSAPP ─── */
 function montarTextoPedido() {
   const lojaId = document.getElementById('select-loja').value;
   const loja = LOJAS.find(l => l.id === lojaId);
@@ -1848,7 +1716,6 @@ function exportarWhatsApp() {
   window.open(url, '_blank');
 }
 
-/* ─── PDF ─── */
 function exportarPDF() {
   if (CARRINHO.length === 0) { alert('Adicione itens ao pedido primeiro.'); return; }
   const lojaId = document.getElementById('select-loja').value;
@@ -1934,7 +1801,7 @@ function exportarPDF() {
 /* ═══════════════ FIM SUBBLOCO 33 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   Continua na Parte 4 (JS — Inicialização + Kalk)
+   Continua na Parte 4 (JS — Inicialização + Kalk + fechamento)
    ═══════════════════════════════════════════════════════ */
      
 /* ═══════════════════════════════════════════════════════
@@ -1966,43 +1833,29 @@ function inicializar() {
     if (e.target.id === 'modal-cor') fecharModalCor();
   });
 
-  document.getElementById('modal-kalk').addEventListener('click', (e) => {
-    if (e.target.id === 'modal-kalk') fecharModalKalk();
-  });
-
-  document.getElementById('kalk-busca').addEventListener('input', renderizarKalkLista);
-
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       fecharModalLoja();
       fecharModalCor();
-      fecharModalKalk();
     }
   });
 
-  // Inicia o fix da nav
   iniciarFixNav();
 
   carregarPlanilha();
 }
 
-/* ═══════════════════════════════════════════════════════
-   Fix da nav inferior no iOS Safari
-   iOS esconde elementos position:fixed durante scroll.
-   Esta função "trava" a nav no lugar certo com transform.
-   ═══════════════════════════════════════════════════════ */
+/* Fix da nav inferior no iOS Safari */
 function iniciarFixNav() {
   const nav = document.querySelector('nav.bottom');
   if (!nav) return;
 
-  let ultimoScrollY = 0;
   let travado = false;
 
   function travar() {
     if (travado) return;
     travado = true;
 
-    // Marca que a nav foi "travada"
     nav.style.position = 'fixed';
     nav.style.bottom = '0';
     nav.style.transform = 'translate3d(0, 0, 0)';
@@ -2011,24 +1864,19 @@ function iniciarFixNav() {
     setTimeout(() => { travado = false; }, 30);
   }
 
-  // Sempre que rolar, reforça a posição
   window.addEventListener('scroll', travar, { passive: true });
   document.addEventListener('scroll', travar, { passive: true, capture: true });
 
-  // Quando o teclado abrir/fechar
   if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', travar);
     window.visualViewport.addEventListener('scroll', travar);
   }
 
-  // Quando focar/desfocar de um input
   document.addEventListener('focusin', () => setTimeout(travar, 50), true);
   document.addEventListener('focusout', () => setTimeout(travar, 100), true);
 
-  // Quando girar a tela
   window.addEventListener('orientationchange', () => setTimeout(travar, 200));
 
-  // Reforço periódico (silencioso)
   setInterval(travar, 800);
 }
 
@@ -2036,370 +1884,69 @@ document.addEventListener('DOMContentLoaded', inicializar);
 /* ═══════════════ FIM SUBBLOCO 34 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 35-A — KALK: FILTROS E LISTA DE PRODUTOS
-   (lista idêntica ao catálogo)
+   SUBBLOCO 35-A — KALK: ENVIAR DO MODAL
    ═══════════════════════════════════════════════════════ */
-function renderizarKalk() {
-  renderizarKalkFiltros();
-  renderizarKalkLista();
-  renderizarKalkPainel();
-}
 
-function renderizarKalkFiltros() {
-  const boxL = document.getElementById('kalk-filtro-linha');
-  boxL.innerHTML = '';
-  const btnTodasL = document.createElement('button');
-  btnTodasL.textContent = 'Todas';
-  btnTodasL.className = KALK_LINHA_ATUAL === '' ? 'ativo' : '';
-  btnTodasL.onclick = () => { KALK_LINHA_ATUAL = ''; KALK_SUBLINHA_ATUAL = ''; renderizarKalk(); };
-  boxL.appendChild(btnTodasL);
-  LINHAS.forEach(linha => {
-    const btn = document.createElement('button');
-    btn.textContent = linha;
-    btn.className = KALK_LINHA_ATUAL === linha ? 'ativo' : '';
-    btn.onclick = () => { KALK_LINHA_ATUAL = linha; KALK_SUBLINHA_ATUAL = ''; renderizarKalk(); };
-    boxL.appendChild(btn);
-  });
+/* Chamado pelo botão "ENVIAR PRO KALK" do modal do catálogo */
+function enviarProKalk() {
+  if (!MC_PRODUTO) return;
 
-  const boxS = document.getElementById('kalk-filtro-sublinha');
-  const labelS = document.getElementById('kalk-label-sublinha');
-  boxS.innerHTML = '';
-
-  let subs = [];
-  if (KALK_LINHA_ATUAL) {
-    subs = SUBLINHAS_POR_LINHA[KALK_LINHA_ATUAL] || [];
-    labelS.textContent = 'Sub-linha de ' + KALK_LINHA_ATUAL;
-  } else {
-    const setS = new Set();
-    Object.values(SUBLINHAS_POR_LINHA).forEach(arr => arr.forEach(s => setS.add(s)));
-    subs = Array.from(setS);
-    labelS.textContent = 'Sub-linha (todas as linhas)';
-  }
-
-  const btnTodasS = document.createElement('button');
-  btnTodasS.textContent = 'Todas';
-  btnTodasS.className = KALK_SUBLINHA_ATUAL === '' ? 'ativo' : '';
-  btnTodasS.onclick = () => { KALK_SUBLINHA_ATUAL = ''; renderizarKalk(); };
-  boxS.appendChild(btnTodasS);
-  subs.forEach(s => {
-    const btn = document.createElement('button');
-    btn.textContent = s;
-    btn.className = KALK_SUBLINHA_ATUAL === s ? 'ativo' : '';
-    btn.onclick = () => { KALK_SUBLINHA_ATUAL = s; renderizarKalk(); };
-    boxS.appendChild(btn);
-  });
-}
-
-function renderizarKalkLista() {
-  const busca = normalizar(document.getElementById('kalk-busca').value);
-  const lista = document.getElementById('kalk-lista-produtos');
-  const contador = document.getElementById('kalk-contador');
-
-  let filtrados = PRODUTOS.filter(p => {
-    if (KALK_LINHA_ATUAL && p.linha !== KALK_LINHA_ATUAL) return false;
-    if (KALK_SUBLINHA_ATUAL && p.subLinha !== KALK_SUBLINHA_ATUAL) return false;
-    if (busca && !normalizar(p.descricao + ' ' + p.embalagem + ' ' + p.peso).includes(busca)) return false;
-    return true;
-  });
-
-  contador.textContent = filtrados.length + ' produto(s) encontrado(s)';
-  lista.innerHTML = '';
-
-  if (filtrados.length === 0) {
-    lista.innerHTML = '<div class="vazio">Nenhum produto encontrado.</div>';
-    return;
-  }
-
-  filtrados.slice(0, 250).forEach(p => {
-    const div = document.createElement('div');
-    div.className = 'produto';
-    const linhaDescontos = gerarLinhaDescontos(p.valorTabela, p.linha);
-
-    div.innerHTML =
-      '<div class="produto-info">' +
-        '<div class="desc">' + p.descricao + '</div>' +
-        '<div class="meta">' + (p.embalagem ? p.embalagem + ' • ' : '') + (p.peso || '') +
-          ' <span class="badge cat">' + p.subLinha + '</span></div>' +
-        '<div class="preco">' + fmtMoeda(p.valorTabela) + '</div>' +
-        '<div class="precos-desconto">' + linhaDescontos + '</div>' +
-      '</div>' +
-      '<div class="produto-add">' +
-        '<button class="small" onclick="kalkEscolherProduto(\'' + p.id + '\')">Escolher</button>' +
-      '</div>';
-    lista.appendChild(div);
-  });
-
-  if (filtrados.length > 250) {
-    const aviso = document.createElement('div');
-    aviso.className = 'vazio';
-    aviso.textContent = 'Mostrando 250 de ' + filtrados.length + '. Refine a busca.';
-    lista.appendChild(aviso);
-  }
-}
-/* ═══════════════ FIM SUBBLOCO 35-A ═══════════════ */
-     
-/* ═══════════════════════════════════════════════════════
-   SUBBLOCO 35-B — KALK: MODAL (escolher produto)
-   ═══════════════════════════════════════════════════════ */
-function kalkEscolherProduto(produtoId) {
-  const p = PRODUTOS.find(x => x.id === produtoId);
-  if (!p) return;
-  abrirModalKalk(p);
-}
-
-function abrirModalKalk(produto) {
-  MK_PRODUTO = produto;
-  MK_ACAB_SELECIONADO = '';
-  MK_DESCONTO = 0;
-
-  document.getElementById('mk-familias').textContent = produto.linha + ' • ' + produto.subLinha;
-  document.getElementById('mk-titulo').textContent = produto.descricao;
-  document.getElementById('mk-sub').textContent = (produto.embalagem || '') + (produto.peso ? ' • ' + produto.peso : '') + ' — ' + fmtMoeda(produto.valorTabela);
-
-  // ─── Cor ───
-  const cores = obterCoresDoProduto(produto);
-  const temPaleta = (cores.length > 0) || produto.tabelaCor === 'SEM_PALETA';
-  const selectCor = document.getElementById('mk-cor');
-  const wrapCor = document.getElementById('mk-cor-wrap');
-
-  if (temPaleta && selectCor) {
-    if (wrapCor) wrapCor.style.display = 'block';
-    selectCor.style.display = 'block';
-    selectCor.innerHTML = '';
-    const coresOrdenadas = [...cores].sort((a, b) => a.localeCompare(b, 'pt-BR'));
-
-    coresOrdenadas.forEach(c => {
-      const opt = document.createElement('option');
-      opt.value = c;
-      opt.textContent = c;
-      selectCor.appendChild(opt);
-    });
-    const optSem = document.createElement('option');
-    optSem.value = 'SEM COR';
-    optSem.textContent = '— SEM COR —';
-    selectCor.appendChild(optSem);
-    const optOutra = document.createElement('option');
-    optOutra.value = '__OUTRA__';
-    optOutra.textContent = '— OUTRA (digitar) —';
-    selectCor.appendChild(optOutra);
-
-    selectCor.onchange = () => {
-      if (selectCor.value === '__OUTRA__') {
-        const custom = prompt('Digite a cor desejada:');
-        if (custom && custom.trim()) {
-          const opt = document.createElement('option');
-          opt.value = custom.trim();
-          opt.textContent = custom.trim();
-          selectCor.insertBefore(opt, selectCor.firstChild);
-          selectCor.value = custom.trim();
-        } else {
-          selectCor.value = coresOrdenadas[0] || 'SEM COR';
-        }
-      }
-    };
-  } else {
-    if (wrapCor) wrapCor.style.display = 'none';
-    if (selectCor) selectCor.style.display = 'none';
-  }
-
-  // ─── Acabamentos ───
-  const boxAcab = document.getElementById('mk-acab-box');
-  const divAcab = document.getElementById('mk-acab');
-  divAcab.innerHTML = '';
-  if (produto.acabamentos && produto.acabamentos.length > 1) {
-    boxAcab.style.display = 'block';
-    produto.acabamentos.forEach((a, idx) => {
-      const btn = document.createElement('button');
-      btn.textContent = a;
-      btn.className = idx === 0 ? 'ativo' : '';
-      btn.onclick = () => {
-        MK_ACAB_SELECIONADO = a;
-        divAcab.querySelectorAll('button').forEach(b => b.classList.remove('ativo'));
-        btn.classList.add('ativo');
-      };
-      divAcab.appendChild(btn);
-    });
-    MK_ACAB_SELECIONADO = produto.acabamentos[0];
-  } else {
-    boxAcab.style.display = 'none';
-    MK_ACAB_SELECIONADO = '';
-  }
-
-  // ─── Descontos (agora TODOS têm 30%) ───
-  const boxDesc = document.getElementById('mk-desc');
-  boxDesc.innerHTML = '';
-  const opcoesDesc = [
-    { label: 'sem', valor: 0 },
-    { label: '5%', valor: 5 },
-    { label: '10%', valor: 10 },
-    { label: '15%', valor: 15 },
-    { label: '20%', valor: 20 },
-    { label: '25%', valor: 25 },
-    { label: '30%', valor: 30, ehTrinta: true }
-  ];
-
-  opcoesDesc.forEach(op => {
-    const btn = document.createElement('button');
-    btn.textContent = op.label;
-    if (op.valor === 0) btn.classList.add('ativo');
-    if (op.ehTrinta) btn.classList.add('btn-30');
-    btn.onclick = () => {
-      MK_DESCONTO = op.valor;
-      boxDesc.querySelectorAll('button').forEach(b => b.classList.remove('ativo'));
-      btn.classList.add('ativo');
-      kalkAtualizarPrecoFinal();
-    };
-    boxDesc.appendChild(btn);
-  });
-
-  // ─── Impostos ───
-  document.getElementById('mk-impostos-toggle').checked = false;
-  document.getElementById('mk-impostos-box').style.display = 'none';
-  document.getElementById('mk-imposto1').value = 0;
-  document.getElementById('mk-imposto2').value = 0;
-  document.getElementById('mk-custo-final').textContent = '—';
-
-  kalkAtualizarPrecoFinal();
-
-  const modal = document.getElementById('modal-kalk');
-  modal.style.display = 'flex';
-  modal.classList.add('aberto');
-}
-
-function fecharModalKalk() {
-  const modal = document.getElementById('modal-kalk');
-  if (modal) {
-    modal.style.display = 'none';
-    modal.classList.remove('aberto');
-  }
-  MK_PRODUTO = null;
-  MK_ACAB_SELECIONADO = '';
-  MK_DESCONTO = 0;
-}
-
-function kalkAtualizarPrecoFinal() {
-  if (!MK_PRODUTO) return;
-  const preco = MK_PRODUTO.valorTabela * (1 - MK_DESCONTO / 100);
-  document.getElementById('mk-preco-final').textContent = fmtMoeda(preco);
-  kalkAtualizarImpostos();
-}
-
-function kalkToggleImpostos(ativo) {
-  const box = document.getElementById('mk-impostos-box');
-  if (ativo) {
-    box.style.display = 'block';
-    kalkAtualizarImpostos();
-  } else {
-    box.style.display = 'none';
-    document.getElementById('mk-imposto1').value = 0;
-    document.getElementById('mk-imposto2').value = 0;
-    document.getElementById('mk-custo-final').textContent = '—';
-  }
-}
-
-function kalkAtualizarImpostos() {
-  if (!MK_PRODUTO) return;
-  const preco = MK_PRODUTO.valorTabela * (1 - MK_DESCONTO / 100);
-  const imp1 = parseFloat(document.getElementById('mk-imposto1').value) || 0;
-  const imp2 = parseFloat(document.getElementById('mk-imposto2').value) || 0;
-  const vImp1 = preco * (imp1 / 100);
-  const vImp2 = preco * (imp2 / 100);
-  const custoFinal = preco + vImp1 + vImp2;
-  document.getElementById('mk-custo-final').textContent = fmtMoeda(custoFinal);
-}
-
-function kalkConfirmarProduto() {
-  if (!MK_PRODUTO) return;
-
-  const selectCor = document.getElementById('mk-cor');
+  const selectCor = document.getElementById('mc-cor');
   const cor = (selectCor && selectCor.style.display !== 'none') ? selectCor.value : '';
 
-  KALK_PRODUTO = MK_PRODUTO;
+  KALK_PRODUTO = MC_PRODUTO;
   KALK_COR = cor || '';
-  KALK_ACABAMENTO = MK_ACAB_SELECIONADO || '';
-  KALK_DESCONTO = MK_DESCONTO || 0;
+  KALK_ACABAMENTO = MC_ACAB_SELECIONADO || '';
+  KALK_DESCONTO = MC_DESCONTO || 0;
 
-  const temImpostos = document.getElementById('mk-impostos-toggle').checked;
-  if (temImpostos) {
-    KALK_IMPOSTO1 = parseFloat(document.getElementById('mk-imposto1').value) || 0;
-    KALK_IMPOSTO2 = parseFloat(document.getElementById('mk-imposto2').value) || 0;
-  } else {
-    KALK_IMPOSTO1 = 0;
-    KALK_IMPOSTO2 = 0;
-  }
+  // Kalk não usa impostos iniciais — o usuário adiciona na tela Kalk se quiser
+  KALK_IMPOSTO1 = 0;
+  KALK_IMPOSTO2 = 0;
 
   KALK_ABA_ATUAL = 1;
 
-  fecharModalKalk();
-  renderizarKalkPainel();
+  MC_ITEM_EM_EDICAO = null;
+  fecharModalCor();
 
-  const painel = document.getElementById('kalk-painel');
-  if (painel) painel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Troca pra tela Kalk
+  trocarTela('kalk');
 }
 
-/* Limpa os campos das abas (mantém o produto escolhido) */
-function kalkLimpar() {
-  const campo1 = document.getElementById('kalk-concorrente');
-  if (campo1) campo1.value = '';
-
-  const campo2 = document.getElementById('kalk-x');
-  if (campo2) campo2.value = '';
-
-  const campo3 = document.getElementById('kalk-preco-sugerido');
-  if (campo3) campo3.value = '';
-
-  const res1 = document.getElementById('kalk-resultado-aba1');
-  if (res1) res1.innerHTML = '';
-
-  const res2 = document.getElementById('kalk-resultado-aba2');
-  if (res2) res2.innerHTML = '';
-
-  const res3 = document.getElementById('kalk-resultado-aba3');
-  if (res3) res3.innerHTML = '';
-
-  KALK_ABA_ATUAL = 1;
-  renderizarKalkPainel();
-}
-/* ═══════════════ FIM SUBBLOCO 35-B ═══════════════ */
-     
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 35-C — KALK: CÁLCULOS BASE
+   SUBBLOCO 35-B — KALK: CÁLCULOS BASE
    ═══════════════════════════════════════════════════════ */
 
-/* Preço de tabela com desconto aplicado (antes de impostos) */
 function kalkPrecoComDesconto() {
   if (!KALK_PRODUTO) return 0;
   return KALK_PRODUTO.valorTabela * (1 - KALK_DESCONTO / 100);
 }
 
-/* Valor total de impostos (R$) sobre o preço com desconto */
 function kalkValorImpostos() {
   const preco = kalkPrecoComDesconto();
   return preco * (KALK_IMPOSTO1 / 100) + preco * (KALK_IMPOSTO2 / 100);
 }
 
-/* Custo final (custo de aquisição pra revenda) = preço c/ desconto + impostos */
 function kalkCustoFinal() {
   return kalkPrecoComDesconto() + kalkValorImpostos();
 }
 
-/* Impostos em % efetivo (soma dos 2 percentuais) */
 function kalkImpostosPct() {
   return KALK_IMPOSTO1 + KALK_IMPOSTO2;
 }
-/* ═══════════════ FIM SUBBLOCO 35-C ═══════════════ */
+/* ═══════════════ FIM SUBBLOCO 35-B ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 35-D — KALK: RENDER DA TELA (painel + abas)
+   SUBBLOCO 35-C — KALK: RENDER DO PAINEL
    ═══════════════════════════════════════════════════════ */
 function renderizarKalkPainel() {
   const painel = document.getElementById('kalk-painel');
+  if (!painel) return;
 
   if (!KALK_PRODUTO) {
     painel.innerHTML =
-      '<div class="card kalk-placeholder">' +
+      '<div class="kalk-placeholder">' +
         '<div class="ico-grande">🧮</div>' +
-        '<div>Escolha um produto acima para começar os cálculos.</div>' +
+        '<div>Escolha um produto no <strong>Catálogo</strong> e toque em <strong>🧮 ENVIAR PRO KALK</strong>.</div>' +
       '</div>';
     return;
   }
@@ -2409,9 +1956,8 @@ function renderizarKalkPainel() {
   const custoFinal = kalkCustoFinal();
   const pctImpostos = kalkImpostosPct();
 
-  // Card do produto selecionado
-  let html = '<div class="card">';
-  html += '<div class="kalk-produto-card">';
+  // Card do produto
+  let html = '<div class="kalk-produto-card">';
   html += '<div class="nome">' + KALK_PRODUTO.descricao + '</div>';
   html += '<div class="meta">' + KALK_PRODUTO.linha + ' • ' + KALK_PRODUTO.subLinha + ' • ' + (KALK_PRODUTO.embalagem || '') + (KALK_PRODUTO.peso ? ' • ' + KALK_PRODUTO.peso : '') + '</div>';
   if (KALK_COR) html += '<div class="meta">🎨 Cor: ' + KALK_COR + (KALK_ACABAMENTO ? ' • Acabamento: ' + KALK_ACABAMENTO : '') + '</div>';
@@ -2423,14 +1969,14 @@ function renderizarKalkPainel() {
   }
   html += '<div class="linha-calc custo"><span>CUSTO FINAL</span><span>' + fmtMoeda(custoFinal) + '</span></div>';
   html += '</div>';
-  html += '<div style="display:flex;gap:8px;">';
+
+  html += '<div style="display:flex;gap:8px;margin-bottom:16px;">';
   html += '<button class="sec small" style="flex:1;" onclick="kalkTrocarProduto()">🔄 Trocar produto</button>';
   html += '<button class="sec small" style="flex:1;" onclick="kalkLimpar()">🧹 Limpar</button>';
   html += '</div>';
-  html += '</div>';
 
-  // Abas (com 2 linhas)
-  html += '<div class="card" style="padding:0;overflow:hidden;">';
+  // Abas
+  html += '<div style="padding:0;overflow:hidden;">';
   html += '<div class="kalk-abas">';
   html += '<button class="' + (KALK_ABA_ATUAL === 1 ? 'ativo' : '') + '" onclick="kalkMudarAba(1)">' +
     '<span class="linha2">Preço Concorrente</span>' +
@@ -2444,7 +1990,7 @@ function renderizarKalkPainel() {
     '<span class="linha2">Preço Venda</span>' +
     '</button>';
   html += '</div>';
-  html += '<div class="kalk-aba-conteudo" style="padding:16px;">';
+  html += '<div class="kalk-aba-conteudo">';
   html += renderizarKalkAba();
   html += '</div>';
   html += '</div>';
@@ -2461,8 +2007,8 @@ function kalkTrocarProduto() {
   KALK_DESCONTO = 0;
   KALK_IMPOSTO1 = 0;
   KALK_IMPOSTO2 = 0;
-  renderizarKalkPainel();
-  window.scrollTo(0, 0);
+  KALK_ABA_ATUAL = 1;
+  trocarTela('catalogo');
 }
 
 function kalkMudarAba(n) {
@@ -2620,7 +2166,31 @@ function kalkConectarListenersAba() {
     if (el) el.addEventListener('input', kalkCalcularAba3);
   }
 }
-/* ═══════════════ FIM SUBBLOCO 35-D ═══════════════ */
+
+/* Limpa os campos das abas (mantém o produto escolhido) */
+function kalkLimpar() {
+  const campo1 = document.getElementById('kalk-concorrente');
+  if (campo1) campo1.value = '';
+
+  const campo2 = document.getElementById('kalk-x');
+  if (campo2) campo2.value = '';
+
+  const campo3 = document.getElementById('kalk-preco-sugerido');
+  if (campo3) campo3.value = '';
+
+  const res1 = document.getElementById('kalk-resultado-aba1');
+  if (res1) res1.innerHTML = '';
+
+  const res2 = document.getElementById('kalk-resultado-aba2');
+  if (res2) res2.innerHTML = '';
+
+  const res3 = document.getElementById('kalk-resultado-aba3');
+  if (res3) res3.innerHTML = '';
+
+  KALK_ABA_ATUAL = 1;
+  renderizarKalkPainel();
+}
+/* ═══════════════ FIM SUBBLOCO 35-C ═══════════════ */
 </script>
 
 </body>
