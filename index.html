@@ -318,7 +318,21 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 05 — CSS: NAV, MODAIS, QTD, MOBILE, PRINT
    ═══════════════════════════════════════════════════════ */
-nav.bottom { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #d2d2d7; display: flex; justify-content: space-around; z-index: 100; padding: 8px 0 10px; }
+nav.bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-top: 1px solid #d2d2d7;
+  display: flex;
+  justify-content: space-around;
+  z-index: 100;
+  padding: 8px 0 10px;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform;
+}
 nav.bottom button { background: none; color: #666; font-size: 11px; font-weight: 500; padding: 6px 8px; margin: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; flex: 1; }
 nav.bottom button .ico { font-size: 20px; }
 nav.bottom button.ativo { color: #0071e3; }
@@ -339,6 +353,16 @@ nav.bottom button.ativo { color: #0071e3; }
 .preco-final-box .valor { font-size: 18px; color: #0066cc; font-weight: 700; }
 @media (max-width: 600px) { .produto { padding: 10px; } }
 @media print { nav.bottom, header, .no-print { display: none !important; } body { background: #fff; padding: 0; } .card { box-shadow: none; padding: 0; margin: 0; } }
+
+/* ─── Ajuste pra iOS Safari: nav sempre visível ─── */
+@supports (-webkit-touch-callout: none) {
+  nav.bottom {
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+  }
+  body {
+    padding-bottom: calc(90px + env(safe-area-inset-bottom));
+  }
+}
 /* ═══════════════ FIM SUBBLOCO 05 ═══════════════ */
 </style>
 </head>
@@ -2212,9 +2236,35 @@ function kalkConfirmarProduto() {
   fecharModalKalk();
   renderizarKalkPainel();
 
-  // Rola até o painel
   const painel = document.getElementById('kalk-painel');
   if (painel) painel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* Limpa os campos das abas (mantém o produto escolhido) */
+function kalkLimpar() {
+  // Zera os campos de cálculo das abas
+  const campo1 = document.getElementById('kalk-concorrente');
+  if (campo1) campo1.value = '';
+
+  const campo2 = document.getElementById('kalk-x');
+  if (campo2) campo2.value = '';
+
+  const campo3 = document.getElementById('kalk-preco-sugerido');
+  if (campo3) campo3.value = '';
+
+  // Limpa os resultados
+  const res1 = document.getElementById('kalk-resultado-aba1');
+  if (res1) res1.innerHTML = '';
+
+  const res2 = document.getElementById('kalk-resultado-aba2');
+  if (res2) res2.innerHTML = '';
+
+  const res3 = document.getElementById('kalk-resultado-aba3');
+  if (res3) res3.innerHTML = '';
+
+  // Volta pra aba 1
+  KALK_ABA_ATUAL = 1;
+  renderizarKalkPainel();
 }
 /* ═══════════════ FIM SUBBLOCO 35-B ═══════════════ */
 
@@ -2279,7 +2329,10 @@ function renderizarKalkPainel() {
   }
   html += '<div class="linha-calc custo"><span>CUSTO FINAL</span><span>' + fmtMoeda(custoFinal) + '</span></div>';
   html += '</div>';
-  html += '<button class="sec small" onclick="kalkTrocarProduto()">🔄 Trocar produto</button>';
+  html += '<div style="display:flex;gap:8px;">';
+  html += '<button class="sec small" style="flex:1;" onclick="kalkTrocarProduto()">🔄 Trocar produto</button>';
+  html += '<button class="sec small" style="flex:1;" onclick="kalkLimpar()">🧹 Limpar</button>';
+  html += '</div>';
   html += '</div>';
 
   // Abas
@@ -2296,7 +2349,6 @@ function renderizarKalkPainel() {
 
   painel.innerHTML = html;
 
-  // Reconecta listeners dos inputs específicos da aba
   kalkConectarListenersAba();
 }
 
@@ -2325,7 +2377,6 @@ function renderizarKalkAba() {
 
 /* ─── ABA 1: COMPARAR COM CONCORRENTE ─── */
 function renderizarAba1() {
-  const custo = kalkCustoFinal();
   return '' +
     '<label>Preço do concorrente (R$)</label>' +
     '<input type="number" id="kalk-concorrente" value="0" min="0" step="0.01" oninput="kalkCalcularAba1()">' +
@@ -2345,31 +2396,41 @@ function kalkCalcularAba1() {
   const diff = conc - custo;
   const pct = (diff / conc) * 100;
 
+  // Markup e margem pra chegar no preço do concorrente
+  const markupConc = custo > 0 ? ((conc - custo) / custo) * 100 : 0;
+  const margemConc = (conc - custo) / conc * 100;
+
+  let html = '';
+
   if (diff > 0) {
-    // MaxVinil mais barata
-    div.innerHTML =
-      '<div class="kalk-resultado verde">' +
-        '<div class="linha"><span>Preço MaxVinil</span><span>' + fmtMoeda(custo) + '</span></div>' +
-        '<div class="linha"><span>Preço concorrente</span><span>' + fmtMoeda(conc) + '</span></div>' +
-        '<div class="linha"><span>Diferença em R$</span><span>− ' + fmtMoeda(diff) + '</span></div>' +
-        '<div class="linha destaque"><span>MaxVinil está mais barata</span><span>' + fmtPct(pct) + '</span></div>' +
-      '</div>';
+    html += '<div class="kalk-resultado verde">';
+    html += '<div class="linha"><span>Preço MaxVinil</span><span>' + fmtMoeda(custo) + '</span></div>';
+    html += '<div class="linha"><span>Preço concorrente</span><span>' + fmtMoeda(conc) + '</span></div>';
+    html += '<div class="linha"><span>Diferença em R$</span><span>− ' + fmtMoeda(diff) + '</span></div>';
+    html += '<div class="linha destaque"><span>MaxVinil está mais barata</span><span>' + fmtPct(pct) + '</span></div>';
+    html += '</div>';
   } else if (diff < 0) {
-    // MaxVinil mais cara
     const pctAbs = Math.abs(pct);
-    div.innerHTML =
-      '<div class="kalk-resultado vermelho">' +
-        '<div class="linha"><span>Preço MaxVinil</span><span>' + fmtMoeda(custo) + '</span></div>' +
-        '<div class="linha"><span>Preço concorrente</span><span>' + fmtMoeda(conc) + '</span></div>' +
-        '<div class="linha"><span>Diferença em R$</span><span>+ ' + fmtMoeda(Math.abs(diff)) + '</span></div>' +
-        '<div class="linha destaque"><span>MaxVinil está mais cara</span><span>' + fmtPct(pctAbs) + '</span></div>' +
-      '</div>';
+    html += '<div class="kalk-resultado vermelho">';
+    html += '<div class="linha"><span>Preço MaxVinil</span><span>' + fmtMoeda(custo) + '</span></div>';
+    html += '<div class="linha"><span>Preço concorrente</span><span>' + fmtMoeda(conc) + '</span></div>';
+    html += '<div class="linha"><span>Diferença em R$</span><span>+ ' + fmtMoeda(Math.abs(diff)) + '</span></div>';
+    html += '<div class="linha destaque"><span>MaxVinil está mais cara</span><span>' + fmtPct(pctAbs) + '</span></div>';
+    html += '</div>';
   } else {
-    div.innerHTML =
-      '<div class="kalk-resultado">' +
-        '<div class="linha destaque"><span>Preços iguais</span><span>0,00%</span></div>' +
-      '</div>';
+    html += '<div class="kalk-resultado">';
+    html += '<div class="linha destaque"><span>Preços iguais</span><span>0,00%</span></div>';
+    html += '</div>';
   }
+
+  // Bloco adicional: markup e margem pra igualar o concorrente
+  html += '<div class="kalk-resultado laranja" style="margin-top:12px;">';
+  html += '<div style="font-weight:600;margin-bottom:8px;font-size:13px;">Pra chegar no preço do concorrente (' + fmtMoeda(conc) + '):</div>';
+  html += '<div class="linha"><span>Markup necessário</span><span>' + fmtPct(markupConc) + '</span></div>';
+  html += '<div class="linha"><span>Margem necessária</span><span>' + fmtPct(margemConc) + '</span></div>';
+  html += '</div>';
+
+  div.innerHTML = html;
 }
 
 /* ─── ABA 2: PERCENTUAL X (MARKUP E MARGEM) ─── */
@@ -2390,11 +2451,9 @@ function kalkCalcularAba2() {
     return;
   }
 
-  // Preço pra atingir MARKUP X%
   const precoMarkup = custo * (1 + x / 100);
   const margemNoPrecoMarkup = precoMarkup > 0 ? ((precoMarkup - custo) / precoMarkup) * 100 : 0;
 
-  // Preço pra atingir MARGEM X%
   const precoMargem = custo / (1 - x / 100);
   const markupNoPrecoMargem = custo > 0 ? ((precoMargem - custo) / custo) * 100 : 0;
 
