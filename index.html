@@ -1522,14 +1522,13 @@ function excluirLoja() {
 }
 
 /* ═══════════════════════════════════════════════════════
-   BUSCA DE CNPJ — BrasilAPI (gratuita, sem chave)
+   BUSCA DE CNPJ — 3 fontes em cascata (com proxy CORS)
    ═══════════════════════════════════════════════════════ */
 async function buscarCNPJ() {
   const inputCnpj = document.getElementById('loja-cnpj');
   const btn = document.getElementById('btn-buscar-cnpj');
   const aviso = document.getElementById('cnpj-aviso');
 
-  // Limpa o CNPJ: só dígitos
   const cnpjLimpo = inputCnpj.value.replace(/\D/g, '');
 
   if (cnpjLimpo.length !== 14) {
@@ -1537,55 +1536,105 @@ async function buscarCNPJ() {
     return;
   }
 
-  // Feedback visual
   btn.disabled = true;
   btn.textContent = '⏳ Buscando...';
   aviso.innerHTML = '<span style="color:#0066cc;">Consultando Receita Federal...</span>';
 
+  let dados = null;
+  let erroFinal = '';
+
+  /* ─── FONTE 1: BrasilAPI via corsproxy.io ─── */
   try {
-    const resp = await fetch('https://brasilapi.com.br/api/cnpj/v1/' + cnpjLimpo);
-    if (!resp.ok) {
-      if (resp.status === 404) {
-        aviso.innerHTML = '<span style="color:#c00;">❌ CNPJ não encontrado na Receita.</span>';
-      } else {
-        aviso.innerHTML = '<span style="color:#c00;">❌ Erro ao consultar (código ' + resp.status + ').</span>';
-      }
-      return;
+    const url = 'https://corsproxy.io/?' + encodeURIComponent('https://brasilapi.com.br/api/cnpj/v1/' + cnpjLimpo);
+    const resp = await fetch(url);
+    if (resp.ok) {
+      dados = await resp.json();
+    } else {
+      erroFinal = 'Fonte 1 falhou (HTTP ' + resp.status + ')';
     }
-
-    const dados = await resp.json();
-
-    // ─── Preenche os campos ───
-    const razaoSocial = dados.razao_social || '';
-    const nomeFantasia = dados.nome_fantasia || '';
-    const nomeFinal = nomeFantasia || razaoSocial;
-
-    // Monta endereço completo
-    const partesEndereco = [];
-    if (dados.descricao_tipo_de_logradouro) partesEndereco.push(dados.descricao_tipo_de_logradouro);
-    else if (dados.logradouro) partesEndereco.push(dados.logradouro);
-    if (dados.logradouro && dados.descricao_tipo_de_logradouro) partesEndereco.push(dados.logradouro);
-    if (dados.numero) partesEndereco.push(dados.numero);
-    if (dados.complemento) partesEndereco.push(dados.complemento);
-    if (dados.bairro) partesEndereco.push(dados.bairro);
-    if (dados.municipio && dados.uf) partesEndereco.push(dados.municipio + '/' + dados.uf);
-    if (dados.cep) partesEndereco.push('CEP ' + formatarCEP(dados.cep));
-
-    document.getElementById('loja-nome').value = nomeFinal;
-    document.getElementById('loja-endereco').value = partesEndereco.join(', ');
-
-    // Formata o CNPJ com pontos e barra
-    inputCnpj.value = formatarCNPJ(cnpjLimpo);
-
-    aviso.innerHTML = '<span style="color:#2e7d32;">✅ Dados carregados! Confira e complete os campos abaixo.</span>';
-
   } catch (e) {
-    console.error(e);
-    aviso.innerHTML = '<span style="color:#c00;">❌ Sem conexão. Verifique a internet e tente de novo.</span>';
-  } finally {
+    console.warn('Fonte 1 falhou:', e);
+    erroFinal = 'Fonte 1 falhou';
+  }
+
+  /* ─── FONTE 2: BrasilAPI via allorigins.win ─── */
+  if (!dados) {
+    try {
+      const url = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://brasilapi.com.br/api/cnpj/v1/' + cnpjLimpo);
+      const resp = await fetch(url);
+      if (resp.ok) {
+        dados = await resp.json();
+      } else {
+        erroFinal = 'Fonte 2 falhou (HTTP ' + resp.status + ')';
+      }
+    } catch (e) {
+      console.warn('Fonte 2 falhou:', e);
+      erroFinal = 'Fonte 2 falhou';
+    }
+  }
+
+  /* ─── FONTE 3: ReceitaWS direta (aceita CORS) ─── */
+  if (!dados) {
+    try {
+      const resp = await fetch('https://receitaws.com.br/v1/cnpj/' + cnpjLimpo);
+      if (resp.ok) {
+        const raw = await resp.json();
+        if (raw && raw.status !== 'ERROR') {
+          // Converte formato ReceitaWS pro formato BrasilAPI (compatibilidade)
+          dados = {
+            razao_social: raw.nome || '',
+            nome_fantasia: raw.fantasia || '',
+            logradouro: raw.logradouro || '',
+            numero: raw.numero || '',
+            complemento: raw.complemento || '',
+            bairro: raw.bairro || '',
+            municipio: raw.municipio || '',
+            uf: raw.uf || '',
+            cep: raw.cep || ''
+          };
+        } else {
+          erroFinal = raw && raw.message ? raw.message : 'CNPJ não encontrado';
+        }
+      } else {
+        erroFinal = 'Fonte 3 falhou (HTTP ' + resp.status + ')';
+      }
+    } catch (e) {
+      console.warn('Fonte 3 falhou:', e);
+      erroFinal = 'Fonte 3 falhou';
+    }
+  }
+
+  /* ─── PROCESSAMENTO ─── */
+  if (!dados) {
+    aviso.innerHTML = '<span style="color:#c00;">❌ Não foi possível consultar o CNPJ. ' +
+      'Verifique a conexão e tente novamente em alguns segundos.</span>';
+    console.warn('Todas as fontes falharam. Último erro:', erroFinal);
     btn.disabled = false;
     btn.textContent = '🔍 Buscar';
+    return;
   }
+
+  const razaoSocial = dados.razao_social || '';
+  const nomeFantasia = dados.nome_fantasia || '';
+  const nomeFinal = nomeFantasia || razaoSocial;
+
+  const partesEndereco = [];
+  if (dados.descricao_tipo_de_logradouro) partesEndereco.push(dados.descricao_tipo_de_logradouro);
+  if (dados.logradouro) partesEndereco.push(dados.logradouro);
+  if (dados.numero) partesEndereco.push(dados.numero);
+  if (dados.complemento) partesEndereco.push(dados.complemento);
+  if (dados.bairro) partesEndereco.push(dados.bairro);
+  if (dados.municipio && dados.uf) partesEndereco.push(dados.municipio + '/' + dados.uf);
+  if (dados.cep) partesEndereco.push('CEP ' + formatarCEP(dados.cep));
+
+  document.getElementById('loja-nome').value = nomeFinal;
+  document.getElementById('loja-endereco').value = partesEndereco.join(', ');
+  inputCnpj.value = formatarCNPJ(cnpjLimpo);
+
+  aviso.innerHTML = '<span style="color:#2e7d32;">✅ Dados carregados! Confira e complete os campos abaixo.</span>';
+
+  btn.disabled = false;
+  btn.textContent = '🔍 Buscar';
 }
 
 /* Formata CNPJ: 00000000000000 → 00.000.000/0000-00 */
