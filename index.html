@@ -364,6 +364,36 @@ nav.bottom button.ativo { color: #0071e3; }
   }
 }
 /* ═══════════════ FIM SUBBLOCO 05 ═══════════════ */
+
+/* ═══════════════════════════════════════════════════════
+   SUBBLOCO 05-B — CSS: NAV TRAVADA (fix contra iOS teclado)
+   ═══════════════════════════════════════════════════════ */
+nav.bottom {
+  /* Reforça a fixação — não deixa o iOS "empurrar" a barra */
+  position: fixed !important;
+  bottom: 0 !important;
+  top: auto !important;
+}
+/* Abas do Kalk com 2 linhas */
+.kalk-abas button {
+  min-height: 52px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  line-height: 1.2;
+}
+.kalk-abas button .linha1 {
+  font-size: 10px;
+  font-weight: 500;
+  opacity: 0.75;
+}
+.kalk-abas button .linha2 {
+  font-size: 12px;
+  font-weight: 700;
+}
+/* ═══════════════ FIM SUBBLOCO 05-B ═══════════════ */
 </style>
 </head>
 <body>
@@ -1921,7 +1951,6 @@ function inicializar() {
     if (e.target.id === 'modal-kalk') fecharModalKalk();
   });
 
-  // Listeners do Kalk
   document.getElementById('kalk-busca').addEventListener('input', renderizarKalkLista);
 
   document.addEventListener('keydown', (e) => {
@@ -1932,7 +1961,46 @@ function inicializar() {
     }
   });
 
+  // Corrige a nav após o teclado fechar (iOS Safari)
+  corrigirNavPosicao();
+
   carregarPlanilha();
+}
+
+/* ═══════════════════════════════════════════════════════
+   Correção da nav no iOS Safari
+   O iOS "quebra" o position:fixed quando o teclado abre/fecha.
+   Esta função força a nav a voltar pro lugar correto.
+   ═══════════════════════════════════════════════════════ */
+function corrigirNavPosicao() {
+  const nav = document.querySelector('nav.bottom');
+  if (!nav) return;
+
+  function fixar() {
+    nav.style.position = 'fixed';
+    nav.style.bottom = '0px';
+    nav.style.top = 'auto';
+  }
+
+  // Sempre que a viewport visual mudar (teclado abriu/fechou/rolagem), reforça
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', fixar);
+    window.visualViewport.addEventListener('scroll', fixar);
+  }
+
+  // Reforça também no scroll e resize da janela normal
+  window.addEventListener('scroll', fixar, { passive: true });
+  window.addEventListener('resize', fixar);
+  window.addEventListener('orientationchange', () => setTimeout(fixar, 200));
+
+  // Reforça quando o input perde o foco (teclado fecha)
+  document.addEventListener('focusout', () => setTimeout(fixar, 100), true);
+  document.addEventListener('focusin', () => setTimeout(fixar, 100), true);
+
+  // Reforço periódico (preventivo)
+  setInterval(fixar, 1500);
+
+  fixar();
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
@@ -1940,6 +2008,7 @@ document.addEventListener('DOMContentLoaded', inicializar);
 
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 35-A — KALK: FILTROS E LISTA DE PRODUTOS
+   (lista idêntica ao catálogo)
    ═══════════════════════════════════════════════════════ */
 function renderizarKalk() {
   renderizarKalkFiltros();
@@ -2015,12 +2084,15 @@ function renderizarKalkLista() {
   filtrados.slice(0, 250).forEach(p => {
     const div = document.createElement('div');
     div.className = 'produto';
+    const linhaDescontos = gerarLinhaDescontos(p.valorTabela, p.linha);
+
     div.innerHTML =
       '<div class="produto-info">' +
         '<div class="desc">' + p.descricao + '</div>' +
         '<div class="meta">' + (p.embalagem ? p.embalagem + ' • ' : '') + (p.peso || '') +
           ' <span class="badge cat">' + p.subLinha + '</span></div>' +
         '<div class="preco">' + fmtMoeda(p.valorTabela) + '</div>' +
+        '<div class="precos-desconto">' + linhaDescontos + '</div>' +
       '</div>' +
       '<div class="produto-add">' +
         '<button class="small" onclick="kalkEscolherProduto(\'' + p.id + '\')">Escolher</button>' +
@@ -2335,12 +2407,20 @@ function renderizarKalkPainel() {
   html += '</div>';
   html += '</div>';
 
-  // Abas
+  // Abas (com 2 linhas)
   html += '<div class="card" style="padding:0;overflow:hidden;">';
   html += '<div class="kalk-abas">';
-  html += '<button class="' + (KALK_ABA_ATUAL === 1 ? 'ativo' : '') + '" onclick="kalkMudarAba(1)">1. Comparar</button>';
-  html += '<button class="' + (KALK_ABA_ATUAL === 2 ? 'ativo' : '') + '" onclick="kalkMudarAba(2)">2. % X</button>';
-  html += '<button class="' + (KALK_ABA_ATUAL === 3 ? 'ativo' : '') + '" onclick="kalkMudarAba(3)">3. R$ Sugerido</button>';
+  html += '<button class="' + (KALK_ABA_ATUAL === 1 ? 'ativo' : '') + '" onclick="kalkMudarAba(1)">' +
+    '<span class="linha2">Preço Concorrente</span>' +
+    '</button>';
+  html += '<button class="' + (KALK_ABA_ATUAL === 2 ? 'ativo' : '') + '" onclick="kalkMudarAba(2)">' +
+    '<span class="linha1">base %</span>' +
+    '<span class="linha2">Preço Venda</span>' +
+    '</button>';
+  html += '<button class="' + (KALK_ABA_ATUAL === 3 ? 'ativo' : '') + '" onclick="kalkMudarAba(3)">' +
+    '<span class="linha1">base R$</span>' +
+    '<span class="linha2">Preço Venda</span>' +
+    '</button>';
   html += '</div>';
   html += '<div class="kalk-aba-conteudo" style="padding:16px;">';
   html += renderizarKalkAba();
@@ -2375,7 +2455,7 @@ function renderizarKalkAba() {
   return '';
 }
 
-/* ─── ABA 1: COMPARAR COM CONCORRENTE ─── */
+/* ─── ABA 1: PREÇO CONCORRENTE ─── */
 function renderizarAba1() {
   return '' +
     '<label>Preço do concorrente (R$)</label>' +
@@ -2396,7 +2476,6 @@ function kalkCalcularAba1() {
   const diff = conc - custo;
   const pct = (diff / conc) * 100;
 
-  // Markup e margem pra chegar no preço do concorrente
   const markupConc = custo > 0 ? ((conc - custo) / custo) * 100 : 0;
   const margemConc = (conc - custo) / conc * 100;
 
@@ -2423,7 +2502,6 @@ function kalkCalcularAba1() {
     html += '</div>';
   }
 
-  // Bloco adicional: markup e margem pra igualar o concorrente
   html += '<div class="kalk-resultado laranja" style="margin-top:12px;">';
   html += '<div style="font-weight:600;margin-bottom:8px;font-size:13px;">Pra chegar no preço do concorrente (' + fmtMoeda(conc) + '):</div>';
   html += '<div class="linha"><span>Markup necessário</span><span>' + fmtPct(markupConc) + '</span></div>';
@@ -2433,10 +2511,10 @@ function kalkCalcularAba1() {
   div.innerHTML = html;
 }
 
-/* ─── ABA 2: PERCENTUAL X (MARKUP E MARGEM) ─── */
+/* ─── ABA 2: PREÇO VENDA — BASE % ─── */
 function renderizarAba2() {
   return '' +
-    '<label>Percentual X (%)</label>' +
+    '<label>Percentual (%)</label>' +
     '<input type="number" id="kalk-x" value="30" min="0" max="99" step="0.01" oninput="kalkCalcularAba2()">' +
     '<div id="kalk-resultado-aba2"></div>';
 }
@@ -2472,10 +2550,10 @@ function kalkCalcularAba2() {
     '</div>';
 }
 
-/* ─── ABA 3: PREÇO SUGERIDO R$ ─── */
+/* ─── ABA 3: PREÇO VENDA — BASE R$ ─── */
 function renderizarAba3() {
   return '' +
-    '<label>Preço sugerido pra revenda (R$)</label>' +
+    '<label>Preço de venda (R$)</label>' +
     '<input type="number" id="kalk-preco-sugerido" value="0" min="0" step="0.01" oninput="kalkCalcularAba3()">' +
     '<div id="kalk-resultado-aba3"></div>';
 }
@@ -2506,7 +2584,6 @@ function kalkCalcularAba3() {
     '</div>';
 }
 
-/* Reconecta os listeners dos inputs das abas (após render) */
 function kalkConectarListenersAba() {
   if (KALK_ABA_ATUAL === 1) {
     const el = document.getElementById('kalk-concorrente');
