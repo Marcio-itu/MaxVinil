@@ -549,7 +549,10 @@ nav.bottom {
      ═══════════════════════════════════════════════════════ -->
 <div id="tela-kalk" class="tela">
   <div class="card" style="padding:16px;">
-    <h2 style="margin-bottom:12px;">🧮 Kalk</h2>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <h2 style="margin:0;">🧮 Kalk</h2>
+      <button class="sec small" onclick="trocarTela('catalogo')" style="margin:0;">← Voltar</button>
+    </div>
     <div id="kalk-painel"></div>
   </div>
 
@@ -1563,6 +1566,7 @@ function trocarTela(nome) {
   if (nome === 'lojas') renderizarLojas();
   if (nome === 'config') { renderizarHistorico(); atualizarStatus(); }
   if (nome === 'pedido') renderizarPedido();
+  // Quando entra na tela Kalk, garante que o painel está renderizado
   if (nome === 'kalk') renderizarKalkPainel();
   window.scrollTo(0, 0);
 }
@@ -1577,7 +1581,7 @@ function atualizarStatus() {
     '📜 Pedidos salvos: <b>' + PEDIDOS.length + '</b>';
 }
 /* ═══════════════ FIM SUBBLOCO 31 ═══════════════ */
-
+     
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 32 — BACKUP (EXPORT / IMPORT)
    ═══════════════════════════════════════════════════════ */
@@ -1946,7 +1950,9 @@ function renderizarKalkPainel() {
     painel.innerHTML =
       '<div class="kalk-placeholder">' +
         '<div class="ico-grande">🧮</div>' +
-        '<div>Escolha um produto no <strong>Catálogo</strong> e toque em <strong>🧮 ENVIAR PRO KALK</strong>.</div>' +
+        '<div style="margin-bottom:8px;">Nenhum produto selecionado no Kalk.</div>' +
+        '<div style="font-size:13px;">Vá ao <strong>Catálogo</strong>, toque em <strong>+ Add</strong> num produto e depois em <strong>🧮 ENVIAR PRO KALK</strong>.</div>' +
+        '<button class="sec" style="margin-top:16px;" onclick="trocarTela(\'catalogo\')">← Ir pro Catálogo</button>' +
       '</div>';
     return;
   }
