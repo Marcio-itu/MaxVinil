@@ -51,7 +51,7 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
 .alerta-vermelho { background: #ffebeb; color: #c00; padding: 10px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-top: 8px; border-left: 4px solid #ff3b30; }
 .info { background: #eef6ff; color: #0066cc; padding: 10px 12px; border-radius: 8px; font-size: 13px; margin-top: 8px; }
 /* ═══════════════ FIM SUBBLOCO 03 ═══════════════ */
-     
+
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 04 — CSS: FILTROS, PRODUTOS, CHIPS, MODAL
    ═══════════════════════════════════════════════════════ */
@@ -137,8 +137,6 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
 .item-pedido .desc { font-weight: 600; font-size: 14px; flex: 1; }
 .item-pedido .linha2 { display: grid; grid-template-columns: 60px 1fr 1fr 1fr auto; gap: 6px; margin-top: 8px; align-items: center; font-size: 12px; }
 .item-pedido input { padding: 6px; font-size: 13px; text-align: center; }
-
-/* ─── Desconto com símbolo % dentro da mesma caixa ─── */
 .item-pedido .desc-wrap {
   position: relative;
   display: flex;
@@ -203,6 +201,121 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
 /* ═══════════════ FIM SUBBLOCO 04 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
+   SUBBLOCO 04-B — CSS: KALK
+   ═══════════════════════════════════════════════════════ */
+
+/* Card do produto selecionado no Kalk */
+.kalk-produto-card {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.kalk-produto-card .nome { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+.kalk-produto-card .meta { font-size: 12px; color: #666; margin-bottom: 10px; }
+.kalk-produto-card .linha-calc {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 13px;
+}
+.kalk-produto-card .linha-calc.custo {
+  border-top: 2px solid #ddd;
+  margin-top: 8px;
+  padding-top: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0071e3;
+}
+
+/* Abas do Kalk */
+.kalk-abas {
+  display: flex;
+  gap: 4px;
+  margin-top: 12px;
+  margin-bottom: 0;
+  border-bottom: 2px solid #e8e8ed;
+}
+.kalk-abas button {
+  flex: 1;
+  padding: 10px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  background: transparent;
+  color: #666;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin: 0;
+  border-radius: 0;
+  cursor: pointer;
+}
+.kalk-abas button:hover { background: #f5f5f7; color: #1d1d1f; }
+.kalk-abas button.ativo {
+  color: #0071e3;
+  border-bottom-color: #0071e3;
+  background: transparent;
+}
+.kalk-aba-conteudo {
+  padding-top: 16px;
+}
+
+/* Resultados do Kalk */
+.kalk-resultado {
+  background: #eef6ff;
+  border-radius: 10px;
+  padding: 14px;
+  margin-top: 12px;
+}
+.kalk-resultado .linha {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 14px;
+}
+.kalk-resultado .linha.destaque {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0071e3;
+  border-top: 1px solid #c7d9f0;
+  padding-top: 10px;
+  margin-top: 6px;
+}
+.kalk-resultado.verde { background: #e8f5e9; }
+.kalk-resultado.verde .linha.destaque { color: #2e7d32; border-top-color: #a5d6a7; }
+.kalk-resultado.vermelho { background: #ffebee; }
+.kalk-resultado.vermelho .linha.destaque { color: #c62828; border-top-color: #ef9a9a; }
+.kalk-resultado.laranja { background: #fff8f0; }
+.kalk-resultado.laranja .linha.destaque { color: #e65100; border-top-color: #ffcc80; }
+
+/* Rodapé didático do Kalk */
+.kalk-rodape {
+  background: #f5f5f7;
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 20px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: #555;
+}
+.kalk-rodape h3 {
+  font-size: 13px;
+  margin-bottom: 8px;
+  color: #1d1d1f;
+}
+.kalk-rodape p { margin-bottom: 8px; }
+.kalk-rodape strong { color: #1d1d1f; }
+
+/* Placeholder quando não tem produto */
+.kalk-placeholder {
+  text-align: center;
+  padding: 40px 20px;
+  color: #999;
+}
+.kalk-placeholder .ico-grande { font-size: 48px; margin-bottom: 12px; }
+/* ═══════════════ FIM SUBBLOCO 04-B ═══════════════ */
+
+/* ═══════════════════════════════════════════════════════
    SUBBLOCO 05 — CSS: NAV, MODAIS, QTD, MOBILE, PRINT
    ═══════════════════════════════════════════════════════ */
 nav.bottom { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #d2d2d7; display: flex; justify-content: space-around; z-index: 100; padding: 8px 0 10px; }
@@ -259,7 +372,8 @@ nav.bottom button.ativo { color: #0071e3; }
 <!-- ═══════════════ FIM SUBBLOCO 07 ═══════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SUBBLOCO 08 — HTML: TELAS PEDIDO, LOJAS, HISTÓRICO, CONFIG
+     SUBBLOCO 08 — HTML: TELAS PEDIDO, LOJAS, CONFIG
+     (Histórico está dentro de Config agora)
      ═══════════════════════════════════════════════════════ -->
 <div id="tela-pedido" class="tela">
   <div class="card">
@@ -289,12 +403,11 @@ nav.bottom button.ativo { color: #0071e3; }
   <div class="card" id="lista-lojas"></div>
 </div>
 
-<div id="tela-historico" class="tela">
-  <div class="card"><h2>Histórico de Pedidos</h2></div>
-  <div class="card" id="lista-pedidos"></div>
-</div>
-
 <div id="tela-config" class="tela">
+  <div class="card">
+    <h2>📜 Histórico de Pedidos</h2>
+    <div id="lista-pedidos" style="margin-top:8px;"></div>
+  </div>
   <div class="card">
     <h2>Backup</h2>
     <p style="font-size:13px;color:#666;margin-bottom:12px;">Exporte um arquivo com todas as lojas e pedidos salvos.</p>
@@ -317,7 +430,7 @@ nav.bottom button.ativo { color: #0071e3; }
   <button data-tela="catalogo" class="ativo"><span class="ico">📋</span>Catálogo</button>
   <button data-tela="pedido"><span class="ico">🛒</span>Pedido <span id="badge-carrinho"></span></button>
   <button data-tela="lojas"><span class="ico">🏪</span>Lojas</button>
-  <button data-tela="historico"><span class="ico">📜</span>Histórico</button>
+  <button data-tela="kalk"><span class="ico">🧮</span>Kalk</button>
   <button data-tela="config"><span class="ico">⚙️</span>Config</button>
 </nav>
 
@@ -341,7 +454,7 @@ nav.bottom button.ativo { color: #0071e3; }
 <!-- ═══════════════ FIM SUBBLOCO 09 ═══════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SUBBLOCO 10 — HTML: MODAL COR + ACABAMENTO + DESCONTO
+     SUBBLOCO 10 — HTML: MODAL COR + ACABAMENTO + DESCONTO (catálogo/pedido)
      ═══════════════════════════════════════════════════════ -->
 <div id="modal-cor" class="modal-overlay">
   <div class="modal">
@@ -354,8 +467,10 @@ nav.bottom button.ativo { color: #0071e3; }
       <button class="sec small" onclick="fecharModalCor()" style="margin:0;">✕</button>
     </div>
 
-    <label>Cor</label>
-    <select id="mc-cor"></select>
+    <div id="mc-cor-wrap">
+      <label>Cor</label>
+      <select id="mc-cor"></select>
+    </div>
 
     <div id="mc-acab-box" style="display:none;">
       <label>Acabamento</label>
@@ -382,11 +497,98 @@ nav.bottom button.ativo { color: #0071e3; }
 </div>
 <!-- ═══════════════ FIM SUBBLOCO 10 ═══════════════ -->
 
+<!-- ═══════════════════════════════════════════════════════
+     SUBBLOCO 10-B — HTML: TELA KALK
+     ═══════════════════════════════════════════════════════ -->
+<div id="tela-kalk" class="tela">
+  <div class="card">
+    <h2>🧮 Kalk</h2>
+    <p style="font-size:13px;color:#666;margin-bottom:8px;">Escolha um produto MaxVinil para calcular preço, margem e markup.</p>
+    <input type="text" id="kalk-busca" placeholder="🔍 Buscar produto (ex: premium fosco)">
+    <div class="nivel-label">Linha (família)</div>
+    <div class="filtro-cat" id="kalk-filtro-linha"></div>
+    <div class="nivel-label" id="kalk-label-sublinha">Sub-linha</div>
+    <div class="filtro-cat" id="kalk-filtro-sublinha"></div>
+    <div class="contador" id="kalk-contador"></div>
+  </div>
+
+  <div class="card" id="kalk-lista-produtos"></div>
+
+  <div id="kalk-painel"></div>
+
+  <div class="kalk-rodape">
+    <h3>📚 Entendendo Markup e Margem</h3>
+    <p><strong>Markup</strong> é o quanto você adiciona <strong>sobre o custo</strong>. Se o custo é R$ 100 e você vende por R$ 130, seu markup é <strong>30%</strong> (R$ 30 / R$ 100).</p>
+    <p><strong>Margem</strong> é o quanto sobra <strong>sobre o preço de venda</strong>. No mesmo exemplo, R$ 30 sobre R$ 130 dá margem de <strong>23,08%</strong>.</p>
+    <p>👉 O markup sempre é <strong>maior</strong> que a margem. Se você pensa "quero 30% de lucro sobre o que o cliente paga", use margem. Se pensa "quero 30% sobre o que gastei", use markup.</p>
+  </div>
+</div>
+<!-- ═══════════════ FIM SUBBLOCO 10-B ═══════════════ -->
+
+<!-- ═══════════════════════════════════════════════════════
+     SUBBLOCO 10-C — HTML: MODAL KALK
+     ═══════════════════════════════════════════════════════ -->
+<div id="modal-kalk" class="modal-overlay">
+  <div class="modal">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+      <div>
+        <div class="modal-familias" id="mk-familias">—</div>
+        <div class="modal-titulo" id="mk-titulo">—</div>
+        <div class="modal-sub" id="mk-sub">—</div>
+      </div>
+      <button class="sec small" onclick="fecharModalKalk()" style="margin:0;">✕</button>
+    </div>
+
+    <div id="mk-cor-wrap">
+      <label>Cor</label>
+      <select id="mk-cor"></select>
+    </div>
+
+    <div id="mk-acab-box" style="display:none;">
+      <label>Acabamento</label>
+      <div class="opcoes-acab" id="mk-acab"></div>
+    </div>
+
+    <label>Desconto</label>
+    <div class="opcoes-acab" id="mk-desc"></div>
+
+    <div class="preco-final-box">
+      <span class="label">Preço com desconto</span>
+      <span class="valor" id="mk-preco-final">—</span>
+    </div>
+
+    <label style="display:flex;align-items:center;gap:8px;margin-top:14px;cursor:pointer;">
+      <input type="checkbox" id="mk-impostos-toggle" style="width:auto;" onchange="kalkToggleImpostos(this.checked)">
+      <span>Adicionar impostos</span>
+    </label>
+
+    <div id="mk-impostos-box" style="display:none;margin-top:8px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div>
+          <label>Imposto 1 (%)</label>
+          <input type="number" id="mk-imposto1" value="0" min="0" max="100" step="0.01" onchange="kalkAtualizarImpostos()">
+        </div>
+        <div>
+          <label>Imposto 2 (%)</label>
+          <input type="number" id="mk-imposto2" value="0" min="0" max="100" step="0.01" onchange="kalkAtualizarImpostos()">
+        </div>
+      </div>
+      <div class="preco-final-box" style="background:#fff3e0;">
+        <span class="label" style="color:#e65100;">Custo final (com impostos)</span>
+        <span class="valor" id="mk-custo-final" style="color:#e65100;">—</span>
+      </div>
+    </div>
+
+    <button class="btn-full" onclick="kalkConfirmarProduto()">USAR ESTE PRODUTO NO KALK</button>
+  </div>
+</div>
+<!-- ═══════════════ FIM SUBBLOCO 10-C ═══════════════ -->
+
 </div><!-- /container -->
 
 <script>
 /* ═══════════════════════════════════════════════════════
-   Continua na PARTE 2 (JS — Estado + Tabelas + Parser)
+   Continua na Parte 2 (JS — Estado + Tabelas + Parser)
    ═══════════════════════════════════════════════════════ */
      
 /* ═══════════════════════════════════════════════════════
@@ -405,6 +607,23 @@ let PEDIDOS = [];
 let MC_PRODUTO = null;
 let MC_ACAB_SELECIONADO = '';
 let MC_DESCONTO = 0;
+let MC_ITEM_EM_EDICAO = null;
+
+// Estado do Kalk
+let KALK_PRODUTO = null;              // produto escolhido
+let KALK_COR = '';                    // cor escolhida
+let KALK_ACABAMENTO = '';             // acabamento escolhido
+let KALK_DESCONTO = 0;                // desconto escolhido
+let KALK_IMPOSTO1 = 0;                // imposto 1 (%)
+let KALK_IMPOSTO2 = 0;                // imposto 2 (%)
+let KALK_LINHA_ATUAL = '';            // filtro linha
+let KALK_SUBLINHA_ATUAL = '';         // filtro sub-linha
+let KALK_ABA_ATUAL = 1;               // aba ativa (1, 2 ou 3)
+
+// Controle do modal Kalk
+let MK_PRODUTO = null;
+let MK_ACAB_SELECIONADO = '';
+let MK_DESCONTO = 0;
 
 const STORAGE_KEY_LOJAS = 'maxvinil_lojas';
 const STORAGE_KEY_PEDIDOS = 'maxvinil_pedidos';
@@ -546,6 +765,9 @@ TABELAS_CORES['SEM_PALETA'] = [];
 function fmtMoeda(v) {
   return 'R$ ' + (Number(v) || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
+function fmtPct(v) {
+  return (Number(v) || 0).toFixed(2).replace('.', ',') + '%';
+}
 function normalizar(txt) {
   return String(txt || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().trim();
 }
@@ -593,7 +815,6 @@ async function carregarPlanilha() {
 
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 23 — PARSER DA PLANILHA (L, SL, P, D)
-   Colunas: A=TIPO, B=QTD, C=DESCRIÇÃO, D=EMBALAGEM, E=PESO/LITRO, F=VALOR TABELA
    ═══════════════════════════════════════════════════════ */
 function processarLinhas(linhas) {
   PRODUTOS = [];
@@ -714,11 +935,11 @@ function identificarAcabamentos(descricao) {
 /* ═══════════════ FIM SUBBLOCO 23 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   Continua na PARTE 3 (JS — Catálogo, Modal, Carrinho, etc.)
+   Continua na Parte 3 (JS — Catálogo, Modal, Carrinho, Pedido, Lojas, etc.)
    ═══════════════════════════════════════════════════════ */
      
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 24 — FILTROS (LINHA E SUB-LINHA)
+   SUBBLOCO 24 — FILTROS (CATÁLOGO)
    ═══════════════════════════════════════════════════════ */
 function renderizarFiltros() {
   const boxL = document.getElementById('filtro-linha');
@@ -845,17 +1066,13 @@ function clicouAdd(produtoId) {
   abrirModalCor(p);
 }
 /* ═══════════════ FIM SUBBLOCO 25 ═══════════════ */
-     
-/* ═══════════════════════════════════════════════════════
-   SUBBLOCO 26 — MODAL DE COR, ACABAMENTO E DESCONTO
-   (v3 — com modo edição pré-preenchido)
-   ═══════════════════════════════════════════════════════ */
-let MC_ITEM_EM_EDICAO = null;
 
+/* ═══════════════════════════════════════════════════════
+   SUBBLOCO 26 — MODAL DE COR, ACABAMENTO E DESCONTO (catálogo/pedido)
+   ═══════════════════════════════════════════════════════ */
 function abrirModalCor(produto) {
   MC_PRODUTO = produto;
 
-  // Se está editando um item existente, usa os valores dele
   const editando = MC_ITEM_EM_EDICAO !== null;
 
   MC_ACAB_SELECIONADO = editando ? (MC_ITEM_EM_EDICAO.acabamento || '') : '';
@@ -890,13 +1107,11 @@ function abrirModalCor(produto) {
     optOutra.textContent = '— OUTRA (digitar) —';
     selectCor.appendChild(optOutra);
 
-    // Pré-seleciona a cor, se estiver editando
     if (editando && MC_ITEM_EM_EDICAO.cor) {
       const corExiste = coresOrdenadas.includes(MC_ITEM_EM_EDICAO.cor);
       if (corExiste) {
         selectCor.value = MC_ITEM_EM_EDICAO.cor;
       } else {
-        // Cor customizada (não está na lista original)
         const opt = document.createElement('option');
         opt.value = MC_ITEM_EM_EDICAO.cor;
         opt.textContent = MC_ITEM_EM_EDICAO.cor;
@@ -932,7 +1147,6 @@ function abrirModalCor(produto) {
     produto.acabamentos.forEach((a, idx) => {
       const btn = document.createElement('button');
       btn.textContent = a;
-      // Pré-seleciona o acabamento se estiver editando
       const ativo = editando ? (a === MC_ITEM_EM_EDICAO.acabamento) : (idx === 0);
       btn.className = ativo ? 'ativo' : '';
       btn.onclick = () => {
@@ -1051,7 +1265,7 @@ function confirmarModalCor() {
   fecharModalCor();
 }
 /* ═══════════════ FIM SUBBLOCO 26 ═══════════════ */
-     
+
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 27 — CARRINHO
    ═══════════════════════════════════════════════════════ */
@@ -1124,14 +1338,12 @@ function editarItemPedido(idx) {
   const item = CARRINHO[idx];
   if (!item) return;
 
-  // Busca o produto original no catálogo
   const produto = PRODUTOS.find(p => p.id === item.produtoId);
   if (!produto) {
     alert('Produto não encontrado no catálogo.');
     return;
   }
 
-  // Guarda os valores atuais para pré-preencher o modal
   MC_ITEM_EM_EDICAO = {
     idx: idx,
     cor: item.cor || '',
@@ -1140,18 +1352,16 @@ function editarItemPedido(idx) {
     qtd: item.qtd || 1
   };
 
-  // Remove do carrinho (vai ser re-adicionado quando confirmar)
   CARRINHO.splice(idx, 1);
   salvarLocal();
   atualizarBadge();
   renderizarPedido();
   renderizarCatalogo();
 
-  // Abre o modal
   abrirModalCor(produto);
 }
 /* ═══════════════ FIM SUBBLOCO 27 ═══════════════ */
-     
+
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 28 — PEDIDO (RENDER) + DESCONTOS + RESUMO
    ═══════════════════════════════════════════════════════ */
@@ -1395,21 +1605,22 @@ function excluirPedido(id) {
   PEDIDOS = PEDIDOS.filter(p => p.id !== id);
   salvarLocal(); renderizarHistorico(); atualizarStatus();
 }
-/* ═══════════════ FIM SUBBLOCO 30 ═══════════════ */
-
+/* ═══════════════ FIM SUBBLOCO 30 ═════════════
+     
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 31 — NAVEGAÇÃO E STATUS
    ═══════════════════════════════════════════════════════ */
 function trocarTela(nome) {
   document.querySelectorAll('.tela').forEach(t => t.classList.remove('ativa'));
-  document.getElementById('tela-' + nome).classList.add('ativa');
+  const tela = document.getElementById('tela-' + nome);
+  if (tela) tela.classList.add('ativa');
   document.querySelectorAll('nav.bottom button').forEach(b => {
     b.classList.toggle('ativo', b.dataset.tela === nome);
   });
   if (nome === 'lojas') renderizarLojas();
-  if (nome === 'historico') renderizarHistorico();
-  if (nome === 'config') atualizarStatus();
+  if (nome === 'config') { renderizarHistorico(); atualizarStatus(); }
   if (nome === 'pedido') renderizarPedido();
+  if (nome === 'kalk') renderizarKalk();
   window.scrollTo(0, 0);
 }
 
@@ -1485,7 +1696,6 @@ const CONDICOES_COMERCIAIS = [
   'Reservamo-nos o direito de corrigir eventuais erros de digitação neste orçamento.'
 ];
 
-/* Linha divisória curta (cabe no WhatsApp sem quebrar) */
 const LINHA_WA = '─────────';
 
 /* ─── TEXTO DO WHATSAPP ─── */
@@ -1576,7 +1786,6 @@ function exportarPDF() {
   let html = '';
   html += '<div style="font-family:Arial,sans-serif;padding:30px;max-width:800px;margin:0 auto;color:#1d1d1f;">';
 
-  /* ─── Cabeçalho (Perfoma Brand) ─── */
   html += '<div style="text-align:center;border-bottom:3px solid #1d1d1f;padding-bottom:12px;margin-bottom:20px;">';
   html += '<h1 style="margin:0;font-size:22px;letter-spacing:1px;">' + EMPRESA_NOME + '</h1>';
   html += '<div style="font-size:13px;color:#333;margin-top:4px;">' + EMPRESA_RAZAO + '</div>';
@@ -1585,10 +1794,8 @@ function exportarPDF() {
   html += '<div style="font-size:11px;color:#666;margin-top:8px;font-style:italic;">' + MARCA_REPRESENTADA + '</div>';
   html += '</div>';
 
-  /* ─── Título ─── */
   html += '<div style="text-align:center;font-size:15px;font-weight:600;margin-bottom:16px;">ORÇAMENTO DE VENDA</div>';
 
-  /* ─── Dados ─── */
   html += '<div style="margin-bottom:20px;font-size:13px;line-height:1.7;">';
   html += '<b>Data:</b> ' + dataFmt + '<br>';
   if (loja) {
@@ -1600,7 +1807,6 @@ function exportarPDF() {
   }
   html += '</div>';
 
-  /* ─── Tabela de itens ─── */
   html += '<table style="width:100%;border-collapse:collapse;font-size:12px;">';
   html += '<thead><tr style="background:#1d1d1f;color:#fff;">';
   html += '<th style="padding:8px;text-align:left;">Item</th>';
@@ -1628,14 +1834,12 @@ function exportarPDF() {
   });
   html += '</tbody></table>';
 
-  /* ─── Totais ─── */
   html += '<div style="margin-top:20px;text-align:right;font-size:14px;line-height:1.9;">';
   html += '<div>Subtotal: <b>' + fmtMoeda(r.subtotal) + '</b></div>';
   html += '<div>Desconto: <b>' + fmtMoeda(r.valorDesconto) + ' (' + r.percentualEfetivo.toFixed(2) + '%)</b></div>';
   html += '<div style="font-size:20px;margin-top:8px;padding-top:8px;border-top:2px solid #1d1d1f;">TOTAL: <b>' + fmtMoeda(r.totalFinal) + '</b></div>';
   html += '</div>';
 
-  /* ─── Rodapé: condições comerciais ─── */
   html += '<div style="margin-top:36px;padding-top:16px;border-top:1px solid #ddd;font-size:12px;line-height:1.7;">';
   html += '<div style="font-weight:700;margin-bottom:8px;">CONDIÇÕES COMERCIAIS:</div>';
   CONDICOES_COMERCIAIS.forEach(c => {
@@ -1656,6 +1860,10 @@ function exportarPDF() {
 }
 /* ═══════════════ FIM SUBBLOCO 33 ═══════════════ */
 
+/* ═══════════════════════════════════════════════════════
+   Continua na Parte 4 (JS — Inicialização + Kalk)
+   ═══════════════════════════════════════════════════════ */
+     
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 34 — INICIALIZAÇÃO
    ═══════════════════════════════════════════════════════ */
@@ -1685,10 +1893,18 @@ function inicializar() {
     if (e.target.id === 'modal-cor') fecharModalCor();
   });
 
+  document.getElementById('modal-kalk').addEventListener('click', (e) => {
+    if (e.target.id === 'modal-kalk') fecharModalKalk();
+  });
+
+  // Listeners do Kalk
+  document.getElementById('kalk-busca').addEventListener('input', renderizarKalkLista);
+
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       fecharModalLoja();
       fecharModalCor();
+      fecharModalKalk();
     }
   });
 
@@ -1697,10 +1913,560 @@ function inicializar() {
 
 document.addEventListener('DOMContentLoaded', inicializar);
 /* ═══════════════ FIM SUBBLOCO 34 ═══════════════ */
+
+/* ═══════════════════════════════════════════════════════
+   SUBBLOCO 35-A — KALK: FILTROS E LISTA DE PRODUTOS
+   ═══════════════════════════════════════════════════════ */
+function renderizarKalk() {
+  renderizarKalkFiltros();
+  renderizarKalkLista();
+  renderizarKalkPainel();
+}
+
+function renderizarKalkFiltros() {
+  const boxL = document.getElementById('kalk-filtro-linha');
+  boxL.innerHTML = '';
+  const btnTodasL = document.createElement('button');
+  btnTodasL.textContent = 'Todas';
+  btnTodasL.className = KALK_LINHA_ATUAL === '' ? 'ativo' : '';
+  btnTodasL.onclick = () => { KALK_LINHA_ATUAL = ''; KALK_SUBLINHA_ATUAL = ''; renderizarKalk(); };
+  boxL.appendChild(btnTodasL);
+  LINHAS.forEach(linha => {
+    const btn = document.createElement('button');
+    btn.textContent = linha;
+    btn.className = KALK_LINHA_ATUAL === linha ? 'ativo' : '';
+    btn.onclick = () => { KALK_LINHA_ATUAL = linha; KALK_SUBLINHA_ATUAL = ''; renderizarKalk(); };
+    boxL.appendChild(btn);
+  });
+
+  const boxS = document.getElementById('kalk-filtro-sublinha');
+  const labelS = document.getElementById('kalk-label-sublinha');
+  boxS.innerHTML = '';
+
+  let subs = [];
+  if (KALK_LINHA_ATUAL) {
+    subs = SUBLINHAS_POR_LINHA[KALK_LINHA_ATUAL] || [];
+    labelS.textContent = 'Sub-linha de ' + KALK_LINHA_ATUAL;
+  } else {
+    const setS = new Set();
+    Object.values(SUBLINHAS_POR_LINHA).forEach(arr => arr.forEach(s => setS.add(s)));
+    subs = Array.from(setS);
+    labelS.textContent = 'Sub-linha (todas as linhas)';
+  }
+
+  const btnTodasS = document.createElement('button');
+  btnTodasS.textContent = 'Todas';
+  btnTodasS.className = KALK_SUBLINHA_ATUAL === '' ? 'ativo' : '';
+  btnTodasS.onclick = () => { KALK_SUBLINHA_ATUAL = ''; renderizarKalk(); };
+  boxS.appendChild(btnTodasS);
+  subs.forEach(s => {
+    const btn = document.createElement('button');
+    btn.textContent = s;
+    btn.className = KALK_SUBLINHA_ATUAL === s ? 'ativo' : '';
+    btn.onclick = () => { KALK_SUBLINHA_ATUAL = s; renderizarKalk(); };
+    boxS.appendChild(btn);
+  });
+}
+
+function renderizarKalkLista() {
+  const busca = normalizar(document.getElementById('kalk-busca').value);
+  const lista = document.getElementById('kalk-lista-produtos');
+  const contador = document.getElementById('kalk-contador');
+
+  let filtrados = PRODUTOS.filter(p => {
+    if (KALK_LINHA_ATUAL && p.linha !== KALK_LINHA_ATUAL) return false;
+    if (KALK_SUBLINHA_ATUAL && p.subLinha !== KALK_SUBLINHA_ATUAL) return false;
+    if (busca && !normalizar(p.descricao + ' ' + p.embalagem + ' ' + p.peso).includes(busca)) return false;
+    return true;
+  });
+
+  contador.textContent = filtrados.length + ' produto(s) encontrado(s)';
+  lista.innerHTML = '';
+
+  if (filtrados.length === 0) {
+    lista.innerHTML = '<div class="vazio">Nenhum produto encontrado.</div>';
+    return;
+  }
+
+  filtrados.slice(0, 250).forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'produto';
+    div.innerHTML =
+      '<div class="produto-info">' +
+        '<div class="desc">' + p.descricao + '</div>' +
+        '<div class="meta">' + (p.embalagem ? p.embalagem + ' • ' : '') + (p.peso || '') +
+          ' <span class="badge cat">' + p.subLinha + '</span></div>' +
+        '<div class="preco">' + fmtMoeda(p.valorTabela) + '</div>' +
+      '</div>' +
+      '<div class="produto-add">' +
+        '<button class="small" onclick="kalkEscolherProduto(\'' + p.id + '\')">Escolher</button>' +
+      '</div>';
+    lista.appendChild(div);
+  });
+
+  if (filtrados.length > 250) {
+    const aviso = document.createElement('div');
+    aviso.className = 'vazio';
+    aviso.textContent = 'Mostrando 250 de ' + filtrados.length + '. Refine a busca.';
+    lista.appendChild(aviso);
+  }
+}
+/* ═══════════════ FIM SUBBLOCO 35-A ═══════════════ */
+
+/* ═══════════════════════════════════════════════════════
+   SUBBLOCO 35-B — KALK: MODAL (escolher produto)
+   ═══════════════════════════════════════════════════════ */
+function kalkEscolherProduto(produtoId) {
+  const p = PRODUTOS.find(x => x.id === produtoId);
+  if (!p) return;
+  abrirModalKalk(p);
+}
+
+function abrirModalKalk(produto) {
+  MK_PRODUTO = produto;
+  MK_ACAB_SELECIONADO = '';
+  MK_DESCONTO = 0;
+
+  document.getElementById('mk-familias').textContent = produto.linha + ' • ' + produto.subLinha;
+  document.getElementById('mk-titulo').textContent = produto.descricao;
+  document.getElementById('mk-sub').textContent = (produto.embalagem || '') + (produto.peso ? ' • ' + produto.peso : '') + ' — ' + fmtMoeda(produto.valorTabela);
+
+  // ─── Cor ───
+  const cores = obterCoresDoProduto(produto);
+  const temPaleta = (cores.length > 0) || produto.tabelaCor === 'SEM_PALETA';
+  const selectCor = document.getElementById('mk-cor');
+  const wrapCor = document.getElementById('mk-cor-wrap');
+
+  if (temPaleta && selectCor) {
+    if (wrapCor) wrapCor.style.display = 'block';
+    selectCor.style.display = 'block';
+    selectCor.innerHTML = '';
+    const coresOrdenadas = [...cores].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+
+    coresOrdenadas.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c;
+      opt.textContent = c;
+      selectCor.appendChild(opt);
+    });
+    const optSem = document.createElement('option');
+    optSem.value = 'SEM COR';
+    optSem.textContent = '— SEM COR —';
+    selectCor.appendChild(optSem);
+    const optOutra = document.createElement('option');
+    optOutra.value = '__OUTRA__';
+    optOutra.textContent = '— OUTRA (digitar) —';
+    selectCor.appendChild(optOutra);
+
+    selectCor.onchange = () => {
+      if (selectCor.value === '__OUTRA__') {
+        const custom = prompt('Digite a cor desejada:');
+        if (custom && custom.trim()) {
+          const opt = document.createElement('option');
+          opt.value = custom.trim();
+          opt.textContent = custom.trim();
+          selectCor.insertBefore(opt, selectCor.firstChild);
+          selectCor.value = custom.trim();
+        } else {
+          selectCor.value = coresOrdenadas[0] || 'SEM COR';
+        }
+      }
+    };
+  } else {
+    if (wrapCor) wrapCor.style.display = 'none';
+    if (selectCor) selectCor.style.display = 'none';
+  }
+
+  // ─── Acabamentos ───
+  const boxAcab = document.getElementById('mk-acab-box');
+  const divAcab = document.getElementById('mk-acab');
+  divAcab.innerHTML = '';
+  if (produto.acabamentos && produto.acabamentos.length > 1) {
+    boxAcab.style.display = 'block';
+    produto.acabamentos.forEach((a, idx) => {
+      const btn = document.createElement('button');
+      btn.textContent = a;
+      btn.className = idx === 0 ? 'ativo' : '';
+      btn.onclick = () => {
+        MK_ACAB_SELECIONADO = a;
+        divAcab.querySelectorAll('button').forEach(b => b.classList.remove('ativo'));
+        btn.classList.add('ativo');
+      };
+      divAcab.appendChild(btn);
+    });
+    MK_ACAB_SELECIONADO = produto.acabamentos[0];
+  } else {
+    boxAcab.style.display = 'none';
+    MK_ACAB_SELECIONADO = '';
+  }
+
+  // ─── Descontos ───
+  const boxDesc = document.getElementById('mk-desc');
+  boxDesc.innerHTML = '';
+  const opcoesDesc = [
+    { label: 'sem', valor: 0 },
+    { label: '5%', valor: 5 },
+    { label: '10%', valor: 10 },
+    { label: '15%', valor: 15 },
+    { label: '20%', valor: 20 },
+    { label: '25%', valor: 25 }
+  ];
+
+  const ehAcrilica = (produto.linha || '').toUpperCase().includes('ACRILICA');
+  if (ehAcrilica) {
+    opcoesDesc.push({ label: '30%', valor: 30, ehTrinta: true });
+  }
+
+  opcoesDesc.forEach(op => {
+    const btn = document.createElement('button');
+    btn.textContent = op.label;
+    if (op.valor === 0) btn.classList.add('ativo');
+    if (op.ehTrinta) btn.classList.add('btn-30');
+    btn.onclick = () => {
+      MK_DESCONTO = op.valor;
+      boxDesc.querySelectorAll('button').forEach(b => b.classList.remove('ativo'));
+      btn.classList.add('ativo');
+      kalkAtualizarPrecoFinal();
+    };
+    boxDesc.appendChild(btn);
+  });
+
+  // ─── Impostos ───
+  document.getElementById('mk-impostos-toggle').checked = false;
+  document.getElementById('mk-impostos-box').style.display = 'none';
+  document.getElementById('mk-imposto1').value = 0;
+  document.getElementById('mk-imposto2').value = 0;
+  document.getElementById('mk-custo-final').textContent = '—';
+
+  kalkAtualizarPrecoFinal();
+
+  const modal = document.getElementById('modal-kalk');
+  modal.style.display = 'flex';
+  modal.classList.add('aberto');
+}
+
+function fecharModalKalk() {
+  const modal = document.getElementById('modal-kalk');
+  if (modal) {
+    modal.style.display = 'none';
+    modal.classList.remove('aberto');
+  }
+  MK_PRODUTO = null;
+  MK_ACAB_SELECIONADO = '';
+  MK_DESCONTO = 0;
+}
+
+function kalkAtualizarPrecoFinal() {
+  if (!MK_PRODUTO) return;
+  const preco = MK_PRODUTO.valorTabela * (1 - MK_DESCONTO / 100);
+  document.getElementById('mk-preco-final').textContent = fmtMoeda(preco);
+  kalkAtualizarImpostos();
+}
+
+function kalkToggleImpostos(ativo) {
+  const box = document.getElementById('mk-impostos-box');
+  if (ativo) {
+    box.style.display = 'block';
+    kalkAtualizarImpostos();
+  } else {
+    box.style.display = 'none';
+    document.getElementById('mk-imposto1').value = 0;
+    document.getElementById('mk-imposto2').value = 0;
+    document.getElementById('mk-custo-final').textContent = '—';
+  }
+}
+
+function kalkAtualizarImpostos() {
+  if (!MK_PRODUTO) return;
+  const preco = MK_PRODUTO.valorTabela * (1 - MK_DESCONTO / 100);
+  const imp1 = parseFloat(document.getElementById('mk-imposto1').value) || 0;
+  const imp2 = parseFloat(document.getElementById('mk-imposto2').value) || 0;
+  const vImp1 = preco * (imp1 / 100);
+  const vImp2 = preco * (imp2 / 100);
+  const custoFinal = preco + vImp1 + vImp2;
+  document.getElementById('mk-custo-final').textContent = fmtMoeda(custoFinal);
+}
+
+function kalkConfirmarProduto() {
+  if (!MK_PRODUTO) return;
+
+  const selectCor = document.getElementById('mk-cor');
+  const cor = (selectCor && selectCor.style.display !== 'none') ? selectCor.value : '';
+
+  KALK_PRODUTO = MK_PRODUTO;
+  KALK_COR = cor || '';
+  KALK_ACABAMENTO = MK_ACAB_SELECIONADO || '';
+  KALK_DESCONTO = MK_DESCONTO || 0;
+
+  const temImpostos = document.getElementById('mk-impostos-toggle').checked;
+  if (temImpostos) {
+    KALK_IMPOSTO1 = parseFloat(document.getElementById('mk-imposto1').value) || 0;
+    KALK_IMPOSTO2 = parseFloat(document.getElementById('mk-imposto2').value) || 0;
+  } else {
+    KALK_IMPOSTO1 = 0;
+    KALK_IMPOSTO2 = 0;
+  }
+
+  KALK_ABA_ATUAL = 1;
+
+  fecharModalKalk();
+  renderizarKalkPainel();
+
+  // Rola até o painel
+  const painel = document.getElementById('kalk-painel');
+  if (painel) painel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+/* ═══════════════ FIM SUBBLOCO 35-B ═══════════════ */
+
+/* ═══════════════════════════════════════════════════════
+   SUBBLOCO 35-C — KALK: CÁLCULOS BASE
+   ═══════════════════════════════════════════════════════ */
+
+/* Preço de tabela com desconto aplicado (antes de impostos) */
+function kalkPrecoComDesconto() {
+  if (!KALK_PRODUTO) return 0;
+  return KALK_PRODUTO.valorTabela * (1 - KALK_DESCONTO / 100);
+}
+
+/* Valor total de impostos (R$) sobre o preço com desconto */
+function kalkValorImpostos() {
+  const preco = kalkPrecoComDesconto();
+  return preco * (KALK_IMPOSTO1 / 100) + preco * (KALK_IMPOSTO2 / 100);
+}
+
+/* Custo final (custo de aquisição pra revenda) = preço c/ desconto + impostos */
+function kalkCustoFinal() {
+  return kalkPrecoComDesconto() + kalkValorImpostos();
+}
+
+/* Impostos em % efetivo (soma dos 2 percentuais) */
+function kalkImpostosPct() {
+  return KALK_IMPOSTO1 + KALK_IMPOSTO2;
+}
+/* ═══════════════ FIM SUBBLOCO 35-C ═══════════════ */
+
+/* ═══════════════════════════════════════════════════════
+   SUBBLOCO 35-D — KALK: RENDER DA TELA (painel + abas)
+   ═══════════════════════════════════════════════════════ */
+function renderizarKalkPainel() {
+  const painel = document.getElementById('kalk-painel');
+
+  if (!KALK_PRODUTO) {
+    painel.innerHTML =
+      '<div class="card kalk-placeholder">' +
+        '<div class="ico-grande">🧮</div>' +
+        '<div>Escolha um produto acima para começar os cálculos.</div>' +
+      '</div>';
+    return;
+  }
+
+  const precoDesc = kalkPrecoComDesconto();
+  const valorImpostos = kalkValorImpostos();
+  const custoFinal = kalkCustoFinal();
+  const pctImpostos = kalkImpostosPct();
+
+  // Card do produto selecionado
+  let html = '<div class="card">';
+  html += '<div class="kalk-produto-card">';
+  html += '<div class="nome">' + KALK_PRODUTO.descricao + '</div>';
+  html += '<div class="meta">' + KALK_PRODUTO.linha + ' • ' + KALK_PRODUTO.subLinha + ' • ' + (KALK_PRODUTO.embalagem || '') + (KALK_PRODUTO.peso ? ' • ' + KALK_PRODUTO.peso : '') + '</div>';
+  if (KALK_COR) html += '<div class="meta">🎨 Cor: ' + KALK_COR + (KALK_ACABAMENTO ? ' • Acabamento: ' + KALK_ACABAMENTO : '') + '</div>';
+  html += '<div class="linha-calc"><span>Preço de tabela</span><span>' + fmtMoeda(KALK_PRODUTO.valorTabela) + '</span></div>';
+  html += '<div class="linha-calc"><span>Desconto aplicado</span><span>− ' + KALK_DESCONTO.toFixed(2) + '% (' + fmtMoeda(KALK_PRODUTO.valorTabela - precoDesc) + ')</span></div>';
+  html += '<div class="linha-calc"><span>Preço com desconto</span><span>' + fmtMoeda(precoDesc) + '</span></div>';
+  if (pctImpostos > 0) {
+    html += '<div class="linha-calc"><span>Impostos (' + KALK_IMPOSTO1 + '% + ' + KALK_IMPOSTO2 + '% = ' + pctImpostos.toFixed(2) + '%)</span><span>+ ' + fmtMoeda(valorImpostos) + '</span></div>';
+  }
+  html += '<div class="linha-calc custo"><span>CUSTO FINAL</span><span>' + fmtMoeda(custoFinal) + '</span></div>';
+  html += '</div>';
+  html += '<button class="sec small" onclick="kalkTrocarProduto()">🔄 Trocar produto</button>';
+  html += '</div>';
+
+  // Abas
+  html += '<div class="card" style="padding:0;overflow:hidden;">';
+  html += '<div class="kalk-abas">';
+  html += '<button class="' + (KALK_ABA_ATUAL === 1 ? 'ativo' : '') + '" onclick="kalkMudarAba(1)">1. Comparar</button>';
+  html += '<button class="' + (KALK_ABA_ATUAL === 2 ? 'ativo' : '') + '" onclick="kalkMudarAba(2)">2. % X</button>';
+  html += '<button class="' + (KALK_ABA_ATUAL === 3 ? 'ativo' : '') + '" onclick="kalkMudarAba(3)">3. R$ Sugerido</button>';
+  html += '</div>';
+  html += '<div class="kalk-aba-conteudo" style="padding:16px;">';
+  html += renderizarKalkAba();
+  html += '</div>';
+  html += '</div>';
+
+  painel.innerHTML = html;
+
+  // Reconecta listeners dos inputs específicos da aba
+  kalkConectarListenersAba();
+}
+
+function kalkTrocarProduto() {
+  KALK_PRODUTO = null;
+  KALK_COR = '';
+  KALK_ACABAMENTO = '';
+  KALK_DESCONTO = 0;
+  KALK_IMPOSTO1 = 0;
+  KALK_IMPOSTO2 = 0;
+  renderizarKalkPainel();
+  window.scrollTo(0, 0);
+}
+
+function kalkMudarAba(n) {
+  KALK_ABA_ATUAL = n;
+  renderizarKalkPainel();
+}
+
+function renderizarKalkAba() {
+  if (KALK_ABA_ATUAL === 1) return renderizarAba1();
+  if (KALK_ABA_ATUAL === 2) return renderizarAba2();
+  if (KALK_ABA_ATUAL === 3) return renderizarAba3();
+  return '';
+}
+
+/* ─── ABA 1: COMPARAR COM CONCORRENTE ─── */
+function renderizarAba1() {
+  const custo = kalkCustoFinal();
+  return '' +
+    '<label>Preço do concorrente (R$)</label>' +
+    '<input type="number" id="kalk-concorrente" value="0" min="0" step="0.01" oninput="kalkCalcularAba1()">' +
+    '<div id="kalk-resultado-aba1"></div>';
+}
+
+function kalkCalcularAba1() {
+  const custo = kalkCustoFinal();
+  const conc = parseFloat(document.getElementById('kalk-concorrente').value) || 0;
+  const div = document.getElementById('kalk-resultado-aba1');
+
+  if (conc <= 0) {
+    div.innerHTML = '<div class="info">Digite o preço do concorrente para comparar.</div>';
+    return;
+  }
+
+  const diff = conc - custo;
+  const pct = (diff / conc) * 100;
+
+  if (diff > 0) {
+    // MaxVinil mais barata
+    div.innerHTML =
+      '<div class="kalk-resultado verde">' +
+        '<div class="linha"><span>Preço MaxVinil</span><span>' + fmtMoeda(custo) + '</span></div>' +
+        '<div class="linha"><span>Preço concorrente</span><span>' + fmtMoeda(conc) + '</span></div>' +
+        '<div class="linha"><span>Diferença em R$</span><span>− ' + fmtMoeda(diff) + '</span></div>' +
+        '<div class="linha destaque"><span>MaxVinil está mais barata</span><span>' + fmtPct(pct) + '</span></div>' +
+      '</div>';
+  } else if (diff < 0) {
+    // MaxVinil mais cara
+    const pctAbs = Math.abs(pct);
+    div.innerHTML =
+      '<div class="kalk-resultado vermelho">' +
+        '<div class="linha"><span>Preço MaxVinil</span><span>' + fmtMoeda(custo) + '</span></div>' +
+        '<div class="linha"><span>Preço concorrente</span><span>' + fmtMoeda(conc) + '</span></div>' +
+        '<div class="linha"><span>Diferença em R$</span><span>+ ' + fmtMoeda(Math.abs(diff)) + '</span></div>' +
+        '<div class="linha destaque"><span>MaxVinil está mais cara</span><span>' + fmtPct(pctAbs) + '</span></div>' +
+      '</div>';
+  } else {
+    div.innerHTML =
+      '<div class="kalk-resultado">' +
+        '<div class="linha destaque"><span>Preços iguais</span><span>0,00%</span></div>' +
+      '</div>';
+  }
+}
+
+/* ─── ABA 2: PERCENTUAL X (MARKUP E MARGEM) ─── */
+function renderizarAba2() {
+  return '' +
+    '<label>Percentual X (%)</label>' +
+    '<input type="number" id="kalk-x" value="30" min="0" max="99" step="0.01" oninput="kalkCalcularAba2()">' +
+    '<div id="kalk-resultado-aba2"></div>';
+}
+
+function kalkCalcularAba2() {
+  const custo = kalkCustoFinal();
+  const div = document.getElementById('kalk-resultado-aba2');
+  const x = parseFloat(document.getElementById('kalk-x').value) || 0;
+
+  if (x <= 0 || x >= 100) {
+    div.innerHTML = '<div class="info">Digite um percentual entre 0 e 100.</div>';
+    return;
+  }
+
+  // Preço pra atingir MARKUP X%
+  const precoMarkup = custo * (1 + x / 100);
+  const margemNoPrecoMarkup = precoMarkup > 0 ? ((precoMarkup - custo) / precoMarkup) * 100 : 0;
+
+  // Preço pra atingir MARGEM X%
+  const precoMargem = custo / (1 - x / 100);
+  const markupNoPrecoMargem = custo > 0 ? ((precoMargem - custo) / custo) * 100 : 0;
+
+  div.innerHTML =
+    '<div class="kalk-resultado">' +
+      '<div style="font-weight:600;margin-bottom:8px;font-size:13px;">Pra atingir MARKUP de ' + x.toFixed(2) + '%:</div>' +
+      '<div class="linha"><span>Preço de venda</span><span>' + fmtMoeda(precoMarkup) + '</span></div>' +
+      '<div class="linha"><span>Margem nesse preço</span><span>' + fmtPct(margemNoPrecoMarkup) + '</span></div>' +
+      '<div class="linha destaque"><span>Markup</span><span>' + fmtPct(x) + '</span></div>' +
+    '</div>' +
+    '<div class="kalk-resultado laranja" style="margin-top:12px;">' +
+      '<div style="font-weight:600;margin-bottom:8px;font-size:13px;">Pra atingir MARGEM de ' + x.toFixed(2) + '%:</div>' +
+      '<div class="linha"><span>Preço de venda</span><span>' + fmtMoeda(precoMargem) + '</span></div>' +
+      '<div class="linha"><span>Markup nesse preço</span><span>' + fmtPct(markupNoPrecoMargem) + '</span></div>' +
+      '<div class="linha destaque"><span>Margem</span><span>' + fmtPct(x) + '</span></div>' +
+    '</div>';
+}
+
+/* ─── ABA 3: PREÇO SUGERIDO R$ ─── */
+function renderizarAba3() {
+  return '' +
+    '<label>Preço sugerido pra revenda (R$)</label>' +
+    '<input type="number" id="kalk-preco-sugerido" value="0" min="0" step="0.01" oninput="kalkCalcularAba3()">' +
+    '<div id="kalk-resultado-aba3"></div>';
+}
+
+function kalkCalcularAba3() {
+  const custo = kalkCustoFinal();
+  const div = document.getElementById('kalk-resultado-aba3');
+  const p = parseFloat(document.getElementById('kalk-preco-sugerido').value) || 0;
+
+  if (p <= 0) {
+    div.innerHTML = '<div class="info">Digite um preço de venda pra calcular margem e markup.</div>';
+    return;
+  }
+
+  const lucro = p - custo;
+  const markup = custo > 0 ? (lucro / custo) * 100 : 0;
+  const margem = (lucro / p) * 100;
+
+  const classe = lucro >= 0 ? '' : 'vermelho';
+
+  div.innerHTML =
+    '<div class="kalk-resultado ' + classe + '">' +
+      '<div class="linha"><span>Custo final</span><span>' + fmtMoeda(custo) + '</span></div>' +
+      '<div class="linha"><span>Preço sugerido</span><span>' + fmtMoeda(p) + '</span></div>' +
+      '<div class="linha"><span>Lucro (R$)</span><span>' + fmtMoeda(lucro) + '</span></div>' +
+      '<div class="linha destaque"><span>Markup</span><span>' + fmtPct(markup) + '</span></div>' +
+      '<div class="linha destaque"><span>Margem</span><span>' + fmtPct(margem) + '</span></div>' +
+    '</div>';
+}
+
+/* Reconecta os listeners dos inputs das abas (após render) */
+function kalkConectarListenersAba() {
+  if (KALK_ABA_ATUAL === 1) {
+    const el = document.getElementById('kalk-concorrente');
+    if (el) el.addEventListener('input', kalkCalcularAba1);
+  }
+  if (KALK_ABA_ATUAL === 2) {
+    const el = document.getElementById('kalk-x');
+    if (el) el.addEventListener('input', kalkCalcularAba2);
+  }
+  if (KALK_ABA_ATUAL === 3) {
+    const el = document.getElementById('kalk-preco-sugerido');
+    if (el) el.addEventListener('input', kalkCalcularAba3);
+  }
+}
+/* ═══════════════ FIM SUBBLOCO 35-D ═══════════════ */
 </script>
 
 </body>
 </html>
 <!-- ═══════════════════════════════════════════════════════
-     FIM DO ARQUIVO (subbloco 36 — fechamento)
+     FIM DO ARQUIVO
      ═══════════════════════════════════════════════════════ -->
