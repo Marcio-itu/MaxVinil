@@ -366,14 +366,39 @@ nav.bottom button.ativo { color: #0071e3; }
 /* ═══════════════ FIM SUBBLOCO 05 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 05-B — CSS: NAV TRAVADA (fix contra iOS teclado)
+   SUBBLOCO 05-B — CSS: NAV FIXA NO iOS (via transform)
    ═══════════════════════════════════════════════════════ */
+
+/* Nav base — sem bottom fixo (o JS controla) */
 nav.bottom {
-  /* Reforça a fixação — não deixa o iOS "empurrar" a barra */
-  position: fixed !important;
-  bottom: 0 !important;
-  top: auto !important;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  border-top: 1px solid #d2d2d7;
+  display: flex;
+  justify-content: space-around;
+  z-index: 100;
+  padding: 8px 0 10px;
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000px;
+  perspective: 1000px;
 }
+
+/* Safe area pra iPhone (home indicator) */
+@supports (-webkit-touch-callout: none) {
+  nav.bottom {
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+  }
+  body {
+    padding-bottom: calc(90px + env(safe-area-inset-bottom));
+  }
+}
+
 /* Abas do Kalk com 2 linhas */
 .kalk-abas button {
   min-height: 52px;
@@ -1040,7 +1065,7 @@ function renderizarFiltros() {
   });
 }
 /* ═══════════════ FIM SUBBLOCO 24 ═══════════════ */
-
+     
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 25 — CATÁLOGO (RENDER + BUSCA + ADD + DESCONTOS)
    ═══════════════════════════════════════════════════════ */
@@ -1094,11 +1119,9 @@ function renderizarCatalogo() {
   }
 }
 
-/* Gera os chips de desconto. Se a linha for ACRILICA, inclui -30% */
+/* Gera os chips de desconto — agora SEMPRE inclui 30% */
 function gerarLinhaDescontos(valorTabela, linha) {
-  const descontos = [5, 10, 15, 20, 25];
-  const ehAcrilica = (linha || '').toUpperCase().includes('ACRILICA');
-  if (ehAcrilica) descontos.push(30);
+  const descontos = [5, 10, 15, 20, 25, 30];
 
   const partes = descontos.map(d => {
     const v = valorTabela * (1 - d / 100);
@@ -1220,7 +1243,7 @@ function abrirModalCor(produto) {
     MC_ACAB_SELECIONADO = '';
   }
 
-  // ─── Descontos ───
+  // ─── Descontos (agora TODOS têm 30%) ───
   const boxDesc = document.getElementById('mc-desc');
   boxDesc.innerHTML = '';
   const opcoesDesc = [
@@ -1229,13 +1252,9 @@ function abrirModalCor(produto) {
     { label: '10%', valor: 10 },
     { label: '15%', valor: 15 },
     { label: '20%', valor: 20 },
-    { label: '25%', valor: 25 }
+    { label: '25%', valor: 25 },
+    { label: '30%', valor: 30, ehTrinta: true }
   ];
-
-  const ehAcrilica = (produto.linha || '').toUpperCase().includes('ACRILICA');
-  if (ehAcrilica) {
-    opcoesDesc.push({ label: '30%', valor: 30, ehTrinta: true });
-  }
 
   opcoesDesc.forEach(op => {
     const btn = document.createElement('button');
@@ -1961,46 +1980,56 @@ function inicializar() {
     }
   });
 
-  // Corrige a nav após o teclado fechar (iOS Safari)
-  corrigirNavPosicao();
+  // Inicia o fix da nav
+  iniciarFixNav();
 
   carregarPlanilha();
 }
 
 /* ═══════════════════════════════════════════════════════
-   Correção da nav no iOS Safari
-   O iOS "quebra" o position:fixed quando o teclado abre/fecha.
-   Esta função força a nav a voltar pro lugar correto.
+   Fix da nav inferior no iOS Safari
+   iOS esconde elementos position:fixed durante scroll.
+   Esta função "trava" a nav no lugar certo com transform.
    ═══════════════════════════════════════════════════════ */
-function corrigirNavPosicao() {
+function iniciarFixNav() {
   const nav = document.querySelector('nav.bottom');
   if (!nav) return;
 
-  function fixar() {
+  let ultimoScrollY = 0;
+  let travado = false;
+
+  function travar() {
+    if (travado) return;
+    travado = true;
+
+    // Marca que a nav foi "travada"
     nav.style.position = 'fixed';
-    nav.style.bottom = '0px';
-    nav.style.top = 'auto';
+    nav.style.bottom = '0';
+    nav.style.transform = 'translate3d(0, 0, 0)';
+    nav.style.webkitTransform = 'translate3d(0, 0, 0)';
+
+    setTimeout(() => { travado = false; }, 30);
   }
 
-  // Sempre que a viewport visual mudar (teclado abriu/fechou/rolagem), reforça
+  // Sempre que rolar, reforça a posição
+  window.addEventListener('scroll', travar, { passive: true });
+  document.addEventListener('scroll', travar, { passive: true, capture: true });
+
+  // Quando o teclado abrir/fechar
   if (window.visualViewport) {
-    window.visualViewport.addEventListener('resize', fixar);
-    window.visualViewport.addEventListener('scroll', fixar);
+    window.visualViewport.addEventListener('resize', travar);
+    window.visualViewport.addEventListener('scroll', travar);
   }
 
-  // Reforça também no scroll e resize da janela normal
-  window.addEventListener('scroll', fixar, { passive: true });
-  window.addEventListener('resize', fixar);
-  window.addEventListener('orientationchange', () => setTimeout(fixar, 200));
+  // Quando focar/desfocar de um input
+  document.addEventListener('focusin', () => setTimeout(travar, 50), true);
+  document.addEventListener('focusout', () => setTimeout(travar, 100), true);
 
-  // Reforça quando o input perde o foco (teclado fecha)
-  document.addEventListener('focusout', () => setTimeout(fixar, 100), true);
-  document.addEventListener('focusin', () => setTimeout(fixar, 100), true);
+  // Quando girar a tela
+  window.addEventListener('orientationchange', () => setTimeout(travar, 200));
 
-  // Reforço periódico (preventivo)
-  setInterval(fixar, 1500);
-
-  fixar();
+  // Reforço periódico (silencioso)
+  setInterval(travar, 800);
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
@@ -2108,7 +2137,7 @@ function renderizarKalkLista() {
   }
 }
 /* ═══════════════ FIM SUBBLOCO 35-A ═══════════════ */
-
+     
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 35-B — KALK: MODAL (escolher produto)
    ═══════════════════════════════════════════════════════ */
@@ -2196,7 +2225,7 @@ function abrirModalKalk(produto) {
     MK_ACAB_SELECIONADO = '';
   }
 
-  // ─── Descontos ───
+  // ─── Descontos (agora TODOS têm 30%) ───
   const boxDesc = document.getElementById('mk-desc');
   boxDesc.innerHTML = '';
   const opcoesDesc = [
@@ -2205,13 +2234,9 @@ function abrirModalKalk(produto) {
     { label: '10%', valor: 10 },
     { label: '15%', valor: 15 },
     { label: '20%', valor: 20 },
-    { label: '25%', valor: 25 }
+    { label: '25%', valor: 25 },
+    { label: '30%', valor: 30, ehTrinta: true }
   ];
-
-  const ehAcrilica = (produto.linha || '').toUpperCase().includes('ACRILICA');
-  if (ehAcrilica) {
-    opcoesDesc.push({ label: '30%', valor: 30, ehTrinta: true });
-  }
 
   opcoesDesc.forEach(op => {
     const btn = document.createElement('button');
@@ -2314,7 +2339,6 @@ function kalkConfirmarProduto() {
 
 /* Limpa os campos das abas (mantém o produto escolhido) */
 function kalkLimpar() {
-  // Zera os campos de cálculo das abas
   const campo1 = document.getElementById('kalk-concorrente');
   if (campo1) campo1.value = '';
 
@@ -2324,7 +2348,6 @@ function kalkLimpar() {
   const campo3 = document.getElementById('kalk-preco-sugerido');
   if (campo3) campo3.value = '';
 
-  // Limpa os resultados
   const res1 = document.getElementById('kalk-resultado-aba1');
   if (res1) res1.innerHTML = '';
 
@@ -2334,12 +2357,11 @@ function kalkLimpar() {
   const res3 = document.getElementById('kalk-resultado-aba3');
   if (res3) res3.innerHTML = '';
 
-  // Volta pra aba 1
   KALK_ABA_ATUAL = 1;
   renderizarKalkPainel();
 }
 /* ═══════════════ FIM SUBBLOCO 35-B ═══════════════ */
-
+     
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 35-C — KALK: CÁLCULOS BASE
    ═══════════════════════════════════════════════════════ */
@@ -2459,7 +2481,7 @@ function renderizarKalkAba() {
 function renderizarAba1() {
   return '' +
     '<label>Preço do concorrente (R$)</label>' +
-    '<input type="number" id="kalk-concorrente" value="0" min="0" step="0.01" oninput="kalkCalcularAba1()">' +
+    '<input type="number" id="kalk-concorrente" value="" placeholder="Digite o preço" min="0" step="0.01" oninput="kalkCalcularAba1()">' +
     '<div id="kalk-resultado-aba1"></div>';
 }
 
@@ -2515,7 +2537,7 @@ function kalkCalcularAba1() {
 function renderizarAba2() {
   return '' +
     '<label>Percentual (%)</label>' +
-    '<input type="number" id="kalk-x" value="30" min="0" max="99" step="0.01" oninput="kalkCalcularAba2()">' +
+    '<input type="number" id="kalk-x" value="" placeholder="Digite o percentual" min="0" max="99" step="0.01" oninput="kalkCalcularAba2()">' +
     '<div id="kalk-resultado-aba2"></div>';
 }
 
@@ -2554,7 +2576,7 @@ function kalkCalcularAba2() {
 function renderizarAba3() {
   return '' +
     '<label>Preço de venda (R$)</label>' +
-    '<input type="number" id="kalk-preco-sugerido" value="0" min="0" step="0.01" oninput="kalkCalcularAba3()">' +
+    '<input type="number" id="kalk-preco-sugerido" value="" placeholder="Digite o preço" min="0" step="0.01" oninput="kalkCalcularAba3()">' +
     '<div id="kalk-resultado-aba3"></div>';
 }
 
