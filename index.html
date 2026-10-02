@@ -484,11 +484,29 @@ nav.bottom {
   <div class="modal">
     <div class="modal-titulo" id="modal-loja-titulo">Cadastrar Loja</div>
     <input type="hidden" id="loja-id">
-    <label>Nome da Loja *</label><input type="text" id="loja-nome">
-    <label>Contato</label><input type="text" id="loja-contato">
-    <label>Telefone / WhatsApp</label><input type="tel" id="loja-telefone" placeholder="(11) 99999-9999">
-    <label>Endereço</label><input type="text" id="loja-endereco">
-    <label>CNPJ</label><input type="text" id="loja-cnpj">
+
+    <label>CNPJ</label>
+    <div style="display:flex;gap:6px;">
+      <input type="text" id="loja-cnpj" placeholder="00.000.000/0000-00" style="flex:1;">
+      <button class="small" id="btn-buscar-cnpj" onclick="buscarCNPJ()" style="margin:0;white-space:nowrap;">🔍 Buscar</button>
+    </div>
+    <div id="cnpj-aviso" style="font-size:12px;margin-top:4px;"></div>
+
+    <label>Nome da Loja *</label>
+    <input type="text" id="loja-nome">
+
+    <label>Endereço</label>
+    <input type="text" id="loja-endereco">
+
+    <label>Comprador</label>
+    <input type="text" id="loja-comprador" placeholder="Nome do comprador">
+
+    <label>Contato</label>
+    <input type="text" id="loja-contato" placeholder="Contato geral">
+
+    <label>Telefone / WhatsApp</label>
+    <input type="tel" id="loja-telefone" placeholder="(11) 99999-9999">
+
     <label style="display:flex;align-items:center;gap:8px;margin-top:14px;"><input type="checkbox" id="loja-provisoria" style="width:auto;"> <span>Cadastro provisório (corrigir depois)</span></label>
     <div style="display:flex;gap:8px;margin-top:16px;">
       <button onclick="salvarLoja()" style="flex:1;">Salvar</button>
@@ -498,7 +516,7 @@ nav.bottom {
   </div>
 </div>
 <!-- ═══════════════ FIM SUBBLOCO 09 ═══════════════ -->
-
+     
 <!-- ═══════════════════════════════════════════════════════
      SUBBLOCO 10 — HTML: MODAL COR + ACABAMENTO + DESCONTO
      ═══════════════════════════════════════════════════════ -->
@@ -1414,7 +1432,11 @@ function renderizarLojas() {
     div.innerHTML =
       '<div style="flex:1;">' +
         '<div style="font-weight:600;">' + loja.nome + (loja.provisoria ? ' <span class="badge prov">Provisória</span>' : '') + '</div>' +
-        '<div style="font-size:12px;color:#666;margin-top:2px;">' + (loja.contato ? loja.contato + ' • ' : '') + (loja.telefone || '') + '</div>' +
+        '<div style="font-size:12px;color:#666;margin-top:2px;">' +
+          (loja.cnpj ? '📄 ' + loja.cnpj : '') +
+          (loja.comprador ? ' • 👤 ' + loja.comprador : '') +
+          (loja.telefone ? ' • 📞 ' + loja.telefone : '') +
+        '</div>' +
       '</div>' +
       '<button class="small sec" onclick="editarLoja(\'' + loja.id + '\')">✏️ Editar</button>';
     box.appendChild(div);
@@ -1438,7 +1460,13 @@ function atualizarSelectLojas() {
 function abrirCadastroLoja() {
   document.getElementById('modal-loja-titulo').textContent = 'Cadastrar Loja';
   document.getElementById('loja-id').value = '';
-  ['loja-nome','loja-contato','loja-telefone','loja-endereco','loja-cnpj'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('loja-cnpj').value = '';
+  document.getElementById('loja-nome').value = '';
+  document.getElementById('loja-endereco').value = '';
+  document.getElementById('loja-comprador').value = '';
+  document.getElementById('loja-contato').value = '';
+  document.getElementById('loja-telefone').value = '';
+  document.getElementById('cnpj-aviso').innerHTML = '';
   document.getElementById('loja-provisoria').checked = false;
   document.getElementById('btn-excluir-loja').style.display = 'none';
   document.getElementById('modal-loja').classList.add('aberto');
@@ -1449,11 +1477,13 @@ function editarLoja(id) {
   if (!loja) return;
   document.getElementById('modal-loja-titulo').textContent = 'Editar Loja';
   document.getElementById('loja-id').value = loja.id;
+  document.getElementById('loja-cnpj').value = loja.cnpj || '';
   document.getElementById('loja-nome').value = loja.nome || '';
+  document.getElementById('loja-endereco').value = loja.endereco || '';
+  document.getElementById('loja-comprador').value = loja.comprador || '';
   document.getElementById('loja-contato').value = loja.contato || '';
   document.getElementById('loja-telefone').value = loja.telefone || '';
-  document.getElementById('loja-endereco').value = loja.endereco || '';
-  document.getElementById('loja-cnpj').value = loja.cnpj || '';
+  document.getElementById('cnpj-aviso').innerHTML = '';
   document.getElementById('loja-provisoria').checked = !!loja.provisoria;
   document.getElementById('btn-excluir-loja').style.display = 'block';
   document.getElementById('modal-loja').classList.add('aberto');
@@ -1467,10 +1497,11 @@ function salvarLoja() {
   if (!nome) { alert('Informe o nome da loja.'); return; }
   const dados = {
     nome: nome,
+    cnpj: document.getElementById('loja-cnpj').value.trim(),
+    endereco: document.getElementById('loja-endereco').value.trim(),
+    comprador: document.getElementById('loja-comprador').value.trim(),
     contato: document.getElementById('loja-contato').value.trim(),
     telefone: document.getElementById('loja-telefone').value.trim(),
-    endereco: document.getElementById('loja-endereco').value.trim(),
-    cnpj: document.getElementById('loja-cnpj').value.trim(),
     provisoria: document.getElementById('loja-provisoria').checked
   };
   if (id) {
@@ -1488,6 +1519,91 @@ function excluirLoja() {
   if (!confirm('Excluir esta loja? Os pedidos vinculados não serão apagados.')) return;
   LOJAS = LOJAS.filter(l => l.id !== id);
   salvarLocal(); fecharModalLoja(); renderizarLojas(); atualizarStatus();
+}
+
+/* ═══════════════════════════════════════════════════════
+   BUSCA DE CNPJ — BrasilAPI (gratuita, sem chave)
+   ═══════════════════════════════════════════════════════ */
+async function buscarCNPJ() {
+  const inputCnpj = document.getElementById('loja-cnpj');
+  const btn = document.getElementById('btn-buscar-cnpj');
+  const aviso = document.getElementById('cnpj-aviso');
+
+  // Limpa o CNPJ: só dígitos
+  const cnpjLimpo = inputCnpj.value.replace(/\D/g, '');
+
+  if (cnpjLimpo.length !== 14) {
+    aviso.innerHTML = '<span style="color:#c00;">⚠️ CNPJ deve ter 14 dígitos.</span>';
+    return;
+  }
+
+  // Feedback visual
+  btn.disabled = true;
+  btn.textContent = '⏳ Buscando...';
+  aviso.innerHTML = '<span style="color:#0066cc;">Consultando Receita Federal...</span>';
+
+  try {
+    const resp = await fetch('https://brasilapi.com.br/api/cnpj/v1/' + cnpjLimpo);
+    if (!resp.ok) {
+      if (resp.status === 404) {
+        aviso.innerHTML = '<span style="color:#c00;">❌ CNPJ não encontrado na Receita.</span>';
+      } else {
+        aviso.innerHTML = '<span style="color:#c00;">❌ Erro ao consultar (código ' + resp.status + ').</span>';
+      }
+      return;
+    }
+
+    const dados = await resp.json();
+
+    // ─── Preenche os campos ───
+    const razaoSocial = dados.razao_social || '';
+    const nomeFantasia = dados.nome_fantasia || '';
+    const nomeFinal = nomeFantasia || razaoSocial;
+
+    // Monta endereço completo
+    const partesEndereco = [];
+    if (dados.descricao_tipo_de_logradouro) partesEndereco.push(dados.descricao_tipo_de_logradouro);
+    else if (dados.logradouro) partesEndereco.push(dados.logradouro);
+    if (dados.logradouro && dados.descricao_tipo_de_logradouro) partesEndereco.push(dados.logradouro);
+    if (dados.numero) partesEndereco.push(dados.numero);
+    if (dados.complemento) partesEndereco.push(dados.complemento);
+    if (dados.bairro) partesEndereco.push(dados.bairro);
+    if (dados.municipio && dados.uf) partesEndereco.push(dados.municipio + '/' + dados.uf);
+    if (dados.cep) partesEndereco.push('CEP ' + formatarCEP(dados.cep));
+
+    document.getElementById('loja-nome').value = nomeFinal;
+    document.getElementById('loja-endereco').value = partesEndereco.join(', ');
+
+    // Formata o CNPJ com pontos e barra
+    inputCnpj.value = formatarCNPJ(cnpjLimpo);
+
+    aviso.innerHTML = '<span style="color:#2e7d32;">✅ Dados carregados! Confira e complete os campos abaixo.</span>';
+
+  } catch (e) {
+    console.error(e);
+    aviso.innerHTML = '<span style="color:#c00;">❌ Sem conexão. Verifique a internet e tente de novo.</span>';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '🔍 Buscar';
+  }
+}
+
+/* Formata CNPJ: 00000000000000 → 00.000.000/0000-00 */
+function formatarCNPJ(cnpj) {
+  const c = cnpj.replace(/\D/g, '');
+  if (c.length !== 14) return cnpj;
+  return c.substring(0,2) + '.' +
+         c.substring(2,5) + '.' +
+         c.substring(5,8) + '/' +
+         c.substring(8,12) + '-' +
+         c.substring(12,14);
+}
+
+/* Formata CEP: 00000000 → 00000-000 */
+function formatarCEP(cep) {
+  const c = String(cep).replace(/\D/g, '');
+  if (c.length !== 8) return cep;
+  return c.substring(0,5) + '-' + c.substring(5,8);
 }
 /* ═══════════════ FIM SUBBLOCO 29 ═══════════════ */
 
@@ -1644,6 +1760,9 @@ const CONDICOES_COMERCIAIS = [
 
 const LINHA_WA = '─────────';
 
+/* ═══════════════════════════════════════════════════════
+   WHATSAPP — enxuto: só Loja + CNPJ
+   ═══════════════════════════════════════════════════════ */
 function montarTextoPedido() {
   const lojaId = document.getElementById('select-loja').value;
   const loja = LOJAS.find(l => l.id === lojaId);
@@ -1662,11 +1781,8 @@ function montarTextoPedido() {
   texto += '📅 *Data:* ' + new Date().toLocaleDateString('pt-BR') + '\n\n';
 
   if (loja) {
-    texto += '*DADOS DO CLIENTE:*\n';
+    texto += '*CLIENTE:*\n';
     texto += '🏪 *Loja:* ' + loja.nome + '\n';
-    if (loja.contato) texto += '👤 *Contato:* ' + loja.contato + '\n';
-    if (loja.telefone) texto += '📞 *Telefone:* ' + loja.telefone + '\n';
-    if (loja.endereco) texto += '📍 *Endereço:* ' + loja.endereco + '\n';
     if (loja.cnpj) texto += '📄 *CNPJ:* ' + loja.cnpj + '\n';
     texto += '\n';
   }
@@ -1720,6 +1836,9 @@ function exportarWhatsApp() {
   window.open(url, '_blank');
 }
 
+/* ═══════════════════════════════════════════════════════
+   PDF — completo: Loja + CNPJ + Comprador + Contato + WhatsApp + Endereço
+   ═══════════════════════════════════════════════════════ */
 function exportarPDF() {
   if (CARRINHO.length === 0) { alert('Adicione itens ao pedido primeiro.'); return; }
   const lojaId = document.getElementById('select-loja').value;
@@ -1730,6 +1849,7 @@ function exportarPDF() {
   let html = '';
   html += '<div style="font-family:Arial,sans-serif;padding:30px;max-width:800px;margin:0 auto;color:#1d1d1f;">';
 
+  /* Cabeçalho (Perfoma Brand) */
   html += '<div style="text-align:center;border-bottom:3px solid #1d1d1f;padding-bottom:12px;margin-bottom:20px;">';
   html += '<h1 style="margin:0;font-size:22px;letter-spacing:1px;">' + EMPRESA_NOME + '</h1>';
   html += '<div style="font-size:13px;color:#333;margin-top:4px;">' + EMPRESA_RAZAO + '</div>';
@@ -1740,17 +1860,20 @@ function exportarPDF() {
 
   html += '<div style="text-align:center;font-size:15px;font-weight:600;margin-bottom:16px;">ORÇAMENTO DE VENDA</div>';
 
+  /* Dados do cliente (PDF: completo) */
   html += '<div style="margin-bottom:20px;font-size:13px;line-height:1.7;">';
   html += '<b>Data:</b> ' + dataFmt + '<br>';
   if (loja) {
     html += '<b>Loja:</b> ' + loja.nome + '<br>';
-    if (loja.contato) html += '<b>Contato:</b> ' + loja.contato + '<br>';
-    if (loja.telefone) html += '<b>Telefone:</b> ' + loja.telefone + '<br>';
-    if (loja.endereco) html += '<b>Endereço:</b> ' + loja.endereco + '<br>';
     if (loja.cnpj) html += '<b>CNPJ:</b> ' + loja.cnpj + '<br>';
+    if (loja.comprador) html += '<b>Comprador:</b> ' + loja.comprador + '<br>';
+    if (loja.contato) html += '<b>Contato:</b> ' + loja.contato + '<br>';
+    if (loja.telefone) html += '<b>WhatsApp:</b> ' + loja.telefone + '<br>';
+    if (loja.endereco) html += '<b>Endereço:</b> ' + loja.endereco + '<br>';
   }
   html += '</div>';
 
+  /* Tabela de itens */
   html += '<table style="width:100%;border-collapse:collapse;font-size:12px;">';
   html += '<thead><tr style="background:#1d1d1f;color:#fff;">';
   html += '<th style="padding:8px;text-align:left;">Item</th>';
@@ -1778,12 +1901,14 @@ function exportarPDF() {
   });
   html += '</tbody></table>';
 
+  /* Totais */
   html += '<div style="margin-top:20px;text-align:right;font-size:14px;line-height:1.9;">';
   html += '<div>Subtotal: <b>' + fmtMoeda(r.subtotal) + '</b></div>';
   html += '<div>Desconto: <b>' + fmtMoeda(r.valorDesconto) + ' (' + r.percentualEfetivo.toFixed(2) + '%)</b></div>';
   html += '<div style="font-size:20px;margin-top:8px;padding-top:8px;border-top:2px solid #1d1d1f;">TOTAL: <b>' + fmtMoeda(r.totalFinal) + '</b></div>';
   html += '</div>';
 
+  /* Condições comerciais */
   html += '<div style="margin-top:36px;padding-top:16px;border-top:1px solid #ddd;font-size:12px;line-height:1.7;">';
   html += '<div style="font-weight:700;margin-bottom:8px;">CONDIÇÕES COMERCIAIS:</div>';
   CONDICOES_COMERCIAIS.forEach(c => {
