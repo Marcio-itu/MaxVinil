@@ -43,11 +43,13 @@ button.sec { background: #e8e8ed; color: #1d1d1f; }
 button.sec:hover { background: #dcdce1; }
 button.danger { background: #ff3b30; }
 button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
+button:disabled { opacity: 0.6; cursor: not-allowed; }
 .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; margin-left: 6px; }
 .badge.prov { background: #ffcc00; color: #1d1d1f; }
 .badge.cat { background: #e8e8ed; color: #555; }
 .badge.cor { background: #e3f2fd; color: #1976d2; border: 1px solid #bbdefb; }
 .badge.acab { background: #fff3e0; color: #e65100; border: 1px solid #ffe0b2; }
+.badge.imposto { background: #f3e5f5; color: #7b1fa2; border: 1px solid #e1bee7; }
 .alerta-vermelho { background: #ffebeb; color: #c00; padding: 10px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-top: 8px; border-left: 4px solid #ff3b30; }
 .info { background: #eef6ff; color: #0066cc; padding: 10px 12px; border-radius: 8px; font-size: 13px; margin-top: 8px; }
 /* ═══════════════ FIM SUBBLOCO 03 ═══════════════ */
@@ -55,7 +57,6 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 04 — CSS: FILTROS, PRODUTOS, CHIPS, MODAL
    ═══════════════════════════════════════════════════════ */
-
 .filtro-cat {
   display: flex;
   gap: 6px;
@@ -87,7 +88,6 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
   font-weight: 600;
   letter-spacing: 0.5px;
 }
-
 .produto {
   padding: 12px;
   border-bottom: 1px solid #f0f0f2;
@@ -103,7 +103,6 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
 .produto-info .preco { font-size: 15px; color: #0071e3; font-weight: 700; margin-top: 4px; }
 .produto-add { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
 .produto-add input { width: 60px; padding: 6px; text-align: center; }
-
 .precos-desconto {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -126,52 +125,23 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
   color: #e65100;
   background: #fff8f0;
 }
-
 .item-pedido { padding: 12px; border-bottom: 1px solid #f0f0f2; }
 .item-pedido:last-child { border-bottom: none; }
 .item-pedido .linha1 { display: flex; justify-content: space-between; gap: 8px; }
 .item-pedido .desc { font-weight: 600; font-size: 14px; flex: 1; }
 .item-pedido .linha2 { display: grid; grid-template-columns: 60px 1fr 1fr 1fr auto; gap: 6px; margin-top: 8px; align-items: center; font-size: 12px; }
 .item-pedido input { padding: 6px; font-size: 13px; text-align: center; }
-.item-pedido .desc-wrap {
-  position: relative;
-  display: flex;
-  align-items: stretch;
-}
-.item-pedido .desc-wrap input {
-  flex: 1;
-  min-width: 0;
-  padding-right: 22px;
-  text-align: center;
-}
-.item-pedido .desc-wrap .desc-simbolo {
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 12px;
-  color: #666;
-  font-weight: 600;
-  pointer-events: none;
-}
-
+.item-pedido .desc-wrap { position: relative; display: flex; align-items: stretch; }
+.item-pedido .desc-wrap input { flex: 1; min-width: 0; padding-right: 22px; text-align: center; }
+.item-pedido .desc-wrap .desc-simbolo { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 12px; color: #666; font-weight: 600; pointer-events: none; }
 .resumo { background: #1d1d1f; color: #fff; padding: 16px; border-radius: 12px; margin-top: 12px; }
 .resumo .linha { display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; }
 .resumo .total { font-size: 20px; font-weight: 700; padding-top: 10px; border-top: 1px solid #444; margin-top: 6px; }
-
 .loja-card { padding: 12px; border-bottom: 1px solid #f0f0f2; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 .loja-card:last-child { border-bottom: none; }
 .contador { font-size: 12px; color: #666; margin-top: 6px; }
 .vazio { text-align: center; color: #999; padding: 30px 10px; font-size: 14px; }
-
-.modal-familias {
-  font-size: 11px;
-  color: #999;
-  margin-bottom: 4px;
-  line-height: 1.3;
-  letter-spacing: 0.3px;
-}
-
+.modal-familias { font-size: 11px; color: #999; margin-bottom: 4px; line-height: 1.3; letter-spacing: 0.3px; }
 .opcoes-acab button.btn-30 {
   border: 1px solid #ff9800;
   color: #e65100;
@@ -182,9 +152,7 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
   color: #fff;
   border-color: #ff9800;
 }
-
-#mc-desc button,
-#mk-desc button {
+#mc-desc button {
   flex: 1 1 0;
   min-width: 0;
   padding: 8px 2px;
@@ -193,133 +161,84 @@ button.small { padding: 6px 10px; font-size: 13px; margin-top: 0; }
 /* ═══════════════ FIM SUBBLOCO 04 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 04-B — CSS: KALK (painel simplificado)
+   SUBBLOCO 04-B — CSS: KALK
    ═══════════════════════════════════════════════════════ */
-
-.kalk-produto-card {
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 14px;
-  margin-bottom: 12px;
-}
+.kalk-produto-card { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px; margin-bottom: 12px; }
 .kalk-produto-card .nome { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
 .kalk-produto-card .meta { font-size: 12px; color: #666; margin-bottom: 10px; }
-.kalk-produto-card .linha-calc {
-  display: flex;
-  justify-content: space-between;
-  padding: 4px 0;
-  font-size: 13px;
-}
-.kalk-produto-card .linha-calc.custo {
-  border-top: 2px solid #ddd;
-  margin-top: 8px;
-  padding-top: 10px;
-  font-size: 15px;
-  font-weight: 700;
-  color: #0071e3;
-}
-
-.kalk-abas {
-  display: flex;
-  gap: 4px;
-  margin-top: 12px;
-  margin-bottom: 0;
-  border-bottom: 2px solid #e8e8ed;
-}
-.kalk-abas button {
-  flex: 1;
-  padding: 10px 8px;
-  font-size: 12px;
-  font-weight: 600;
-  background: transparent;
-  color: #666;
-  border: none;
-  border-bottom: 3px solid transparent;
-  margin: 0;
-  border-radius: 0;
-  cursor: pointer;
-}
+.kalk-produto-card .linha-calc { display: flex; justify-content: space-between; padding: 4px 0; font-size: 13px; }
+.kalk-produto-card .linha-calc.custo { border-top: 2px solid #ddd; margin-top: 8px; padding-top: 10px; font-size: 15px; font-weight: 700; color: #0071e3; }
+.kalk-abas { display: flex; gap: 4px; margin-top: 12px; margin-bottom: 0; border-bottom: 2px solid #e8e8ed; }
+.kalk-abas button { flex: 1; padding: 10px 8px; font-size: 12px; font-weight: 600; background: transparent; color: #666; border: none; border-bottom: 3px solid transparent; margin: 0; border-radius: 0; cursor: pointer; }
 .kalk-abas button:hover { background: #f5f5f7; color: #1d1d1f; }
-.kalk-abas button.ativo {
-  color: #0071e3;
-  border-bottom-color: #0071e3;
-  background: transparent;
-}
-.kalk-abas button {
-  min-height: 52px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 2px;
-  line-height: 1.2;
-}
-.kalk-abas button .linha1 {
-  font-size: 10px;
-  font-weight: 500;
-  opacity: 0.75;
-}
-.kalk-abas button .linha2 {
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.kalk-aba-conteudo {
-  padding-top: 16px;
-}
-
-.kalk-resultado {
-  background: #eef6ff;
-  border-radius: 10px;
-  padding: 14px;
-  margin-top: 12px;
-}
-.kalk-resultado .linha {
-  display: flex;
-  justify-content: space-between;
-  padding: 6px 0;
-  font-size: 14px;
-}
-.kalk-resultado .linha.destaque {
-  font-size: 17px;
-  font-weight: 700;
-  color: #0071e3;
-  border-top: 1px solid #c7d9f0;
-  padding-top: 10px;
-  margin-top: 6px;
-}
+.kalk-abas button.ativo { color: #0071e3; border-bottom-color: #0071e3; background: transparent; }
+.kalk-abas button { min-height: 52px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2px; line-height: 1.2; }
+.kalk-abas button .linha1 { font-size: 10px; font-weight: 500; opacity: 0.75; }
+.kalk-abas button .linha2 { font-size: 12px; font-weight: 700; }
+.kalk-aba-conteudo { padding-top: 16px; }
+.kalk-resultado { background: #eef6ff; border-radius: 10px; padding: 14px; margin-top: 12px; }
+.kalk-resultado .linha { display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; }
+.kalk-resultado .linha.destaque { font-size: 17px; font-weight: 700; color: #0071e3; border-top: 1px solid #c7d9f0; padding-top: 10px; margin-top: 6px; }
 .kalk-resultado.verde { background: #e8f5e9; }
 .kalk-resultado.verde .linha.destaque { color: #2e7d32; border-top-color: #a5d6a7; }
 .kalk-resultado.vermelho { background: #ffebee; }
 .kalk-resultado.vermelho .linha.destaque { color: #c62828; border-top-color: #ef9a9a; }
 .kalk-resultado.laranja { background: #fff8f0; }
 .kalk-resultado.laranja .linha.destaque { color: #e65100; border-top-color: #ffcc80; }
-
-.kalk-rodape {
-  background: #f5f5f7;
-  border-radius: 10px;
-  padding: 16px;
-  margin-top: 20px;
-  font-size: 12px;
-  line-height: 1.7;
-  color: #555;
-}
-.kalk-rodape h3 {
-  font-size: 13px;
-  margin-bottom: 8px;
-  color: #1d1d1f;
-}
+.kalk-rodape { background: #f5f5f7; border-radius: 10px; padding: 16px; margin-top: 20px; font-size: 12px; line-height: 1.7; color: #555; }
+.kalk-rodape h3 { font-size: 13px; margin-bottom: 8px; color: #1d1d1f; }
 .kalk-rodape p { margin-bottom: 8px; }
 .kalk-rodape strong { color: #1d1d1f; }
-
-.kalk-placeholder {
-  text-align: center;
-  padding: 40px 20px;
-  color: #999;
-}
+.kalk-placeholder { text-align: center; padding: 40px 20px; color: #999; }
 .kalk-placeholder .ico-grande { font-size: 48px; margin-bottom: 12px; }
 /* ═══════════════ FIM SUBBLOCO 04-B ═══════════════ */
+
+/* ═══════════════════════════════════════════════════════
+   SUBBLOCO 04-C — CSS: IMPOSTOS NO MODAL
+   ═══════════════════════════════════════════════════════ */
+.impostos-box {
+  margin-top: 14px;
+  padding: 12px;
+  background: #f9f5fc;
+  border-radius: 8px;
+  border: 1px solid #e1bee7;
+}
+.impostos-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #7b1fa2;
+  font-weight: 600;
+}
+.impostos-toggle input[type="checkbox"] { width: auto; margin: 0; }
+.impostos-campos {
+  display: none;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #e1bee7;
+}
+.impostos-campos.aberto { display: block; }
+.impostos-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.impostos-grid label { margin-top: 0; font-size: 12px; color: #7b1fa2; }
+.custo-final-box {
+  margin-top: 10px;
+  padding: 8px 10px;
+  background: #fff;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+.custo-final-box .label { color: #7b1fa2; font-weight: 600; }
+.custo-final-box .valor { color: #7b1fa2; font-weight: 700; font-size: 16px; }
+/* ═══════════════ FIM SUBBLOCO 04-C ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 05 — CSS: NAV, MODAIS, QTD, MOBILE, PRINT
@@ -361,19 +280,14 @@ nav.bottom button.ativo { color: #0071e3; }
 .preco-final-box .valor { font-size: 18px; color: #0066cc; font-weight: 700; }
 @media (max-width: 600px) { .produto { padding: 10px; } }
 @media print { nav.bottom, header, .no-print { display: none !important; } body { background: #fff; padding: 0; } .card { box-shadow: none; padding: 0; margin: 0; } }
-
 @supports (-webkit-touch-callout: none) {
-  nav.bottom {
-    padding-bottom: calc(10px + env(safe-area-inset-bottom));
-  }
-  body {
-    padding-bottom: calc(90px + env(safe-area-inset-bottom));
-  }
+  nav.bottom { padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
+  body { padding-bottom: calc(90px + env(safe-area-inset-bottom)); }
 }
 /* ═══════════════ FIM SUBBLOCO 05 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 05-B — CSS: NAV FIXA NO iOS (reforço)
+   SUBBLOCO 05-B — CSS: NAV FIXA iOS (reforço)
    ═══════════════════════════════════════════════════════ */
 nav.bottom {
   position: fixed;
@@ -516,9 +430,9 @@ nav.bottom {
   </div>
 </div>
 <!-- ═══════════════ FIM SUBBLOCO 09 ═══════════════ -->
-     
+
 <!-- ═══════════════════════════════════════════════════════
-     SUBBLOCO 10 — HTML: MODAL COR + ACABAMENTO + DESCONTO
+     SUBBLOCO 10 — HTML: MODAL COR + ACABAMENTO + DESCONTO + IMPOSTOS
      ═══════════════════════════════════════════════════════ -->
 <div id="modal-cor" class="modal-overlay">
   <div class="modal">
@@ -545,8 +459,31 @@ nav.bottom {
     <div class="opcoes-acab" id="mc-desc"></div>
 
     <div class="preco-final-box">
-      <span class="label">Preço final</span>
+      <span class="label">Preço com desconto</span>
       <span class="valor" id="mc-preco-final">—</span>
+    </div>
+
+    <div class="impostos-box">
+      <label class="impostos-toggle">
+        <input type="checkbox" id="mc-impostos-toggle" onchange="mcToggleImpostos(this.checked)">
+        <span>💰 Adicionar impostos</span>
+      </label>
+      <div class="impostos-campos" id="mc-impostos-campos">
+        <div class="impostos-grid">
+          <div>
+            <label>Imposto 1 (%)</label>
+            <input type="number" id="mc-imposto1" value="0" min="0" max="100" step="0.01" oninput="mcAtualizarCustoFinal()">
+          </div>
+          <div>
+            <label>Imposto 2 (%)</label>
+            <input type="number" id="mc-imposto2" value="0" min="0" max="100" step="0.01" oninput="mcAtualizarCustoFinal()">
+          </div>
+        </div>
+        <div class="custo-final-box">
+          <span class="label">Custo final</span>
+          <span class="valor" id="mc-custo-final">—</span>
+        </div>
+      </div>
     </div>
 
     <label>Quantidade</label>
@@ -563,7 +500,7 @@ nav.bottom {
 <!-- ═══════════════ FIM SUBBLOCO 10 ═══════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SUBBLOCO 10-B — HTML: TELA KALK (só painel)
+     SUBBLOCO 10-B — HTML: TELA KALK
      ═══════════════════════════════════════════════════════ -->
 <div id="tela-kalk" class="tela">
   <div class="card" style="padding:16px;">
@@ -607,7 +544,8 @@ let MC_PRODUTO = null;
 let MC_ACAB_SELECIONADO = '';
 let MC_DESCONTO = 0;
 let MC_ITEM_EM_EDICAO = null;
-let MC_MODO = 'pedido';   // 'pedido' ou 'kalk'
+let MC_IMPOSTO1 = 0;
+let MC_IMPOSTO2 = 0;
 
 // Estado do Kalk
 let KALK_PRODUTO = null;
@@ -628,7 +566,6 @@ const TABELAS_CORES = {};
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 20 — TABELAS DE CORES
    ═══════════════════════════════════════════════════════ */
-
 TABELAS_CORES['ESM_IND_AUTOM_CORES'] = [
   "AREIA", "AZUL 2,5PB 4/10", "AZUL CELESTE", "AZUL DEL REY",
   "AZUL FRANÇA", "AZUL NEW HOLLAND", "CAMURÇA", "CINZA CHASSI SCANIA",
@@ -954,7 +891,7 @@ function renderizarFiltros() {
 /* ═══════════════ FIM SUBBLOCO 24 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   Continua na Parte 3 (JS — Catálogo, Modal, Carrinho, etc.)
+   Continua na Parte 3 (JS — Catálogo, Modal, Carrinho, Pedido, PDF)
    ═══════════════════════════════════════════════════════ */
      
 /* ═══════════════════════════════════════════════════════
@@ -1010,7 +947,6 @@ function renderizarCatalogo() {
   }
 }
 
-/* Gera os chips de desconto — 30% para todos os produtos */
 function gerarLinhaDescontos(valorTabela) {
   const descontos = [5, 10, 15, 20, 25, 30];
 
@@ -1030,13 +966,12 @@ function calcularQtdNoCarrinho(produtoId) {
 function clicouAdd(produtoId) {
   const p = PRODUTOS.find(x => x.id === produtoId);
   if (!p) return;
-  MC_MODO = 'pedido';
   abrirModalCor(p);
 }
 /* ═══════════════ FIM SUBBLOCO 25 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 26 — MODAL DE COR, ACABAMENTO E DESCONTO
+   SUBBLOCO 26 — MODAL DE COR, ACABAMENTO, DESCONTO E IMPOSTOS
    ═══════════════════════════════════════════════════════ */
 function abrirModalCor(produto) {
   MC_PRODUTO = produto;
@@ -1045,6 +980,8 @@ function abrirModalCor(produto) {
 
   MC_ACAB_SELECIONADO = editando ? (MC_ITEM_EM_EDICAO.acabamento || '') : '';
   MC_DESCONTO = editando ? (MC_ITEM_EM_EDICAO.desconto || 0) : 0;
+  MC_IMPOSTO1 = editando ? (MC_ITEM_EM_EDICAO.imposto1 || 0) : 0;
+  MC_IMPOSTO2 = editando ? (MC_ITEM_EM_EDICAO.imposto2 || 0) : 0;
 
   document.getElementById('mc-familias').textContent = produto.linha + ' • ' + produto.subLinha;
   document.getElementById('mc-titulo').textContent = produto.descricao;
@@ -1162,6 +1099,13 @@ function abrirModalCor(produto) {
     boxDesc.appendChild(btn);
   });
 
+  // ─── Impostos ───
+  const temImposto = (MC_IMPOSTO1 > 0) || (MC_IMPOSTO2 > 0);
+  document.getElementById('mc-impostos-toggle').checked = temImposto;
+  document.getElementById('mc-impostos-campos').classList.toggle('aberto', temImposto);
+  document.getElementById('mc-imposto1').value = MC_IMPOSTO1;
+  document.getElementById('mc-imposto2').value = MC_IMPOSTO2;
+
   // ─── Quantidade ───
   if (editando) {
     document.getElementById('mc-qtd').value = MC_ITEM_EM_EDICAO.qtd;
@@ -1172,7 +1116,6 @@ function abrirModalCor(produto) {
 
   atualizarPrecoFinalModal();
 
-  // ─── FORÇA ABERTURA ───
   const modal = document.getElementById('modal-cor');
   modal.style.display = 'flex';
   modal.classList.add('aberto');
@@ -1199,6 +1142,32 @@ function atualizarPrecoFinalModal() {
   if (!MC_PRODUTO) return;
   const preco = MC_PRODUTO.valorTabela * (1 - MC_DESCONTO / 100);
   document.getElementById('mc-preco-final').textContent = fmtMoeda(preco);
+  mcAtualizarCustoFinal();
+}
+
+function mcToggleImpostos(ativo) {
+  const campos = document.getElementById('mc-impostos-campos');
+  campos.classList.toggle('aberto', ativo);
+  if (!ativo) {
+    document.getElementById('mc-imposto1').value = 0;
+    document.getElementById('mc-imposto2').value = 0;
+    MC_IMPOSTO1 = 0;
+    MC_IMPOSTO2 = 0;
+  }
+  mcAtualizarCustoFinal();
+}
+
+function mcAtualizarCustoFinal() {
+  if (!MC_PRODUTO) return;
+  const preco = MC_PRODUTO.valorTabela * (1 - MC_DESCONTO / 100);
+  const i1 = parseFloat(document.getElementById('mc-imposto1').value) || 0;
+  const i2 = parseFloat(document.getElementById('mc-imposto2').value) || 0;
+  MC_IMPOSTO1 = i1;
+  MC_IMPOSTO2 = i2;
+  const vImp1 = preco * (i1 / 100);
+  const vImp2 = preco * (i2 / 100);
+  const custoFinal = preco + vImp1 + vImp2;
+  document.getElementById('mc-custo-final').textContent = fmtMoeda(custoFinal);
 }
 
 function fecharModalCor() {
@@ -1208,6 +1177,8 @@ function fecharModalCor() {
   MC_PRODUTO = null;
   MC_ACAB_SELECIONADO = '';
   MC_DESCONTO = 0;
+  MC_IMPOSTO1 = 0;
+  MC_IMPOSTO2 = 0;
   MC_ITEM_EM_EDICAO = null;
 }
 
@@ -1224,7 +1195,7 @@ function confirmarModalCor() {
   const selectCor = document.getElementById('mc-cor');
   const cor = (selectCor && selectCor.style.display !== 'none') ? selectCor.value : '';
   const qtd = parseInt(document.getElementById('mc-qtd').value) || 1;
-  adicionarAoCarrinho(MC_PRODUTO, qtd, cor, MC_ACAB_SELECIONADO, MC_DESCONTO);
+  adicionarAoCarrinho(MC_PRODUTO, qtd, cor, MC_ACAB_SELECIONADO, MC_DESCONTO, MC_IMPOSTO1, MC_IMPOSTO2);
   MC_ITEM_EM_EDICAO = null;
   fecharModalCor();
 }
@@ -1233,14 +1204,18 @@ function confirmarModalCor() {
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 27 — CARRINHO
    ═══════════════════════════════════════════════════════ */
-function adicionarAoCarrinho(produto, qtd, cor, acabamento, descontoInicial) {
+function adicionarAoCarrinho(produto, qtd, cor, acabamento, descontoInicial, imp1, imp2) {
   const descIni = parseFloat(descontoInicial) || 0;
+  const imposto1 = parseFloat(imp1) || 0;
+  const imposto2 = parseFloat(imp2) || 0;
   const chave = produto.id + '|' + (cor || '') + '|' + (acabamento || '');
   const existente = CARRINHO.find(x => (x.produtoId + '|' + (x.cor || '') + '|' + (x.acabamento || '')) === chave);
 
   if (existente) {
     existente.qtd += qtd;
     if (descIni > 0) existente.descItem = descIni;
+    existente.imposto1 = imposto1;
+    existente.imposto2 = imposto2;
   } else {
     CARRINHO.push({
       produtoId: produto.id,
@@ -1253,7 +1228,9 @@ function adicionarAoCarrinho(produto, qtd, cor, acabamento, descontoInicial) {
       cor: cor || '',
       acabamento: acabamento || '',
       qtd: qtd,
-      descItem: descIni
+      descItem: descIni,
+      imposto1: imposto1,
+      imposto2: imposto2
     });
   }
   salvarLocal();
@@ -1312,7 +1289,9 @@ function editarItemPedido(idx) {
     cor: item.cor || '',
     acabamento: item.acabamento || '',
     desconto: item.descItem || 0,
-    qtd: item.qtd || 1
+    qtd: item.qtd || 1,
+    imposto1: item.imposto1 || 0,
+    imposto2: item.imposto2 || 0
   };
 
   CARRINHO.splice(idx, 1);
@@ -1321,13 +1300,12 @@ function editarItemPedido(idx) {
   renderizarPedido();
   renderizarCatalogo();
 
-  MC_MODO = 'pedido';
   abrirModalCor(produto);
 }
 /* ═══════════════ FIM SUBBLOCO 27 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 28 — PEDIDO (RENDER) + DESCONTOS + RESUMO
+   SUBBLOCO 28 — PEDIDO (RENDER) + RESUMO
    ═══════════════════════════════════════════════════════ */
 function renderizarPedido() {
   const box = document.getElementById('itens-pedido');
@@ -1340,8 +1318,10 @@ function renderizarPedido() {
   CARRINHO.forEach((item, idx) => {
     const div = document.createElement('div');
     div.className = 'item-pedido';
+    const temImp = (item.imposto1 > 0) || (item.imposto2 > 0);
     const tags = (item.cor ? ' <span class="badge cor">' + item.cor + '</span>' : '') +
-                 (item.acabamento ? ' <span class="badge acab">' + item.acabamento + '</span>' : '');
+                 (item.acabamento ? ' <span class="badge acab">' + item.acabamento + '</span>' : '') +
+                 (temImp ? ' <span class="badge imposto">💰 ' + item.imposto1 + '% + ' + item.imposto2 + '%</span>' : '');
     div.innerHTML =
       '<div class="linha1">' +
         '<div class="desc">' + item.descricao + tags + '</div>' +
@@ -1378,27 +1358,34 @@ function calcularTotalItem(item) {
 
 function calcularResumo() {
   const descGlobal = parseFloat(document.getElementById('desc-global').value) || 0;
-  let subtotal = 0, totalFinal = 0;
+  let subtotal = 0, totalFinal = 0, totalImpostos = 0;
   CARRINHO.forEach(item => {
     const sub = item.valorTabela * item.qtd;
     subtotal += sub;
     const descEf = item.descItem > 0 ? item.descItem : descGlobal;
-    totalFinal += sub * (1 - descEf / 100);
+    const base = sub * (1 - descEf / 100);
+    const vImp = base * ((item.imposto1 || 0) / 100) + base * ((item.imposto2 || 0) / 100);
+    totalImpostos += vImp;
+    totalFinal += base + vImp;
   });
-  const valorDesconto = subtotal - totalFinal;
+  const valorDesconto = subtotal - (totalFinal - totalImpostos);
   const percentualEfetivo = subtotal > 0 ? (valorDesconto / subtotal) * 100 : 0;
-  return { subtotal, totalFinal, valorDesconto, percentualEfetivo, descGlobal };
+  return { subtotal, totalFinal, valorDesconto, percentualEfetivo, descGlobal, totalImpostos };
 }
 
 function renderizarResumo() {
   const r = calcularResumo();
   const box = document.getElementById('resumo-pedido');
   const totalItens = CARRINHO.reduce((s, i) => s + i.qtd, 0);
-  box.innerHTML =
+  let html =
     '<div class="linha"><span>Itens (' + totalItens + ' un.)</span><span>' + CARRINHO.length + ' linha(s)</span></div>' +
     '<div class="linha"><span>Subtotal sem desconto</span><span>' + fmtMoeda(r.subtotal) + '</span></div>' +
-    '<div class="linha"><span>Desconto</span><span>− ' + fmtMoeda(r.valorDesconto) + ' (' + r.percentualEfetivo.toFixed(2) + '%)</span></div>' +
-    '<div class="linha total"><span>TOTAL</span><span>' + fmtMoeda(r.totalFinal) + '</span></div>';
+    '<div class="linha"><span>Desconto</span><span>− ' + fmtMoeda(r.valorDesconto) + ' (' + r.percentualEfetivo.toFixed(2) + '%)</span></div>';
+  if (r.totalImpostos > 0) {
+    html += '<div class="linha"><span>💰 Impostos</span><span>+ ' + fmtMoeda(r.totalImpostos) + '</span></div>';
+  }
+  html += '<div class="linha total"><span>TOTAL</span><span>' + fmtMoeda(r.totalFinal) + '</span></div>';
+  box.innerHTML = html;
 
   const alertaBox = document.getElementById('alerta-global');
   if (r.descGlobal > 25) {
@@ -1543,7 +1530,7 @@ async function buscarCNPJ() {
   let dados = null;
   let erroFinal = '';
 
-  /* ─── FONTE 1: BrasilAPI via corsproxy.io ─── */
+  /* FONTE 1: BrasilAPI via corsproxy.io */
   try {
     const url = 'https://corsproxy.io/?' + encodeURIComponent('https://brasilapi.com.br/api/cnpj/v1/' + cnpjLimpo);
     const resp = await fetch(url);
@@ -1557,7 +1544,7 @@ async function buscarCNPJ() {
     erroFinal = 'Fonte 1 falhou';
   }
 
-  /* ─── FONTE 2: BrasilAPI via allorigins.win ─── */
+  /* FONTE 2: BrasilAPI via allorigins.win */
   if (!dados) {
     try {
       const url = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://brasilapi.com.br/api/cnpj/v1/' + cnpjLimpo);
@@ -1573,14 +1560,13 @@ async function buscarCNPJ() {
     }
   }
 
-  /* ─── FONTE 3: ReceitaWS direta (aceita CORS) ─── */
+  /* FONTE 3: ReceitaWS direta */
   if (!dados) {
     try {
       const resp = await fetch('https://receitaws.com.br/v1/cnpj/' + cnpjLimpo);
       if (resp.ok) {
         const raw = await resp.json();
         if (raw && raw.status !== 'ERROR') {
-          // Converte formato ReceitaWS pro formato BrasilAPI (compatibilidade)
           dados = {
             razao_social: raw.nome || '',
             nome_fantasia: raw.fantasia || '',
@@ -1604,10 +1590,8 @@ async function buscarCNPJ() {
     }
   }
 
-  /* ─── PROCESSAMENTO ─── */
   if (!dados) {
-    aviso.innerHTML = '<span style="color:#c00;">❌ Não foi possível consultar o CNPJ. ' +
-      'Verifique a conexão e tente novamente em alguns segundos.</span>';
+    aviso.innerHTML = '<span style="color:#c00;">❌ Não foi possível consultar o CNPJ. Verifique a conexão e tente novamente em alguns segundos.</span>';
     console.warn('Todas as fontes falharam. Último erro:', erroFinal);
     btn.disabled = false;
     btn.textContent = '🔍 Buscar';
@@ -1637,18 +1621,12 @@ async function buscarCNPJ() {
   btn.textContent = '🔍 Buscar';
 }
 
-/* Formata CNPJ: 00000000000000 → 00.000.000/0000-00 */
 function formatarCNPJ(cnpj) {
   const c = cnpj.replace(/\D/g, '');
   if (c.length !== 14) return cnpj;
-  return c.substring(0,2) + '.' +
-         c.substring(2,5) + '.' +
-         c.substring(5,8) + '/' +
-         c.substring(8,12) + '-' +
-         c.substring(12,14);
+  return c.substring(0,2) + '.' + c.substring(2,5) + '.' + c.substring(5,8) + '/' + c.substring(8,12) + '-' + c.substring(12,14);
 }
 
-/* Formata CEP: 00000000 → 00000-000 */
 function formatarCEP(cep) {
   const c = String(cep).replace(/\D/g, '');
   if (c.length !== 8) return cep;
@@ -1672,7 +1650,8 @@ function salvarPedido() {
     lojaProvisoria: loja ? !!loja.provisoria : false,
     itens: JSON.parse(JSON.stringify(CARRINHO)),
     descontoGlobal: r.descGlobal, subtotal: r.subtotal,
-    descontoValor: r.valorDesconto, descontoPercent: r.percentualEfetivo, total: r.totalFinal
+    descontoValor: r.valorDesconto, descontoPercent: r.percentualEfetivo,
+    totalImpostos: r.totalImpostos, total: r.totalFinal
   };
   PEDIDOS.unshift(pedido);
   salvarLocal();
@@ -1731,7 +1710,6 @@ function trocarTela(nome) {
   if (nome === 'lojas') renderizarLojas();
   if (nome === 'config') { renderizarHistorico(); atualizarStatus(); }
   if (nome === 'pedido') renderizarPedido();
-  // Quando entra na tela Kalk, garante que o painel está renderizado
   if (nome === 'kalk') renderizarKalkPainel();
   window.scrollTo(0, 0);
 }
@@ -1746,9 +1724,9 @@ function atualizarStatus() {
     '📜 Pedidos salvos: <b>' + PEDIDOS.length + '</b>';
 }
 /* ═══════════════ FIM SUBBLOCO 31 ═══════════════ */
-     
+
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 32 — BACKUP (EXPORT / IMPORT)
+   SUBBLOCO 32 — BACKUP
    ═══════════════════════════════════════════════════════ */
 function exportarBackup() {
   const dados = { versao: 1, exportadoEm: new Date().toISOString(), lojas: LOJAS, pedidos: PEDIDOS };
@@ -1795,7 +1773,6 @@ function resetarTudo() {
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 33 — EXPORTAÇÃO (PDF + WHATSAPP)
    ═══════════════════════════════════════════════════════ */
-
 const EMPRESA_NOME = 'PERFORMA BRAND';
 const EMPRESA_RAZAO = 'REP E CONSULTORIA LTDA';
 const EMPRESA_CNPJ = '63.334.766/0001-22';
@@ -1806,12 +1783,8 @@ const CONDICOES_COMERCIAIS = [
   'A venda à prazo está sujeita a análise de crédito;',
   'Reservamo-nos o direito de corrigir eventuais erros de digitação neste orçamento.'
 ];
-
 const LINHA_WA = '─────────';
 
-/* ═══════════════════════════════════════════════════════
-   WHATSAPP — enxuto: só Loja + CNPJ
-   ═══════════════════════════════════════════════════════ */
 function montarTextoPedido() {
   const lojaId = document.getElementById('select-loja').value;
   const loja = LOJAS.find(l => l.id === lojaId);
@@ -1843,19 +1816,25 @@ function montarTextoPedido() {
   CARRINHO.forEach((item, i) => {
     const sub = item.valorTabela * item.qtd;
     const descEf = item.descItem > 0 ? item.descItem : descGlobal;
-    const total = sub * (1 - descEf / 100);
+    const base = sub * (1 - descEf / 100);
+    const vImp = base * ((item.imposto1 || 0) / 100) + base * ((item.imposto2 || 0) / 100);
+    const total = base + vImp;
     texto += (i + 1) + '. *' + item.descricao + '*\n';
     if (item.cor) texto += '   🎨 Cor: ' + item.cor + '\n';
     if (item.acabamento) texto += '   🎨 Acabamento: ' + item.acabamento + '\n';
     texto += '   ' + (item.embalagem || '') + (item.peso ? ' • ' + item.peso : '') + '\n';
     texto += '   ' + item.qtd + ' un. × ' + fmtMoeda(item.valorTabela) + ' = ' + fmtMoeda(sub) + '\n';
-    if (descEf > 0) texto += '   Desconto: ' + descEf.toFixed(2) + '% → ' + fmtMoeda(total) + '\n';
+    if (descEf > 0) texto += '   Desconto: ' + descEf.toFixed(2) + '% → ' + fmtMoeda(base) + '\n';
+    if (vImp > 0) texto += '   💰 Impostos (' + item.imposto1 + '% + ' + item.imposto2 + '%): + ' + fmtMoeda(vImp) + ' → ' + fmtMoeda(total) + '\n';
     texto += '\n';
   });
 
   texto += LINHA_WA + '\n';
   texto += '*Subtotal:* ' + fmtMoeda(r.subtotal) + '\n';
   texto += '*Desconto:* ' + fmtMoeda(r.valorDesconto) + ' (' + r.percentualEfetivo.toFixed(2) + '%)\n';
+  if (r.totalImpostos > 0) {
+    texto += '*Impostos:* + ' + fmtMoeda(r.totalImpostos) + '\n';
+  }
   texto += '*TOTAL: ' + fmtMoeda(r.totalFinal) + '*\n';
   texto += LINHA_WA + '\n\n';
 
@@ -1885,9 +1864,6 @@ function exportarWhatsApp() {
   window.open(url, '_blank');
 }
 
-/* ═══════════════════════════════════════════════════════
-   PDF — completo: Loja + CNPJ + Comprador + Contato + WhatsApp + Endereço
-   ═══════════════════════════════════════════════════════ */
 function exportarPDF() {
   if (CARRINHO.length === 0) { alert('Adicione itens ao pedido primeiro.'); return; }
   const lojaId = document.getElementById('select-loja').value;
@@ -1898,7 +1874,6 @@ function exportarPDF() {
   let html = '';
   html += '<div style="font-family:Arial,sans-serif;padding:30px;max-width:800px;margin:0 auto;color:#1d1d1f;">';
 
-  /* Cabeçalho (Perfoma Brand) */
   html += '<div style="text-align:center;border-bottom:3px solid #1d1d1f;padding-bottom:12px;margin-bottom:20px;">';
   html += '<h1 style="margin:0;font-size:22px;letter-spacing:1px;">' + EMPRESA_NOME + '</h1>';
   html += '<div style="font-size:13px;color:#333;margin-top:4px;">' + EMPRESA_RAZAO + '</div>';
@@ -1909,7 +1884,6 @@ function exportarPDF() {
 
   html += '<div style="text-align:center;font-size:15px;font-weight:600;margin-bottom:16px;">ORÇAMENTO DE VENDA</div>';
 
-  /* Dados do cliente (PDF: completo) */
   html += '<div style="margin-bottom:20px;font-size:13px;line-height:1.7;">';
   html += '<b>Data:</b> ' + dataFmt + '<br>';
   if (loja) {
@@ -1922,13 +1896,13 @@ function exportarPDF() {
   }
   html += '</div>';
 
-  /* Tabela de itens */
   html += '<table style="width:100%;border-collapse:collapse;font-size:12px;">';
   html += '<thead><tr style="background:#1d1d1f;color:#fff;">';
   html += '<th style="padding:8px;text-align:left;">Item</th>';
   html += '<th style="padding:8px;text-align:center;">Qtd</th>';
   html += '<th style="padding:8px;text-align:right;">Vl. Unit.</th>';
   html += '<th style="padding:8px;text-align:center;">Desc.</th>';
+  html += '<th style="padding:8px;text-align:center;">Impostos</th>';
   html += '<th style="padding:8px;text-align:right;">Total</th>';
   html += '</tr></thead><tbody>';
 
@@ -1936,7 +1910,10 @@ function exportarPDF() {
   CARRINHO.forEach(item => {
     const sub = item.valorTabela * item.qtd;
     const descEf = item.descItem > 0 ? item.descItem : descGlobal;
-    const total = sub * (1 - descEf / 100);
+    const base = sub * (1 - descEf / 100);
+    const vImp = base * ((item.imposto1 || 0) / 100) + base * ((item.imposto2 || 0) / 100);
+    const total = base + vImp;
+    const temImp = (item.imposto1 > 0) || (item.imposto2 > 0);
     html += '<tr style="border-bottom:1px solid #eee;">';
     html += '<td style="padding:8px;">' + item.descricao;
     if (item.cor) html += ' <span style="color:#1976d2;font-size:11px;">[' + item.cor + ']</span>';
@@ -1945,19 +1922,21 @@ function exportarPDF() {
     html += '<td style="padding:8px;text-align:center;">' + item.qtd + '</td>';
     html += '<td style="padding:8px;text-align:right;">' + fmtMoeda(item.valorTabela) + '</td>';
     html += '<td style="padding:8px;text-align:center;">' + (descEf > 0 ? descEf.toFixed(2) + '%' : '—') + '</td>';
+    html += '<td style="padding:8px;text-align:center;color:#7b1fa2;">' + (temImp ? item.imposto1 + '% + ' + item.imposto2 + '%' : '—') + '</td>';
     html += '<td style="padding:8px;text-align:right;font-weight:600;">' + fmtMoeda(total) + '</td>';
     html += '</tr>';
   });
   html += '</tbody></table>';
 
-  /* Totais */
   html += '<div style="margin-top:20px;text-align:right;font-size:14px;line-height:1.9;">';
   html += '<div>Subtotal: <b>' + fmtMoeda(r.subtotal) + '</b></div>';
   html += '<div>Desconto: <b>' + fmtMoeda(r.valorDesconto) + ' (' + r.percentualEfetivo.toFixed(2) + '%)</b></div>';
+  if (r.totalImpostos > 0) {
+    html += '<div style="color:#7b1fa2;">Impostos: <b>+ ' + fmtMoeda(r.totalImpostos) + '</b></div>';
+  }
   html += '<div style="font-size:20px;margin-top:8px;padding-top:8px;border-top:2px solid #1d1d1f;">TOTAL: <b>' + fmtMoeda(r.totalFinal) + '</b></div>';
   html += '</div>';
 
-  /* Condições comerciais */
   html += '<div style="margin-top:36px;padding-top:16px;border-top:1px solid #ddd;font-size:12px;line-height:1.7;">';
   html += '<div style="font-weight:700;margin-bottom:8px;">CONDIÇÕES COMERCIAIS:</div>';
   CONDICOES_COMERCIAIS.forEach(c => {
@@ -2019,26 +1998,21 @@ function inicializar() {
   });
 
   iniciarFixNav();
-
   carregarPlanilha();
 }
 
-/* Fix da nav inferior no iOS Safari */
 function iniciarFixNav() {
   const nav = document.querySelector('nav.bottom');
   if (!nav) return;
 
   let travado = false;
-
   function travar() {
     if (travado) return;
     travado = true;
-
     nav.style.position = 'fixed';
     nav.style.bottom = '0';
     nav.style.transform = 'translate3d(0, 0, 0)';
     nav.style.webkitTransform = 'translate3d(0, 0, 0)';
-
     setTimeout(() => { travado = false; }, 30);
   }
 
@@ -2052,9 +2026,7 @@ function iniciarFixNav() {
 
   document.addEventListener('focusin', () => setTimeout(travar, 50), true);
   document.addEventListener('focusout', () => setTimeout(travar, 100), true);
-
   window.addEventListener('orientationchange', () => setTimeout(travar, 200));
-
   setInterval(travar, 800);
 }
 
@@ -2064,8 +2036,6 @@ document.addEventListener('DOMContentLoaded', inicializar);
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 35-A — KALK: ENVIAR DO MODAL
    ═══════════════════════════════════════════════════════ */
-
-/* Chamado pelo botão "ENVIAR PRO KALK" do modal do catálogo */
 function enviarProKalk() {
   if (!MC_PRODUTO) return;
 
@@ -2076,24 +2046,20 @@ function enviarProKalk() {
   KALK_COR = cor || '';
   KALK_ACABAMENTO = MC_ACAB_SELECIONADO || '';
   KALK_DESCONTO = MC_DESCONTO || 0;
-
-  // Kalk não usa impostos iniciais — o usuário adiciona na tela Kalk se quiser
-  KALK_IMPOSTO1 = 0;
-  KALK_IMPOSTO2 = 0;
-
+  KALK_IMPOSTO1 = MC_IMPOSTO1 || 0;
+  KALK_IMPOSTO2 = MC_IMPOSTO2 || 0;
   KALK_ABA_ATUAL = 1;
 
   MC_ITEM_EM_EDICAO = null;
   fecharModalCor();
 
-  // Troca pra tela Kalk
   trocarTela('kalk');
 }
+/* ═══════════════ FIM SUBBLOCO 35-A ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 35-B — KALK: CÁLCULOS BASE
    ═══════════════════════════════════════════════════════ */
-
 function kalkPrecoComDesconto() {
   if (!KALK_PRODUTO) return 0;
   return KALK_PRODUTO.valorTabela * (1 - KALK_DESCONTO / 100);
@@ -2136,7 +2102,6 @@ function renderizarKalkPainel() {
   const custoFinal = kalkCustoFinal();
   const pctImpostos = kalkImpostosPct();
 
-  // Card do produto
   let html = '<div class="kalk-produto-card">';
   html += '<div class="nome">' + KALK_PRODUTO.descricao + '</div>';
   html += '<div class="meta">' + KALK_PRODUTO.linha + ' • ' + KALK_PRODUTO.subLinha + ' • ' + (KALK_PRODUTO.embalagem || '') + (KALK_PRODUTO.peso ? ' • ' + KALK_PRODUTO.peso : '') + '</div>';
@@ -2155,7 +2120,6 @@ function renderizarKalkPainel() {
   html += '<button class="sec small" style="flex:1;" onclick="kalkLimpar()">🧹 Limpar</button>';
   html += '</div>';
 
-  // Abas
   html += '<div style="padding:0;overflow:hidden;">';
   html += '<div class="kalk-abas">';
   html += '<button class="' + (KALK_ABA_ATUAL === 1 ? 'ativo' : '') + '" onclick="kalkMudarAba(1)">' +
@@ -2176,7 +2140,6 @@ function renderizarKalkPainel() {
   html += '</div>';
 
   painel.innerHTML = html;
-
   kalkConectarListenersAba();
 }
 
@@ -2223,7 +2186,6 @@ function kalkCalcularAba1() {
 
   const diff = conc - custo;
   const pct = (diff / conc) * 100;
-
   const markupConc = custo > 0 ? ((conc - custo) / custo) * 100 : 0;
   const margemConc = (conc - custo) / conc * 100;
 
@@ -2319,7 +2281,6 @@ function kalkCalcularAba3() {
   const lucro = p - custo;
   const markup = custo > 0 ? (lucro / custo) * 100 : 0;
   const margem = (lucro / p) * 100;
-
   const classe = lucro >= 0 ? '' : 'vermelho';
 
   div.innerHTML =
@@ -2347,7 +2308,6 @@ function kalkConectarListenersAba() {
   }
 }
 
-/* Limpa os campos das abas (mantém o produto escolhido) */
 function kalkLimpar() {
   const campo1 = document.getElementById('kalk-concorrente');
   if (campo1) campo1.value = '';
