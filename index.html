@@ -962,7 +962,19 @@ function renderizarCatalogo() {
   let filtrados = PRODUTOS.filter(p => {
     if (LINHA_ATUAL && p.linha !== LINHA_ATUAL) return false;
     if (SUBLINHA_ATUAL && p.subLinha !== SUBLINHA_ATUAL) return false;
-    if (busca && !normalizar(p.descricao + ' ' + p.embalagem + ' ' + p.peso).includes(busca)) return false;
+    if (busca) {
+      // Busca em: descrição + embalagem + peso + cor + subLinha + linha
+      const coresDoProduto = obterCoresDoProduto(p).join(' ');
+      const alvo = normalizar(
+        p.descricao + ' ' +
+        p.embalagem + ' ' +
+        p.peso + ' ' +
+        p.subLinha + ' ' +
+        p.linha + ' ' +
+        coresDoProduto
+      );
+      if (!alvo.includes(busca)) return false;
+    }
     return true;
   });
 
@@ -1827,7 +1839,7 @@ function resetarTudo() {
 /* ═══════════════ FIM SUBBLOCO 32 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 33 — EXPORTAÇÃO (PDF + WHATSAPP)
+   SUBBLOCO 33 — EXPORTAÇÃO (PDF + WHATSAPP) — sem desconto
    ═══════════════════════════════════════════════════════ */
 const EMPRESA_NOME = 'PERFORMA BRAND';
 const EMPRESA_RAZAO = 'REP E CONSULTORIA LTDA';
@@ -1844,7 +1856,6 @@ const LINHA_WA = '─────────';
 function montarTextoPedido() {
   const lojaId = document.getElementById('select-loja').value;
   const loja = LOJAS.find(l => l.id === lojaId);
-  const r = calcularResumo();
 
   let texto = LINHA_WA + '\n';
   texto += '*' + EMPRESA_NOME + '*\n';
@@ -1868,26 +1879,31 @@ function montarTextoPedido() {
   texto += LINHA_WA + '\n';
   texto += '*ITENS DO PEDIDO:*\n\n';
 
-  const descGlobal = r.descGlobal;
+  // Calcula resumo pra mostrar apenas totais limpos
+  const r = calcularResumo();
+
   CARRINHO.forEach((item, i) => {
-    const sub = item.valorTabela * item.qtd;
-    const descEf = item.descItem > 0 ? item.descItem : descGlobal;
-    const base = sub * (1 - descEf / 100);
-    const vImp = base * ((item.imposto1 || 0) / 100) + base * ((item.imposto2 || 0) / 100);
-    const total = base + vImp;
+    const precoUnitFinal = calcularPrecoUnitarioFinal(item);
+    const totalItem = calcularTotalItemComImposto(item);
+
     texto += (i + 1) + '. *' + item.descricao + '*\n';
     if (item.cor) texto += '   🎨 Cor: ' + item.cor + '\n';
     if (item.acabamento) texto += '   🎨 Acabamento: ' + item.acabamento + '\n';
     texto += '   ' + (item.embalagem || '') + (item.peso ? ' • ' + item.peso : '') + '\n';
-    texto += '   ' + item.qtd + ' un. × ' + fmtMoeda(item.valorTabela) + ' = ' + fmtMoeda(sub) + '\n';
-    if (descEf > 0) texto += '   Desconto: ' + descEf.toFixed(2) + '% → ' + fmtMoeda(base) + '\n';
-    if (vImp > 0) texto += '   💰 Impostos (' + item.imposto1 + '% + ' + item.imposto2 + '%): + ' + fmtMoeda(vImp) + ' → ' + fmtMoeda(total) + '\n';
+    texto += '   ' + item.qtd + ' un. × ' + fmtMoeda(precoUnitFinal) + ' = ' + fmtMoeda(item.valorTabela * item.qtd * (1 - calcularDescontoEfetivoItem(item)/100)) + '\n';
+
+    // Imposto (se houver) — mostra informativo
+    const baseComDesc = item.valorTabela * item.qtd * (1 - calcularDescontoEfetivoItem(item)/100);
+    const vImp = baseComDesc * ((item.imposto1 || 0) / 100) + baseComDesc * ((item.imposto2 || 0) / 100);
+    if (vImp > 0) {
+      texto += '   💰 Impostos (' + item.imposto1 + '% + ' + item.imposto2 + '%): + ' + fmtMoeda(vImp) + '\n';
+      texto += '   Subtotal item: ' + fmtMoeda(totalItem) + '\n';
+    }
     texto += '\n';
   });
 
   texto += LINHA_WA + '\n';
-  texto += '*Subtotal:* ' + fmtMoeda(r.subtotal) + '\n';
-  texto += '*Desconto:* ' + fmtMoeda(r.valorDesconto) + ' (' + r.percentualEfetivo.toFixed(2) + '%)\n';
+  texto += '*Subtotal:* ' + fmtMoeda(r.subtotalSemDesconto) + '\n';
   if (r.totalImpostos > 0) {
     texto += '*Impostos:* + ' + fmtMoeda(r.totalImpostos) + '\n';
   }
@@ -1918,6 +1934,22 @@ function exportarWhatsApp() {
     url = 'https://wa.me/?text=' + textoEnc;
   }
   window.open(url, '_blank');
+}
+
+/* ─── Helpers de cálculo (sem mostrar desconto) ─── */
+function calcularDescontoEfetivoItem(item) {
+  const descGlobal = parseFloat(document.getElementById('desc-global').value) || 0;
+  return item.descItem > 0 ? item.descItem : descGlobal;
+}
+function calcularPrecoUnitarioFinal(item) {
+  const desc = calcularDescontoEfetivoItem(item);
+  return item.valorTabela * (1 - desc / 100);
+}
+function calcularTotalItemComImposto(item) {
+  const desc = calcularDescontoEfetivoItem(item);
+  const base = item.valorTabela * item.qtd * (1 - desc / 100);
+  const vImp = base * ((item.imposto1 || 0) / 100) + base * ((item.imposto2 || 0) / 100);
+  return base + vImp;
 }
 
 function exportarPDF() {
@@ -1957,27 +1989,24 @@ function exportarPDF() {
   html += '<th style="padding:8px;text-align:left;">Item</th>';
   html += '<th style="padding:8px;text-align:center;">Qtd</th>';
   html += '<th style="padding:8px;text-align:right;">Vl. Unit.</th>';
-  html += '<th style="padding:8px;text-align:center;">Desc.</th>';
   html += '<th style="padding:8px;text-align:center;">Impostos</th>';
   html += '<th style="padding:8px;text-align:right;">Total</th>';
   html += '</tr></thead><tbody>';
 
-  const descGlobal = r.descGlobal;
   CARRINHO.forEach(item => {
-    const sub = item.valorTabela * item.qtd;
-    const descEf = item.descItem > 0 ? item.descItem : descGlobal;
-    const base = sub * (1 - descEf / 100);
-    const vImp = base * ((item.imposto1 || 0) / 100) + base * ((item.imposto2 || 0) / 100);
-    const total = base + vImp;
+    const precoUnitFinal = calcularPrecoUnitarioFinal(item);
+    const subtotalItem = item.valorTabela * item.qtd * (1 - calcularDescontoEfetivoItem(item)/100);
+    const vImp = subtotalItem * ((item.imposto1 || 0) / 100) + subtotalItem * ((item.imposto2 || 0) / 100);
+    const total = subtotalItem + vImp;
     const temImp = (item.imposto1 > 0) || (item.imposto2 > 0);
+
     html += '<tr style="border-bottom:1px solid #eee;">';
     html += '<td style="padding:8px;">' + item.descricao;
     if (item.cor) html += ' <span style="color:#1976d2;font-size:11px;">[' + item.cor + ']</span>';
     if (item.acabamento) html += ' <span style="color:#e65100;font-size:11px;">[' + item.acabamento + ']</span>';
     html += '<div style="font-size:11px;color:#666;">' + (item.embalagem || '') + (item.peso ? ' • ' + item.peso : '') + '</div></td>';
     html += '<td style="padding:8px;text-align:center;">' + item.qtd + '</td>';
-    html += '<td style="padding:8px;text-align:right;">' + fmtMoeda(item.valorTabela) + '</td>';
-    html += '<td style="padding:8px;text-align:center;">' + (descEf > 0 ? descEf.toFixed(2) + '%' : '—') + '</td>';
+    html += '<td style="padding:8px;text-align:right;">' + fmtMoeda(precoUnitFinal) + '</td>';
     html += '<td style="padding:8px;text-align:center;color:#7b1fa2;">' + (temImp ? item.imposto1 + '% + ' + item.imposto2 + '%' : '—') + '</td>';
     html += '<td style="padding:8px;text-align:right;font-weight:600;">' + fmtMoeda(total) + '</td>';
     html += '</tr>';
@@ -1985,8 +2014,7 @@ function exportarPDF() {
   html += '</tbody></table>';
 
   html += '<div style="margin-top:20px;text-align:right;font-size:14px;line-height:1.9;">';
-  html += '<div>Subtotal: <b>' + fmtMoeda(r.subtotal) + '</b></div>';
-  html += '<div>Desconto: <b>' + fmtMoeda(r.valorDesconto) + ' (' + r.percentualEfetivo.toFixed(2) + '%)</b></div>';
+  html += '<div>Subtotal: <b>' + fmtMoeda(r.subtotalSemDesconto) + '</b></div>';
   if (r.totalImpostos > 0) {
     html += '<div style="color:#7b1fa2;">Impostos: <b>+ ' + fmtMoeda(r.totalImpostos) + '</b></div>';
   }
