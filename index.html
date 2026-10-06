@@ -17,12 +17,10 @@
 
 <style>
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 02 — CSS: RESET E LAYOUT BASE (layout fixo)
+   SUBBLOCO 02 — CSS: RESET E LAYOUT BASE
    ═══════════════════════════════════════════════════════ */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html {
-  height: 100%;
-}
+html { height: 100%; }
 body {
   height: 100%;
   overflow: hidden;
@@ -63,7 +61,7 @@ header .sub {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   padding: 16px;
-  padding-bottom: 90px;   /* ← espaço pra nav fixa (60px + folga) */
+  padding-bottom: 90px;
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
@@ -71,7 +69,7 @@ header .sub {
 .tela { display: none; }
 .tela.ativa { display: block; }
 /* ═══════════════ FIM SUBBLOCO 02 ═══════════════ */
-     
+
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 03 — CSS: COMPONENTES (cards, botões, badges)
    ═══════════════════════════════════════════════════════ */
@@ -118,10 +116,7 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
   border-radius: 20px;
   flex-shrink: 0;
 }
-.filtro-cat button.ativo {
-  background: #0071e3;
-  color: #fff;
-}
+.filtro-cat button.ativo { background: #0071e3; color: #fff; }
 .nivel-label {
   font-size: 11px;
   color: #999;
@@ -185,22 +180,9 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 .contador { font-size: 12px; color: #666; margin-top: 6px; }
 .vazio { text-align: center; color: #999; padding: 30px 10px; font-size: 14px; }
 .modal-familias { font-size: 11px; color: #999; margin-bottom: 4px; line-height: 1.3; letter-spacing: 0.3px; }
-.opcoes-acab button.btn-30 {
-  border: 1px solid #ff9800;
-  color: #e65100;
-  background: #fff8f0;
-}
-.opcoes-acab button.btn-30.ativo {
-  background: #ff9800;
-  color: #fff;
-  border-color: #ff9800;
-}
-#mc-desc button {
-  flex: 1 1 0;
-  min-width: 0;
-  padding: 8px 2px;
-  font-size: 12px;
-}
+.opcoes-acab button.btn-30 { border: 1px solid #ff9800; color: #e65100; background: #fff8f0; }
+.opcoes-acab button.btn-30.ativo { background: #ff9800; color: #fff; border-color: #ff9800; }
+#mc-desc button { flex: 1 1 0; min-width: 0; padding: 8px 2px; font-size: 12px; }
 /* ═══════════════ FIM SUBBLOCO 04 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
@@ -237,16 +219,16 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 /* ═══════════════ FIM SUBBLOCO 04-B ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 04-C — CSS: IMPOSTOS NO MODAL
+   SUBBLOCO 04-C — CSS: IMPOSTO FIXO NO MODAL
    ═══════════════════════════════════════════════════════ */
-.impostos-box {
+.imposto-box {
   margin-top: 14px;
   padding: 12px;
   background: #f9f5fc;
   border-radius: 8px;
   border: 1px solid #e1bee7;
 }
-.impostos-toggle {
+.imposto-toggle {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -254,21 +236,9 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
   font-size: 13px;
   color: #7b1fa2;
   font-weight: 600;
+  margin: 0;
 }
-.impostos-toggle input[type="checkbox"] { width: auto; margin: 0; }
-.impostos-campos {
-  display: none;
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid #e1bee7;
-}
-.impostos-campos.aberto { display: block; }
-.impostos-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-.impostos-grid label { margin-top: 0; font-size: 12px; color: #7b1fa2; }
+.imposto-toggle input[type="checkbox"] { width: auto; margin: 0; }
 .custo-final-box {
   margin-top: 10px;
   padding: 8px 10px;
@@ -284,21 +254,32 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 /* ═══════════════ FIM SUBBLOCO 04-C ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
+   SUBBLOCO 04-D — CSS: POPUP DE PAGAMENTO
+   ═══════════════════════════════════════════════════════ */
+.pgto-condicao {
+  display: block;
+  width: 100%;
+  padding: 14px 16px;
+  margin: 8px 0;
+  background: #fff;
+  border: 2px solid #e8e8ed;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1d1d1f;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.pgto-condicao:hover { border-color: #0071e3; background: #f5f9ff; }
+.pgto-condicao.ativa { border-color: #0071e3; background: #eef6ff; color: #0071e3; }
+.pgto-condicao .pgto-prazo { font-size: 12px; color: #666; font-weight: 400; margin-top: 2px; display: block; }
+.pgto-condicao.ativa .pgto-prazo { color: #0071e3; }
+/* ═══════════════ FIM SUBBLOCO 04-D ═══════════════ */
+
+/* ═══════════════════════════════════════════════════════
    SUBBLOCO 05 — CSS: NAV, MODAIS, QTD, MOBILE, PRINT
    ═══════════════════════════════════════════════════════ */
-nav.bottom {
-  flex-shrink: 0;
-  background: #fff;
-  border-top: 1px solid #d2d2d7;
-  display: flex;
-  justify-content: space-around;
-  z-index: 100;
-  padding: 8px 0 10px;
-  min-height: 60px;           /* ← garante altura mínima */
-}
-nav.bottom button { background: none; color: #666; font-size: 11px; font-weight: 500; padding: 6px 8px; margin: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; flex: 1; }
-nav.bottom button .ico { font-size: 20px; }
-nav.bottom button.ativo { color: #0071e3; }
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; padding: 16px; }
 .modal-overlay.aberto { display: flex; }
 .modal { background: #fff; border-radius: 12px; padding: 20px; max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; }
@@ -318,14 +299,10 @@ nav.bottom button.ativo { color: #0071e3; }
 .preco-final-box .valor { font-size: 18px; color: #0066cc; font-weight: 700; }
 @media (max-width: 600px) { .produto { padding: 10px; } }
 @media print { nav.bottom, header, .no-print { display: none !important; } body { background: #fff; padding: 0; } .card { box-shadow: none; padding: 0; margin: 0; } }
-@supports (-webkit-touch-callout: none) {
-  nav.bottom { padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
-  header { padding-top: calc(14px + env(safe-area-inset-top)); }
-}
 /* ═══════════════ FIM SUBBLOCO 05 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 05-B — CSS: NAV FIXA (definitivo)
+   SUBBLOCO 05-B — CSS: NAV FIXA
    ═══════════════════════════════════════════════════════ */
 nav.bottom {
   position: fixed;
@@ -378,7 +355,7 @@ nav.bottom button.ativo { color: #0071e3; }
      ═══════════════════════════════════════════════════════ -->
 <div id="tela-catalogo" class="tela ativa">
   <div class="card">
-    <input type="text" id="busca" placeholder="🔍 Buscar produto (ex: premium fosco)">
+    <input type="text" id="busca" placeholder="🔍 Buscar produto, cor, linha...">
     <div class="nivel-label">Linha (família)</div>
     <div class="filtro-cat" id="filtro-linha"></div>
     <div class="nivel-label" id="label-sublinha">Sub-linha</div>
@@ -405,6 +382,11 @@ nav.bottom button.ativo { color: #0071e3; }
     <label>Desconto em % (aplica só em itens SEM desconto individual)</label>
     <input type="number" id="desc-global" value="0" min="0" max="100" step="0.1">
     <div id="alerta-global"></div>
+  </div>
+  <div class="card">
+    <h2>💳 Condição de Pagamento</h2>
+    <button onclick="abrirPopupPagamento()">Escolher condição de pagamento</button>
+    <div id="pgto-escolhido" style="font-size:13px;color:#666;margin-top:8px;"></div>
   </div>
   <div class="resumo" id="resumo-pedido"></div>
   <div class="card no-print">
@@ -488,7 +470,7 @@ nav.bottom button.ativo { color: #0071e3; }
 <!-- ═══════════════ FIM SUBBLOCO 09 ═══════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SUBBLOCO 10 — HTML: MODAL COR + ACABAMENTO + DESCONTO + IMPOSTOS
+     SUBBLOCO 10 — HTML: MODAL COR + ACABAMENTO + DESCONTO + IMPOSTO
      ═══════════════════════════════════════════════════════ -->
 <div id="modal-cor" class="modal-overlay">
   <div class="modal">
@@ -519,26 +501,14 @@ nav.bottom button.ativo { color: #0071e3; }
       <span class="valor" id="mc-preco-final">—</span>
     </div>
 
-    <div class="impostos-box">
-      <label class="impostos-toggle">
-        <input type="checkbox" id="mc-impostos-toggle" onchange="mcToggleImpostos(this.checked)">
-        <span>💰 Adicionar impostos</span>
+    <div class="imposto-box">
+      <label class="imposto-toggle">
+        <input type="checkbox" id="mc-imposto-toggle" onchange="mcToggleImposto(this.checked)">
+        <span>💰 Aplicar imposto (3,25%)</span>
       </label>
-      <div class="impostos-campos" id="mc-impostos-campos">
-        <div class="impostos-grid">
-          <div>
-            <label>Imposto 1 (%)</label>
-            <input type="number" id="mc-imposto1" value="0" min="0" max="100" step="0.01" oninput="mcAtualizarCustoFinal()">
-          </div>
-          <div>
-            <label>Imposto 2 (%)</label>
-            <input type="number" id="mc-imposto2" value="0" min="0" max="100" step="0.01" oninput="mcAtualizarCustoFinal()">
-          </div>
-        </div>
-        <div class="custo-final-box">
-          <span class="label">Custo final</span>
-          <span class="valor" id="mc-custo-final">—</span>
-        </div>
+      <div class="custo-final-box">
+        <span class="label">Custo final</span>
+        <span class="valor" id="mc-custo-final">—</span>
       </div>
     </div>
 
@@ -576,6 +546,26 @@ nav.bottom button.ativo { color: #0071e3; }
 </div>
 <!-- ═══════════════ FIM SUBBLOCO 10-B ═══════════════ -->
 
+<!-- ═══════════════════════════════════════════════════════
+     SUBBLOCO 10-C — HTML: POPUP DE CONDIÇÃO DE PAGAMENTO
+     ═══════════════════════════════════════════════════════ -->
+<div id="modal-pgto" class="modal-overlay">
+  <div class="modal">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+      <div>
+        <div class="modal-titulo">💳 Condição de Pagamento</div>
+        <div class="modal-sub" id="pgto-sub">Escolha a condição combinada com o cliente.</div>
+      </div>
+      <button class="sec small" onclick="fecharPopupPagamento()" style="margin:0;">✕</button>
+    </div>
+
+    <div id="pgto-opcoes"></div>
+
+    <button class="sec" onclick="limparCondicaoPagamento()" style="width:100%;margin-top:12px;">Limpar seleção</button>
+  </div>
+</div>
+<!-- ═══════════════ FIM SUBBLOCO 10-C ═══════════════ -->
+
 </div><!-- /container -->
 
 <script>
@@ -584,7 +574,7 @@ nav.bottom button.ativo { color: #0071e3; }
    ═══════════════════════════════════════════════════════ */
      
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 11 — ESTADO GLOBAL
+   SUBBLOCO 11 — ESTADO GLOBAL + CONSTANTES
    ═══════════════════════════════════════════════════════ */
 let PRODUTOS = [];
 let LINHAS = [];
@@ -595,22 +585,38 @@ let CARRINHO = [];
 let LOJAS = [];
 let PEDIDOS = [];
 
-// Produto temporário enquanto o modal de cor está aberto
+// Modal de cor
 let MC_PRODUTO = null;
 let MC_ACAB_SELECIONADO = '';
 let MC_DESCONTO = 0;
 let MC_ITEM_EM_EDICAO = null;
-let MC_IMPOSTO1 = 0;
-let MC_IMPOSTO2 = 0;
+let MC_IMPOSTO_ATIVO = false;
+
+// Condição de pagamento escolhida
+let PAGAMENTO_ESCOLHIDO = null;
 
 // Estado do Kalk
 let KALK_PRODUTO = null;
 let KALK_COR = '';
 let KALK_ACABAMENTO = '';
 let KALK_DESCONTO = 0;
-let KALK_IMPOSTO1 = 0;
-let KALK_IMPOSTO2 = 0;
+let KALK_IMPOSTO_ATIVO = false;
 let KALK_ABA_ATUAL = 1;
+
+// ─── CONSTANTES ───
+const TAXA_IMPOSTO = 3.25;   // %
+const VALOR_MIN_PARCELA = 1000; // R$
+
+// Condições de pagamento disponíveis
+// Ordem: à vista primeiro, depois crescente
+const CONDICOES_PAGAMENTO = [
+  { id: 'avista',  label: 'À vista 10 dias',                          parcelas: 1, prazos: [10] },
+  { id: '28',      label: '28 dias',                                  parcelas: 1, prazos: [28] },
+  { id: '28-42',   label: '28 / 42 dias',                             parcelas: 2, prazos: [28, 42] },
+  { id: '28-42-56', label: '28 / 42 / 56 dias',                       parcelas: 3, prazos: [28, 42, 56] },
+  { id: '28-42-56-70', label: '28 / 42 / 56 / 70 dias',               parcelas: 4, prazos: [28, 42, 56, 70] },
+  { id: '28-42-56-70-84', label: '28 / 42 / 56 / 70 / 84 dias',       parcelas: 5, prazos: [28, 42, 56, 70, 84] }
+];
 
 const STORAGE_KEY_LOJAS = 'maxvinil_lojas';
 const STORAGE_KEY_PEDIDOS = 'maxvinil_pedidos';
@@ -947,11 +953,11 @@ function renderizarFiltros() {
 /* ═══════════════ FIM SUBBLOCO 24 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   Continua na Parte 3 (JS — Catálogo, Modal, Carrinho, Pedido, PDF)
+   Continua na Parte 3/4 (JS — Catálogo, Modal, Carrinho, Pedido, PDF)
    ═══════════════════════════════════════════════════════ */
      
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 25 — CATÁLOGO (RENDER + BUSCA + ADD + DESCONTOS)
+   SUBBLOCO 25 — CATÁLOGO (RENDER + BUSCA + ADD)
    ═══════════════════════════════════════════════════════ */
 function renderizarCatalogo() {
   renderizarFiltros();
@@ -963,7 +969,6 @@ function renderizarCatalogo() {
     if (LINHA_ATUAL && p.linha !== LINHA_ATUAL) return false;
     if (SUBLINHA_ATUAL && p.subLinha !== SUBLINHA_ATUAL) return false;
     if (busca) {
-      // Busca em: descrição + embalagem + peso + cor + subLinha + linha
       const coresDoProduto = obterCoresDoProduto(p).join(' ');
       const alvo = normalizar(
         p.descricao + ' ' +
@@ -1039,7 +1044,7 @@ function clicouAdd(produtoId) {
 /* ═══════════════ FIM SUBBLOCO 25 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 26 — MODAL DE COR, ACABAMENTO, DESCONTO E IMPOSTOS
+   SUBBLOCO 26 — MODAL DE COR, ACABAMENTO, DESCONTO E IMPOSTO
    ═══════════════════════════════════════════════════════ */
 function abrirModalCor(produto) {
   MC_PRODUTO = produto;
@@ -1048,8 +1053,7 @@ function abrirModalCor(produto) {
 
   MC_ACAB_SELECIONADO = editando ? (MC_ITEM_EM_EDICAO.acabamento || '') : '';
   MC_DESCONTO = editando ? (MC_ITEM_EM_EDICAO.desconto || 0) : 0;
-  MC_IMPOSTO1 = editando ? (MC_ITEM_EM_EDICAO.imposto1 || 0) : 0;
-  MC_IMPOSTO2 = editando ? (MC_ITEM_EM_EDICAO.imposto2 || 0) : 0;
+  MC_IMPOSTO_ATIVO = editando ? (MC_ITEM_EM_EDICAO.impostoAtivo || false) : false;
 
   document.getElementById('mc-familias').textContent = produto.linha + ' • ' + produto.subLinha;
   document.getElementById('mc-titulo').textContent = produto.descricao;
@@ -1167,12 +1171,8 @@ function abrirModalCor(produto) {
     boxDesc.appendChild(btn);
   });
 
-  // ─── Impostos ───
-  const temImposto = (MC_IMPOSTO1 > 0) || (MC_IMPOSTO2 > 0);
-  document.getElementById('mc-impostos-toggle').checked = temImposto;
-  document.getElementById('mc-impostos-campos').classList.toggle('aberto', temImposto);
-  document.getElementById('mc-imposto1').value = MC_IMPOSTO1;
-  document.getElementById('mc-imposto2').value = MC_IMPOSTO2;
+  // ─── Imposto (toggle) ───
+  document.getElementById('mc-imposto-toggle').checked = MC_IMPOSTO_ATIVO;
 
   // ─── Quantidade ───
   if (editando) {
@@ -1213,28 +1213,18 @@ function atualizarPrecoFinalModal() {
   mcAtualizarCustoFinal();
 }
 
-function mcToggleImpostos(ativo) {
-  const campos = document.getElementById('mc-impostos-campos');
-  campos.classList.toggle('aberto', ativo);
-  if (!ativo) {
-    document.getElementById('mc-imposto1').value = 0;
-    document.getElementById('mc-imposto2').value = 0;
-    MC_IMPOSTO1 = 0;
-    MC_IMPOSTO2 = 0;
-  }
+function mcToggleImposto(ativo) {
+  MC_IMPOSTO_ATIVO = ativo;
   mcAtualizarCustoFinal();
 }
 
 function mcAtualizarCustoFinal() {
   if (!MC_PRODUTO) return;
   const preco = MC_PRODUTO.valorTabela * (1 - MC_DESCONTO / 100);
-  const i1 = parseFloat(document.getElementById('mc-imposto1').value) || 0;
-  const i2 = parseFloat(document.getElementById('mc-imposto2').value) || 0;
-  MC_IMPOSTO1 = i1;
-  MC_IMPOSTO2 = i2;
-  const vImp1 = preco * (i1 / 100);
-  const vImp2 = preco * (i2 / 100);
-  const custoFinal = preco + vImp1 + vImp2;
+  let custoFinal = preco;
+  if (MC_IMPOSTO_ATIVO) {
+    custoFinal = preco * (1 + TAXA_IMPOSTO / 100);
+  }
   document.getElementById('mc-custo-final').textContent = fmtMoeda(custoFinal);
 }
 
@@ -1245,8 +1235,7 @@ function fecharModalCor() {
   MC_PRODUTO = null;
   MC_ACAB_SELECIONADO = '';
   MC_DESCONTO = 0;
-  MC_IMPOSTO1 = 0;
-  MC_IMPOSTO2 = 0;
+  MC_IMPOSTO_ATIVO = false;
   MC_ITEM_EM_EDICAO = null;
 }
 
@@ -1263,7 +1252,7 @@ function confirmarModalCor() {
   const selectCor = document.getElementById('mc-cor');
   const cor = (selectCor && selectCor.style.display !== 'none') ? selectCor.value : '';
   const qtd = parseInt(document.getElementById('mc-qtd').value) || 1;
-  adicionarAoCarrinho(MC_PRODUTO, qtd, cor, MC_ACAB_SELECIONADO, MC_DESCONTO, MC_IMPOSTO1, MC_IMPOSTO2);
+  adicionarAoCarrinho(MC_PRODUTO, qtd, cor, MC_ACAB_SELECIONADO, MC_DESCONTO, MC_IMPOSTO_ATIVO);
   MC_ITEM_EM_EDICAO = null;
   fecharModalCor();
 }
@@ -1272,18 +1261,16 @@ function confirmarModalCor() {
 /* ═══════════════════════════════════════════════════════
    SUBBLOCO 27 — CARRINHO
    ═══════════════════════════════════════════════════════ */
-function adicionarAoCarrinho(produto, qtd, cor, acabamento, descontoInicial, imp1, imp2) {
+function adicionarAoCarrinho(produto, qtd, cor, acabamento, descontoInicial, impostoAtivo) {
   const descIni = parseFloat(descontoInicial) || 0;
-  const imposto1 = parseFloat(imp1) || 0;
-  const imposto2 = parseFloat(imp2) || 0;
+  const impAtivo = !!impostoAtivo;
   const chave = produto.id + '|' + (cor || '') + '|' + (acabamento || '');
   const existente = CARRINHO.find(x => (x.produtoId + '|' + (x.cor || '') + '|' + (x.acabamento || '')) === chave);
 
   if (existente) {
     existente.qtd += qtd;
     if (descIni > 0) existente.descItem = descIni;
-    existente.imposto1 = imposto1;
-    existente.imposto2 = imposto2;
+    existente.impostoAtivo = impAtivo;
   } else {
     CARRINHO.push({
       produtoId: produto.id,
@@ -1297,8 +1284,7 @@ function adicionarAoCarrinho(produto, qtd, cor, acabamento, descontoInicial, imp
       acabamento: acabamento || '',
       qtd: qtd,
       descItem: descIni,
-      imposto1: imposto1,
-      imposto2: imposto2
+      impostoAtivo: impAtivo
     });
   }
   salvarLocal();
@@ -1358,8 +1344,7 @@ function editarItemPedido(idx) {
     acabamento: item.acabamento || '',
     desconto: item.descItem || 0,
     qtd: item.qtd || 1,
-    imposto1: item.imposto1 || 0,
-    imposto2: item.imposto2 || 0
+    impostoAtivo: item.impostoAtivo || false
   };
 
   CARRINHO.splice(idx, 1);
@@ -1373,7 +1358,7 @@ function editarItemPedido(idx) {
 /* ═══════════════ FIM SUBBLOCO 27 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 28 — PEDIDO (RENDER) + RESUMO
+   SUBBLOCO 28 — PEDIDO (RENDER) + RESUMO + PAGAMENTO
    ═══════════════════════════════════════════════════════ */
 function renderizarPedido() {
   const box = document.getElementById('itens-pedido');
@@ -1386,10 +1371,9 @@ function renderizarPedido() {
   CARRINHO.forEach((item, idx) => {
     const div = document.createElement('div');
     div.className = 'item-pedido';
-    const temImp = (item.imposto1 > 0) || (item.imposto2 > 0);
     const tags = (item.cor ? ' <span class="badge cor">' + item.cor + '</span>' : '') +
                  (item.acabamento ? ' <span class="badge acab">' + item.acabamento + '</span>' : '') +
-                 (temImp ? ' <span class="badge imposto">💰 ' + item.imposto1 + '% + ' + item.imposto2 + '%</span>' : '');
+                 (item.impostoAtivo ? ' <span class="badge imposto">💰 imposto</span>' : '');
     div.innerHTML =
       '<div class="linha1">' +
         '<div class="desc">' + item.descricao + tags + '</div>' +
@@ -1417,49 +1401,70 @@ function renderizarPedido() {
   renderizarResumo();
 }
 
+function calcularDescontoEfetivoItem(item) {
+  const descGlobal = parseFloat(document.getElementById('desc-global').value) || 0;
+  return item.descItem > 0 ? item.descItem : descGlobal;
+}
+
 function calcularTotalItem(item) {
   const subtotal = item.valorTabela * item.qtd;
-  const descGlobal = parseFloat(document.getElementById('desc-global').value) || 0;
-  const descEfetivo = item.descItem > 0 ? item.descItem : descGlobal;
-  return subtotal * (1 - descEfetivo / 100);
+  const descEf = calcularDescontoEfetivoItem(item);
+  const base = subtotal * (1 - descEf / 100);
+  if (item.impostoAtivo) {
+    return base * (1 + TAXA_IMPOSTO / 100);
+  }
+  return base;
 }
 
 function calcularResumo() {
-  const descGlobal = parseFloat(document.getElementById('desc-global').value) || 0;
-  let subtotal = 0, totalFinal = 0, totalImpostos = 0;
+  let subtotal = 0, totalFinal = 0, totalImpostos = 0, totalSemDesconto = 0;
+
   CARRINHO.forEach(item => {
     const sub = item.valorTabela * item.qtd;
-    subtotal += sub;
-    const descEf = item.descItem > 0 ? item.descItem : descGlobal;
+    totalSemDesconto += sub;
+    const descEf = calcularDescontoEfetivoItem(item);
     const base = sub * (1 - descEf / 100);
-    const vImp = base * ((item.imposto1 || 0) / 100) + base * ((item.imposto2 || 0) / 100);
+    const vImp = item.impostoAtivo ? base * (TAXA_IMPOSTO / 100) : 0;
     totalImpostos += vImp;
     totalFinal += base + vImp;
   });
-  const valorDesconto = subtotal - (totalFinal - totalImpostos);
-  const percentualEfetivo = subtotal > 0 ? (valorDesconto / subtotal) * 100 : 0;
-  return { subtotal, totalFinal, valorDesconto, percentualEfetivo, descGlobal, totalImpostos };
+
+  subtotal = totalFinal - totalImpostos;
+  const valorDesconto = totalSemDesconto - subtotal;
+  const percentualEfetivo = totalSemDesconto > 0 ? (valorDesconto / totalSemDesconto) * 100 : 0;
+
+  return {
+    subtotal,
+    subtotalSemDesconto: subtotal,
+    totalSemDesconto,
+    totalFinal,
+    valorDesconto,
+    percentualEfetivo,
+    totalImpostos
+  };
 }
 
 function renderizarResumo() {
   const r = calcularResumo();
   const box = document.getElementById('resumo-pedido');
   const totalItens = CARRINHO.reduce((s, i) => s + i.qtd, 0);
+
   let html =
     '<div class="linha"><span>Itens (' + totalItens + ' un.)</span><span>' + CARRINHO.length + ' linha(s)</span></div>' +
-    '<div class="linha"><span>Subtotal sem desconto</span><span>' + fmtMoeda(r.subtotal) + '</span></div>' +
+    '<div class="linha"><span>Subtotal sem desconto</span><span>' + fmtMoeda(r.totalSemDesconto) + '</span></div>' +
     '<div class="linha"><span>Desconto</span><span>− ' + fmtMoeda(r.valorDesconto) + ' (' + r.percentualEfetivo.toFixed(2) + '%)</span></div>';
   if (r.totalImpostos > 0) {
-    html += '<div class="linha"><span>💰 Impostos</span><span>+ ' + fmtMoeda(r.totalImpostos) + '</span></div>';
+    html += '<div class="linha"><span>💰 Impostos (3,25%)</span><span>+ ' + fmtMoeda(r.totalImpostos) + '</span></div>';
   }
   html += '<div class="linha total"><span>TOTAL</span><span>' + fmtMoeda(r.totalFinal) + '</span></div>';
   box.innerHTML = html;
 
   const alertaBox = document.getElementById('alerta-global');
-  if (r.descGlobal > 25) {
-    alertaBox.innerHTML = '<div class="alerta-vermelho">⚠️ Desconto global de ' + r.descGlobal.toFixed(2) + '% ultrapassa o limite de 25%. Necessária autorização.</div>';
-  } else if (r.descGlobal > 0) {
-    alertaBox.innerHTML = '<div class="info">Desconto global aplicado: ' + r.descGlobal.toFixed(2) + '%</div>';
+  const descGlobal = parseFloat(document.getElementById('desc-global').value) || 0;
+  if (descGlobal > 25) {
+    alertaBox.innerHTML = '<div class="alerta-vermelho">⚠️ Desconto global de ' + descGlobal.toFixed(2) + '% ultrapassa o limite de 25%. Necessária autorização.</div>';
+  } else if (descGlobal > 0) {
+    alertaBox.innerHTML = '<div class="info">Desconto global aplicado: ' + descGlobal.toFixed(2) + '%</div>';
   } else {
     alertaBox.innerHTML = '';
   }
@@ -1469,13 +1474,97 @@ function limparPedido() {
   if (CARRINHO.length === 0) return;
   if (!confirm('Limpar todos os itens do pedido atual?')) return;
   CARRINHO = [];
+  PAGAMENTO_ESCOLHIDO = null;
   document.getElementById('desc-global').value = 0;
+  document.getElementById('pgto-escolhido').textContent = '';
   salvarLocal(); atualizarBadge(); renderizarPedido(); renderizarCatalogo();
+}
+
+/* ═══════════════════════════════════════════════════════
+   PAGAMENTO — POPUP
+   ═══════════════════════════════════════════════════════ */
+function abrirPopupPagamento() {
+  if (CARRINHO.length === 0) { alert('Adicione itens ao pedido primeiro.'); return; }
+  renderizarPopupPagamento();
+  document.getElementById('modal-pgto').classList.add('aberto');
+}
+function fecharPopupPagamento() {
+  document.getElementById('modal-pgto').classList.remove('aberto');
+}
+
+function renderizarPopupPagamento() {
+  const r = calcularResumo();
+  const total = r.totalFinal;
+  const box = document.getElementById('pgto-opcoes');
+  const sub = document.getElementById('pgto-sub');
+  box.innerHTML = '';
+
+  sub.textContent = 'Total do pedido: ' + fmtMoeda(total) + ' — parcelas mínimas de R$ 1.000,00.';
+
+  // Filtra condições válidas
+  const validas = CONDICOES_PAGAMENTO.filter(c => {
+    if (c.id === 'avista') return true; // à vista sempre aparece
+    return (total / c.parcelas) >= VALOR_MIN_PARCELA;
+  });
+
+  validas.forEach(c => {
+    const btn = document.createElement('button');
+    const valorParcela = total / c.parcelas;
+    btn.className = 'pgto-condicao';
+    if (PAGAMENTO_ESCOLHIDO && PAGAMENTO_ESCOLHIDO.id === c.id) btn.classList.add('ativa');
+
+    let detalhe = '';
+    if (c.parcelas === 1) {
+      detalhe = '1x de ' + fmtMoeda(valorParcela);
+    } else {
+      detalhe = c.parcelas + 'x de ' + fmtMoeda(valorParcela);
+    }
+
+    btn.innerHTML = c.label + '<span class="pgto-prazo">' + detalhe + '</span>';
+
+    btn.onclick = () => {
+      PAGAMENTO_ESCOLHIDO = {
+        id: c.id,
+        label: c.label,
+        parcelas: c.parcelas,
+        valorParcela: valorParcela
+      };
+      renderizarPopupPagamento();
+      renderizarPagamentoEscolhido();
+      salvarLocal();
+      setTimeout(fecharPopupPagamento, 200);
+    };
+    box.appendChild(btn);
+  });
+}
+
+function renderizarPagamentoEscolhido() {
+  const el = document.getElementById('pgto-escolhido');
+  if (!PAGAMENTO_ESCOLHIDO) {
+    el.textContent = 'Nenhuma condição escolhida.';
+    return;
+  }
+  const p = PAGAMENTO_ESCOLHIDO;
+  let texto = '✅ ' + p.label;
+  if (p.parcelas === 1) {
+    texto += ' — 1x de ' + fmtMoeda(p.valorParcela);
+  } else {
+    texto += ' — ' + p.parcelas + 'x de ' + fmtMoeda(p.valorParcela);
+  }
+  el.textContent = texto;
+  el.style.color = '#2e7d32';
+}
+
+function limparCondicaoPagamento() {
+  PAGAMENTO_ESCOLHIDO = null;
+  renderizarPagamentoEscolhido();
+  renderizarPopupPagamento();
+  salvarLocal();
 }
 /* ═══════════════ FIM SUBBLOCO 28 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 29 — LOJAS
+   SUBBLOCO 29 — LOJAS + BUSCA DE CNPJ
    ═══════════════════════════════════════════════════════ */
 function renderizarLojas() {
   const box = document.getElementById('lista-lojas');
@@ -1576,9 +1665,6 @@ function excluirLoja() {
   salvarLocal(); fecharModalLoja(); renderizarLojas(); atualizarStatus();
 }
 
-/* ═══════════════════════════════════════════════════════
-   BUSCA DE CNPJ — 3 fontes em cascata (com proxy CORS)
-   ═══════════════════════════════════════════════════════ */
 async function buscarCNPJ() {
   const inputCnpj = document.getElementById('loja-cnpj');
   const btn = document.getElementById('btn-buscar-cnpj');
@@ -1598,37 +1684,22 @@ async function buscarCNPJ() {
   let dados = null;
   let erroFinal = '';
 
-  /* FONTE 1: BrasilAPI via corsproxy.io */
   try {
     const url = 'https://corsproxy.io/?' + encodeURIComponent('https://brasilapi.com.br/api/cnpj/v1/' + cnpjLimpo);
     const resp = await fetch(url);
-    if (resp.ok) {
-      dados = await resp.json();
-    } else {
-      erroFinal = 'Fonte 1 falhou (HTTP ' + resp.status + ')';
-    }
-  } catch (e) {
-    console.warn('Fonte 1 falhou:', e);
-    erroFinal = 'Fonte 1 falhou';
-  }
+    if (resp.ok) dados = await resp.json();
+    else erroFinal = 'Fonte 1 falhou (HTTP ' + resp.status + ')';
+  } catch (e) { console.warn('Fonte 1 falhou:', e); erroFinal = 'Fonte 1 falhou'; }
 
-  /* FONTE 2: BrasilAPI via allorigins.win */
   if (!dados) {
     try {
       const url = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://brasilapi.com.br/api/cnpj/v1/' + cnpjLimpo);
       const resp = await fetch(url);
-      if (resp.ok) {
-        dados = await resp.json();
-      } else {
-        erroFinal = 'Fonte 2 falhou (HTTP ' + resp.status + ')';
-      }
-    } catch (e) {
-      console.warn('Fonte 2 falhou:', e);
-      erroFinal = 'Fonte 2 falhou';
-    }
+      if (resp.ok) dados = await resp.json();
+      else erroFinal = 'Fonte 2 falhou (HTTP ' + resp.status + ')';
+    } catch (e) { console.warn('Fonte 2 falhou:', e); erroFinal = 'Fonte 2 falhou'; }
   }
 
-  /* FONTE 3: ReceitaWS direta */
   if (!dados) {
     try {
       const resp = await fetch('https://receitaws.com.br/v1/cnpj/' + cnpjLimpo);
@@ -1646,20 +1717,13 @@ async function buscarCNPJ() {
             uf: raw.uf || '',
             cep: raw.cep || ''
           };
-        } else {
-          erroFinal = raw && raw.message ? raw.message : 'CNPJ não encontrado';
-        }
-      } else {
-        erroFinal = 'Fonte 3 falhou (HTTP ' + resp.status + ')';
-      }
-    } catch (e) {
-      console.warn('Fonte 3 falhou:', e);
-      erroFinal = 'Fonte 3 falhou';
-    }
+        } else erroFinal = raw && raw.message ? raw.message : 'CNPJ não encontrado';
+      } else erroFinal = 'Fonte 3 falhou (HTTP ' + resp.status + ')';
+    } catch (e) { console.warn('Fonte 3 falhou:', e); erroFinal = 'Fonte 3 falhou'; }
   }
 
   if (!dados) {
-    aviso.innerHTML = '<span style="color:#c00;">❌ Não foi possível consultar o CNPJ. Verifique a conexão e tente novamente em alguns segundos.</span>';
+    aviso.innerHTML = '<span style="color:#c00;">❌ Não foi possível consultar o CNPJ. Verifique a conexão e tente novamente.</span>';
     console.warn('Todas as fontes falharam. Último erro:', erroFinal);
     btn.disabled = false;
     btn.textContent = '🔍 Buscar';
@@ -1683,8 +1747,7 @@ async function buscarCNPJ() {
   document.getElementById('loja-endereco').value = partesEndereco.join(', ');
   inputCnpj.value = formatarCNPJ(cnpjLimpo);
 
-  aviso.innerHTML = '<span style="color:#2e7d32;">✅ Dados carregados! Confira e complete os campos abaixo.</span>';
-
+  aviso.innerHTML = '<span style="color:#2e7d32;">✅ Dados carregados!</span>';
   btn.disabled = false;
   btn.textContent = '🔍 Buscar';
 }
@@ -1694,7 +1757,6 @@ function formatarCNPJ(cnpj) {
   if (c.length !== 14) return cnpj;
   return c.substring(0,2) + '.' + c.substring(2,5) + '.' + c.substring(5,8) + '/' + c.substring(8,12) + '-' + c.substring(12,14);
 }
-
 function formatarCEP(cep) {
   const c = String(cep).replace(/\D/g, '');
   if (c.length !== 8) return cep;
@@ -1709,17 +1771,26 @@ function salvarPedido() {
   if (CARRINHO.length === 0) { alert('Adicione itens ao pedido primeiro.'); return; }
   const lojaId = document.getElementById('select-loja').value;
   if (!lojaId) { alert('Selecione uma loja antes de salvar o pedido.'); return; }
+
   const loja = LOJAS.find(l => l.id === lojaId);
   const r = calcularResumo();
   const numero = PEDIDOS.length + 1;
+
   const pedido = {
-    id: gerarId(), numero: numero, data: new Date().toISOString(),
-    lojaId: lojaId, lojaNome: loja ? loja.nome : '',
+    id: gerarId(),
+    numero: numero,
+    data: new Date().toISOString(),
+    lojaId: lojaId,
+    lojaNome: loja ? loja.nome : '',
     lojaProvisoria: loja ? !!loja.provisoria : false,
     itens: JSON.parse(JSON.stringify(CARRINHO)),
-    descontoGlobal: r.descGlobal, subtotal: r.subtotal,
-    descontoValor: r.valorDesconto, descontoPercent: r.percentualEfetivo,
-    totalImpostos: r.totalImpostos, total: r.totalFinal
+    descontoGlobal: parseFloat(document.getElementById('desc-global').value) || 0,
+    subtotal: r.subtotal,
+    descontoValor: r.valorDesconto,
+    descontoPercent: r.percentualEfetivo,
+    totalImpostos: r.totalImpostos,
+    total: r.totalFinal,
+    pagamento: PAGAMENTO_ESCOLHIDO ? JSON.parse(JSON.stringify(PAGAMENTO_ESCOLHIDO)) : null
   };
   PEDIDOS.unshift(pedido);
   salvarLocal();
@@ -1741,6 +1812,7 @@ function renderizarHistorico() {
         '<div style="font-weight:600;">Pedido #' + String(p.numero).padStart(4, '0') + ' — ' + p.lojaNome +
           (p.lojaProvisoria ? ' <span class="badge prov">Provisória</span>' : '') + '</div>' +
         '<div style="font-size:12px;color:#666;margin-top:2px;">' + dataFmt + ' • ' + p.itens.length + ' itens • Total: ' + fmtMoeda(p.total) + '</div>' +
+        (p.pagamento ? '<div style="font-size:11px;color:#2e7d32;margin-top:2px;">💳 ' + p.pagamento.label + '</div>' : '') +
       '</div>' +
       '<button class="small sec" onclick="reabrirPedido(\'' + p.id + '\')">Reabrir</button>' +
       '<button class="small danger" onclick="excluirPedido(\'' + p.id + '\')">✕</button>';
@@ -1753,8 +1825,10 @@ function reabrirPedido(id) {
   if (!p) return;
   if (CARRINHO.length > 0 && !confirm('Substituir o pedido atual por este?')) return;
   CARRINHO = JSON.parse(JSON.stringify(p.itens));
+  PAGAMENTO_ESCOLHIDO = p.pagamento ? JSON.parse(JSON.stringify(p.pagamento)) : null;
   document.getElementById('desc-global').value = p.descontoGlobal || 0;
   document.getElementById('select-loja').value = p.lojaId || '';
+  renderizarPagamentoEscolhido();
   salvarLocal(); atualizarBadge(); trocarTela('pedido');
 }
 
@@ -1777,7 +1851,7 @@ function trocarTela(nome) {
   });
   if (nome === 'lojas') renderizarLojas();
   if (nome === 'config') { renderizarHistorico(); atualizarStatus(); }
-  if (nome === 'pedido') renderizarPedido();
+  if (nome === 'pedido') { renderizarPedido(); renderizarPagamentoEscolhido(); }
   if (nome === 'kalk') renderizarKalkPainel();
   window.scrollTo(0, 0);
 }
@@ -1834,12 +1908,13 @@ function resetarTudo() {
   localStorage.removeItem(STORAGE_KEY_PEDIDOS);
   localStorage.removeItem(STORAGE_KEY_CARRINHO);
   LOJAS = []; PEDIDOS = []; CARRINHO = [];
+  PAGAMENTO_ESCOLHIDO = null;
   atualizarBadge(); renderizarLojas(); renderizarHistorico(); renderizarPedido(); renderizarCatalogo(); atualizarStatus();
 }
 /* ═══════════════ FIM SUBBLOCO 32 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   SUBBLOCO 33 — EXPORTAÇÃO (PDF + WHATSAPP) — sem desconto
+   SUBBLOCO 33 — EXPORTAÇÃO (PDF + WHATSAPP)
    ═══════════════════════════════════════════════════════ */
 const EMPRESA_NOME = 'PERFORMA BRAND';
 const EMPRESA_RAZAO = 'REP E CONSULTORIA LTDA';
@@ -1856,6 +1931,7 @@ const LINHA_WA = '─────────';
 function montarTextoPedido() {
   const lojaId = document.getElementById('select-loja').value;
   const loja = LOJAS.find(l => l.id === lojaId);
+  const r = calcularResumo();
 
   let texto = LINHA_WA + '\n';
   texto += '*' + EMPRESA_NOME + '*\n';
@@ -1879,36 +1955,42 @@ function montarTextoPedido() {
   texto += LINHA_WA + '\n';
   texto += '*ITENS DO PEDIDO:*\n\n';
 
-  // Calcula resumo pra mostrar apenas totais limpos
-  const r = calcularResumo();
-
   CARRINHO.forEach((item, i) => {
-    const precoUnitFinal = calcularPrecoUnitarioFinal(item);
-    const totalItem = calcularTotalItemComImposto(item);
+    const precoUnitFinal = item.valorTabela * (1 - calcularDescontoEfetivoItem(item) / 100);
+    const base = precoUnitFinal * item.qtd;
+    const vImp = item.impostoAtivo ? base * (TAXA_IMPOSTO / 100) : 0;
+    const total = base + vImp;
 
     texto += (i + 1) + '. *' + item.descricao + '*\n';
     if (item.cor) texto += '   🎨 Cor: ' + item.cor + '\n';
     if (item.acabamento) texto += '   🎨 Acabamento: ' + item.acabamento + '\n';
     texto += '   ' + (item.embalagem || '') + (item.peso ? ' • ' + item.peso : '') + '\n';
-    texto += '   ' + item.qtd + ' un. × ' + fmtMoeda(precoUnitFinal) + ' = ' + fmtMoeda(item.valorTabela * item.qtd * (1 - calcularDescontoEfetivoItem(item)/100)) + '\n';
-
-    // Imposto (se houver) — mostra informativo
-    const baseComDesc = item.valorTabela * item.qtd * (1 - calcularDescontoEfetivoItem(item)/100);
-    const vImp = baseComDesc * ((item.imposto1 || 0) / 100) + baseComDesc * ((item.imposto2 || 0) / 100);
+    texto += '   ' + item.qtd + ' un. × ' + fmtMoeda(precoUnitFinal) + ' = ' + fmtMoeda(base) + '\n';
     if (vImp > 0) {
-      texto += '   💰 Impostos (' + item.imposto1 + '% + ' + item.imposto2 + '%): + ' + fmtMoeda(vImp) + '\n';
-      texto += '   Subtotal item: ' + fmtMoeda(totalItem) + '\n';
+      texto += '   💰 Imposto (3,25%): + ' + fmtMoeda(vImp) + '\n';
+      texto += '   Subtotal item: ' + fmtMoeda(total) + '\n';
     }
     texto += '\n';
   });
 
   texto += LINHA_WA + '\n';
-  texto += '*Subtotal:* ' + fmtMoeda(r.subtotalSemDesconto) + '\n';
+  texto += '*Subtotal:* ' + fmtMoeda(r.subtotal) + '\n';
   if (r.totalImpostos > 0) {
     texto += '*Impostos:* + ' + fmtMoeda(r.totalImpostos) + '\n';
   }
   texto += '*TOTAL: ' + fmtMoeda(r.totalFinal) + '*\n';
   texto += LINHA_WA + '\n\n';
+
+  if (PAGAMENTO_ESCOLHIDO) {
+    texto += '*💳 CONDIÇÃO DE PAGAMENTO:*\n';
+    let linha = PAGAMENTO_ESCOLHIDO.label;
+    if (PAGAMENTO_ESCOLHIDO.parcelas === 1) {
+      linha += ' — 1x de ' + fmtMoeda(PAGAMENTO_ESCOLHIDO.valorParcela);
+    } else {
+      linha += ' — ' + PAGAMENTO_ESCOLHIDO.parcelas + 'x de ' + fmtMoeda(PAGAMENTO_ESCOLHIDO.valorParcela);
+    }
+    texto += linha + '\n\n';
+  }
 
   texto += '*CONDIÇÕES COMERCIAIS:*\n\n';
   CONDICOES_COMERCIAIS.forEach(c => {
@@ -1934,22 +2016,6 @@ function exportarWhatsApp() {
     url = 'https://wa.me/?text=' + textoEnc;
   }
   window.open(url, '_blank');
-}
-
-/* ─── Helpers de cálculo (sem mostrar desconto) ─── */
-function calcularDescontoEfetivoItem(item) {
-  const descGlobal = parseFloat(document.getElementById('desc-global').value) || 0;
-  return item.descItem > 0 ? item.descItem : descGlobal;
-}
-function calcularPrecoUnitarioFinal(item) {
-  const desc = calcularDescontoEfetivoItem(item);
-  return item.valorTabela * (1 - desc / 100);
-}
-function calcularTotalItemComImposto(item) {
-  const desc = calcularDescontoEfetivoItem(item);
-  const base = item.valorTabela * item.qtd * (1 - desc / 100);
-  const vImp = base * ((item.imposto1 || 0) / 100) + base * ((item.imposto2 || 0) / 100);
-  return base + vImp;
 }
 
 function exportarPDF() {
@@ -1989,16 +2055,15 @@ function exportarPDF() {
   html += '<th style="padding:8px;text-align:left;">Item</th>';
   html += '<th style="padding:8px;text-align:center;">Qtd</th>';
   html += '<th style="padding:8px;text-align:right;">Vl. Unit.</th>';
-  html += '<th style="padding:8px;text-align:center;">Impostos</th>';
+  html += '<th style="padding:8px;text-align:center;">Imposto</th>';
   html += '<th style="padding:8px;text-align:right;">Total</th>';
   html += '</tr></thead><tbody>';
 
   CARRINHO.forEach(item => {
-    const precoUnitFinal = calcularPrecoUnitarioFinal(item);
-    const subtotalItem = item.valorTabela * item.qtd * (1 - calcularDescontoEfetivoItem(item)/100);
-    const vImp = subtotalItem * ((item.imposto1 || 0) / 100) + subtotalItem * ((item.imposto2 || 0) / 100);
-    const total = subtotalItem + vImp;
-    const temImp = (item.imposto1 > 0) || (item.imposto2 > 0);
+    const precoUnitFinal = item.valorTabela * (1 - calcularDescontoEfetivoItem(item) / 100);
+    const base = precoUnitFinal * item.qtd;
+    const vImp = item.impostoAtivo ? base * (TAXA_IMPOSTO / 100) : 0;
+    const total = base + vImp;
 
     html += '<tr style="border-bottom:1px solid #eee;">';
     html += '<td style="padding:8px;">' + item.descricao;
@@ -2007,19 +2072,32 @@ function exportarPDF() {
     html += '<div style="font-size:11px;color:#666;">' + (item.embalagem || '') + (item.peso ? ' • ' + item.peso : '') + '</div></td>';
     html += '<td style="padding:8px;text-align:center;">' + item.qtd + '</td>';
     html += '<td style="padding:8px;text-align:right;">' + fmtMoeda(precoUnitFinal) + '</td>';
-    html += '<td style="padding:8px;text-align:center;color:#7b1fa2;">' + (temImp ? item.imposto1 + '% + ' + item.imposto2 + '%' : '—') + '</td>';
+    html += '<td style="padding:8px;text-align:center;color:#7b1fa2;">' + (item.impostoAtivo ? '3,25%' : '—') + '</td>';
     html += '<td style="padding:8px;text-align:right;font-weight:600;">' + fmtMoeda(total) + '</td>';
     html += '</tr>';
   });
   html += '</tbody></table>';
 
   html += '<div style="margin-top:20px;text-align:right;font-size:14px;line-height:1.9;">';
-  html += '<div>Subtotal: <b>' + fmtMoeda(r.subtotalSemDesconto) + '</b></div>';
+  html += '<div>Subtotal: <b>' + fmtMoeda(r.subtotal) + '</b></div>';
   if (r.totalImpostos > 0) {
     html += '<div style="color:#7b1fa2;">Impostos: <b>+ ' + fmtMoeda(r.totalImpostos) + '</b></div>';
   }
   html += '<div style="font-size:20px;margin-top:8px;padding-top:8px;border-top:2px solid #1d1d1f;">TOTAL: <b>' + fmtMoeda(r.totalFinal) + '</b></div>';
   html += '</div>';
+
+  if (PAGAMENTO_ESCOLHIDO) {
+    html += '<div style="margin-top:20px;padding:12px;background:#f0f9f0;border-radius:8px;font-size:13px;">';
+    html += '<b>💳 Condição de Pagamento:</b> ';
+    let linha = PAGAMENTO_ESCOLHIDO.label;
+    if (PAGAMENTO_ESCOLHIDO.parcelas === 1) {
+      linha += ' — 1x de ' + fmtMoeda(PAGAMENTO_ESCOLHIDO.valorParcela);
+    } else {
+      linha += ' — ' + PAGAMENTO_ESCOLHIDO.parcelas + 'x de ' + fmtMoeda(PAGAMENTO_ESCOLHIDO.valorParcela);
+    }
+    html += linha;
+    html += '</div>';
+  }
 
   html += '<div style="margin-top:36px;padding-top:16px;border-top:1px solid #ddd;font-size:12px;line-height:1.7;">';
   html += '<div style="font-weight:700;margin-bottom:8px;">CONDIÇÕES COMERCIAIS:</div>';
@@ -2042,7 +2120,7 @@ function exportarPDF() {
 /* ═══════════════ FIM SUBBLOCO 33 ═══════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   Continua na Parte 4 (JS — Inicialização + Kalk + fechamento)
+   Continua na Parte 4/4 (JS — Inicialização + Kalk + fechamento)
    ═══════════════════════════════════════════════════════ */
      
 /* ═══════════════════════════════════════════════════════
@@ -2052,6 +2130,7 @@ function inicializar() {
   carregarLocal();
   atualizarBadge();
   atualizarSelectLojas();
+  renderizarPagamentoEscolhido();
 
   document.querySelectorAll('nav.bottom button').forEach(btn => {
     btn.addEventListener('click', () => trocarTela(btn.dataset.tela));
@@ -2074,10 +2153,15 @@ function inicializar() {
     if (e.target.id === 'modal-cor') fecharModalCor();
   });
 
+  document.getElementById('modal-pgto').addEventListener('click', (e) => {
+    if (e.target.id === 'modal-pgto') fecharPopupPagamento();
+  });
+
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       fecharModalLoja();
       fecharModalCor();
+      fecharPopupPagamento();
     }
   });
 
@@ -2100,8 +2184,7 @@ function enviarProKalk() {
   KALK_COR = cor || '';
   KALK_ACABAMENTO = MC_ACAB_SELECIONADO || '';
   KALK_DESCONTO = MC_DESCONTO || 0;
-  KALK_IMPOSTO1 = MC_IMPOSTO1 || 0;
-  KALK_IMPOSTO2 = MC_IMPOSTO2 || 0;
+  KALK_IMPOSTO_ATIVO = MC_IMPOSTO_ATIVO || false;
   KALK_ABA_ATUAL = 1;
 
   MC_ITEM_EM_EDICAO = null;
@@ -2119,17 +2202,14 @@ function kalkPrecoComDesconto() {
   return KALK_PRODUTO.valorTabela * (1 - KALK_DESCONTO / 100);
 }
 
-function kalkValorImpostos() {
+function kalkValorImposto() {
+  if (!KALK_IMPOSTO_ATIVO) return 0;
   const preco = kalkPrecoComDesconto();
-  return preco * (KALK_IMPOSTO1 / 100) + preco * (KALK_IMPOSTO2 / 100);
+  return preco * (TAXA_IMPOSTO / 100);
 }
 
 function kalkCustoFinal() {
-  return kalkPrecoComDesconto() + kalkValorImpostos();
-}
-
-function kalkImpostosPct() {
-  return KALK_IMPOSTO1 + KALK_IMPOSTO2;
+  return kalkPrecoComDesconto() + kalkValorImposto();
 }
 /* ═══════════════ FIM SUBBLOCO 35-B ═══════════════ */
 
@@ -2152,9 +2232,8 @@ function renderizarKalkPainel() {
   }
 
   const precoDesc = kalkPrecoComDesconto();
-  const valorImpostos = kalkValorImpostos();
+  const valorImposto = kalkValorImposto();
   const custoFinal = kalkCustoFinal();
-  const pctImpostos = kalkImpostosPct();
 
   let html = '<div class="kalk-produto-card">';
   html += '<div class="nome">' + KALK_PRODUTO.descricao + '</div>';
@@ -2163,8 +2242,8 @@ function renderizarKalkPainel() {
   html += '<div class="linha-calc"><span>Preço de tabela</span><span>' + fmtMoeda(KALK_PRODUTO.valorTabela) + '</span></div>';
   html += '<div class="linha-calc"><span>Desconto aplicado</span><span>− ' + KALK_DESCONTO.toFixed(2) + '% (' + fmtMoeda(KALK_PRODUTO.valorTabela - precoDesc) + ')</span></div>';
   html += '<div class="linha-calc"><span>Preço com desconto</span><span>' + fmtMoeda(precoDesc) + '</span></div>';
-  if (pctImpostos > 0) {
-    html += '<div class="linha-calc"><span>Impostos (' + KALK_IMPOSTO1 + '% + ' + KALK_IMPOSTO2 + '% = ' + pctImpostos.toFixed(2) + '%)</span><span>+ ' + fmtMoeda(valorImpostos) + '</span></div>';
+  if (KALK_IMPOSTO_ATIVO) {
+    html += '<div class="linha-calc"><span>Imposto (3,25%)</span><span>+ ' + fmtMoeda(valorImposto) + '</span></div>';
   }
   html += '<div class="linha-calc custo"><span>CUSTO FINAL</span><span>' + fmtMoeda(custoFinal) + '</span></div>';
   html += '</div>';
@@ -2202,8 +2281,7 @@ function kalkTrocarProduto() {
   KALK_COR = '';
   KALK_ACABAMENTO = '';
   KALK_DESCONTO = 0;
-  KALK_IMPOSTO1 = 0;
-  KALK_IMPOSTO2 = 0;
+  KALK_IMPOSTO_ATIVO = false;
   KALK_ABA_ATUAL = 1;
   trocarTela('catalogo');
 }
@@ -2220,7 +2298,6 @@ function renderizarKalkAba() {
   return '';
 }
 
-/* ─── ABA 1: PREÇO CONCORRENTE ─── */
 function renderizarAba1() {
   return '' +
     '<label>Preço do concorrente (R$)</label>' +
@@ -2275,7 +2352,6 @@ function kalkCalcularAba1() {
   div.innerHTML = html;
 }
 
-/* ─── ABA 2: PREÇO VENDA — BASE % ─── */
 function renderizarAba2() {
   return '' +
     '<label>Percentual (%)</label>' +
@@ -2314,7 +2390,6 @@ function kalkCalcularAba2() {
     '</div>';
 }
 
-/* ─── ABA 3: PREÇO VENDA — BASE R$ ─── */
 function renderizarAba3() {
   return '' +
     '<label>Preço de venda (R$)</label>' +
